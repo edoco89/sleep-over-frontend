@@ -1,5 +1,27 @@
 <template>
-  <div class="bed-details">
-    <h1>This is an about page</h1>
-  </div>
+  <sectoin>
+    <div>Host IMG</div>
+    <div>bed gallery</div>
+    <div>details</div>
+  </sectoin>
 </template>
+
+<script>
+export default {
+data(){
+  return{
+
+  }
+},
+created(){
+     const hostId = this.$route.params.hostId;
+        if (hostId) {
+            this.$store.dispatch({ type: 'getBedById', hostId })
+        }
+}
+}
+</script>
+
+<style>
+
+</style>

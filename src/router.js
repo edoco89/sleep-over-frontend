@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import home from './views/Home.vue'
 import userProfile from './views/Home.vue'
 import searchResult from './views/search-result.vue'
+import hostDetails from './views/bed-details.vue'
 
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/searchResult/hostId',
+      name: 'host-details',
+      component: hostDetails
     },
     {
       path: '/userProfile',
