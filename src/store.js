@@ -12,6 +12,7 @@ export default new Vuex.Store({
       {
         id: 1,
         hostId: 1,
+        languages: ['Russian', 'Hebrew'],
         location: {
           country: 'israel',
           city: 'tel-aviv',
@@ -37,6 +38,7 @@ export default new Vuex.Store({
       {
         id: 2,
         hostId: 12,
+        languages: ['English', 'Hebrew'],
         location: {
           country: 'israel',
           city: 'hod-hasharon',
@@ -62,6 +64,7 @@ export default new Vuex.Store({
       {
         id: 3,
         hostId: 67,
+        languages: ['Swahili', 'Chinese'],
         location: {
           country: 'israel',
           city: 'berlin',
