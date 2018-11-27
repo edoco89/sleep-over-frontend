@@ -2,7 +2,7 @@ import bedService from '../services/bedService';
 
 export default {
     state: {
-        // beds: []
+        beds: [],
         currBed: null
     },
     getters: {
