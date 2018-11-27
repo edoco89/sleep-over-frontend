@@ -26,11 +26,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/about.vue')
     },
     {
-      path: '/searchResult/bedId',
-      name: 'bed-details',
-      component: bedDetails
-    },
-    {
       path: '/userProfile',
       name: 'user-profile',
       component: userProfile
@@ -39,6 +34,11 @@ export default new Router({
       path: '/searchResult',
       name: 'search-result',
       component: searchResult
+    },
+    {
+      path: '/bed/:bedId',
+      name: 'bed-details',
+      component: bedDetails
     }
   ]
 })

@@ -52,6 +52,9 @@ export default {
       }
     };
   },
+  created(){
+      this.filter.byCountry = this.$store.getters.getFilterByCountry
+  },
   methods: {
     setFilter() {
       const filter = this.filter;

@@ -3,7 +3,7 @@ import bedService from '../services/bedService';
 export default {
     state: {
         beds: [],
-        currBed: null,
+        currBed: {},
         filter: {
             dateStart: '2018-01-01',
             dateEnd: '2029-12-31',
@@ -25,7 +25,8 @@ export default {
     },
     getters: {
         bedsToDisplay: (state) => state.beds,
-        getCurrBed: (state) => state.currBed
+        getCurrBed: (state) => state.currBed,
+        getFilterByCountry: (state) => state.filter.byCountry
     },
     mutations: {
         setBeds(state, { beds }) {

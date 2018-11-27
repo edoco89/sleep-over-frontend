@@ -19,7 +19,6 @@ export default {
   },
 methods: {
   setFilterByCountry(){
-    console.log(this.filterByCountry)
     this.$store.dispatch({ type: 'setFilterByCountry', filterByCountry: this.filterByCountry })
   }
 }

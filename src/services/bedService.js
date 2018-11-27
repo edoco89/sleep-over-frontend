@@ -51,13 +51,15 @@ export default {
 
 function _createBed(bed, userId) {
     return {
-            hostId: userId,
-            languages: bed.languages,
-            imgUrl: '',
-            location: bed.location,
-            type: bed.type,
-            rating: null,
-            reviews: [],
-            ameneties: bed.ameneties
-        }
+        hostId: userId,
+        languages: bed.languages,
+        languages: ['English', 'Russian'],
+        imgUrl: 'https://a0.muscache.com/im/pictures/8c809b10-710f-47a2-bdc8-da0b7899e1b3.jpg?aki_policy=xx_large',
+        location: bed.location,
+        type: bed.type,
+        rating: null,
+        reviews: [],
+        ameneties: bed.ameneties
+    }
 }
+
