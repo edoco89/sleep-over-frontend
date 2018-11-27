@@ -1,6 +1,6 @@
 'use strict'
 import axios from 'axios'
-import { promises } from 'fs';
+// import { promises } from 'fs';
 // const BASE_URL = 'http://localhost:3000/api/toy'
 // const BASE_URL = (process.env.NODE_ENV === 'production')
 //     ? '/api/toy'
@@ -8,7 +8,7 @@ import { promises } from 'fs';
 
 
 function query(filterStatus = 'all', filterTxt = '') {
-    return promises.resolve(_createBeds())
+    return Promise.resolve(_createBeds())
     var queryParams = new URLSearchParams()
     if (filterStatus !== 'all') {
         queryParams.append('isDone', filterStatus === 'done')
@@ -32,6 +32,8 @@ function saveBed(bed) {
 }
 
 function getBed(bedId) {
+    const bed = _createBeds()
+    return Promise.resolve(bed[0])
     return axios.get(`${BASE_URL}/${bedId}`)
         .then(res => res.data)
 }

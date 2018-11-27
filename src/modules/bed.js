@@ -3,14 +3,20 @@ import bedService from '../services/bedService';
 export default {
     state: {
         // beds: []
+        currBed: null
     },
     getters: {
-        bedsToDisplay: state => state.beds
+        bedsToDisplay:(state) => state.beds,
+        getCurrBed: (state) => state.currBed
+
     },
     mutations: {
         setBeds(state, { beds }) {
             state.beds = beds
-        }
+        },
+        setBed(state, { bed }) {
+            state.currBed = bed;
+        },
     },
     actions: {
         loadBeds({ commit }) {
@@ -20,10 +26,10 @@ export default {
                     commit({ type: 'setBeds', beds })
                 })
         },
-        getBedById(context, { bedId }) {
+        getBedById({ commit }, { bedId }) {
             return bedService.getBed(bedId)
                 .then(bed => {
-                    context.commit({ type: 'setBed', bed })
+                    commit({ type: 'setBed', bed })
                     return bed;
                 })
         },
@@ -53,8 +59,5 @@ export default {
                     return savedBed
                 })
         },
-    },
-    getters: {
-        getBeds: state => state.beds
-    },
+    }
 }

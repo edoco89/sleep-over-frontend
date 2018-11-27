@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import home from './views/Home.vue'
 import userProfile from './views/Home.vue'
 import searchResult from './views/search-result.vue'
-import hostDetails from './views/bed-details.vue'
+import bedDetails from './views/bed-details.vue'
 
 
 Vue.use(Router)
@@ -26,9 +26,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/searchResult/hostId',
-      name: 'host-details',
-      component: hostDetails
+      path: '/searchResult/bedId',
+      name: 'bed-details',
+      component: bedDetails
     },
     {
       path: '/userProfile',
