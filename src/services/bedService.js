@@ -7,7 +7,7 @@ import axios from 'axios'
 //     : '//localhost:3000/api/toy';
 
 
-function query(filterStatus = 'all', filterTxt = '') {
+function query(filterSorter) {
     return Promise.resolve(_createBeds())
     var queryParams = new URLSearchParams()
     if (filterStatus !== 'all') {

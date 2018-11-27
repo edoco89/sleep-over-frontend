@@ -19,11 +19,11 @@ export default {
         },
     },
     actions: {
-        loadBeds({ commit }) {
-            console.log('loadbeds')
-            return bedService.query()
+        loadBeds({ commit }, {filter}) {
+            console.log('filter object is' , filter)
+            return bedService.query(filter)
                 .then(beds => {
-                    console.log({ beds })
+                    console.log( beds )
                     commit({ type: 'setBeds', beds })
                 })
         },
@@ -60,12 +60,5 @@ export default {
                     return savedBed
                 })
         },
-<<<<<<< HEAD
-    },
-    getters: {
-        getBeds: (state) => state.beds
-    },
-=======
     }
->>>>>>> 56ab6d6abe278535413af249151489e648a65682
 }
