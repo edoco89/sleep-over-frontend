@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from './views/home.vue'
-import userProfile from './views/home.vue'
+import home from './views/Home.vue'
+import userProfile from './views/Home.vue'
 import searchResult from './views/search-result.vue'
 
 
@@ -22,7 +22,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/about.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
       path: '/userProfile',
