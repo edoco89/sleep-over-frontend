@@ -1,14 +1,8 @@
 <template>
-<<<<<<< HEAD
-  <section>
-    <bed-list :beds="beds"></bed-list>
-  </section>
-=======
     <section>
         <advanced-search> </advanced-search>
         <bed-list :beds="beds"></bed-list>
     </section>
->>>>>>> 0cf47761f25efa501054feaa24cc8f9b1eb65562
 </template>
 
 <script>
