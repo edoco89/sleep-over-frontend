@@ -11,8 +11,10 @@
 import bedPreview from '@/components/bed-preview.vue'
 export default {
 props: {
-    beds: Array,
+    beds: {
+    type: Array,
     default: []
+    }
 },
 components: {
     bedPreview
