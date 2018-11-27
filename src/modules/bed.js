@@ -3,7 +3,7 @@ import bedService from '../services/bedService';
 export default {
     state: {
         beds: [],
-        currBed: {},
+        currBed: null,
         filter: {
             dateStart: '2018-01-01',
             dateEnd: '2029-12-31',

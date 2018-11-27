@@ -1,9 +1,9 @@
 <template>
   <section v-if="bed">
     <img class="main-img" :src="bed.imgUrl">
-    <img :src="bed.userImg">
+    <!-- <img :src="bed.userImg"> -->
     <div class="host-details" >
-      <h4>Languages: {{bed.languages.join(' and ')}}</h4>
+      <h4>Languages: {{bed.languages.join(', ')}}</h4>
           <h4>Rating: {{bed.rating}}</h4>
           <div>{{bed.type}}</div>
           <span>{{bed.location.country}}</span>
