@@ -7,7 +7,6 @@ export default new Vuex.Store({
   state: {
     beds: [
       {
-        id: 1,
         hostId: 1,
         location: {
           country: 'israel',
@@ -32,7 +31,6 @@ export default new Vuex.Store({
         },
       },
       {
-        id: 2,
         hostId: 12,
         location: {
           country: 'israel',
@@ -57,7 +55,6 @@ export default new Vuex.Store({
         },
       },
       {
-        id: 3,
         hostId: 67,
         location: {
           country: 'israel',
