@@ -1,6 +1,14 @@
 <template>
     <section>
-        {{bed}}
+        <!-- {{bed}} -->
+
+        <h1> A {{bed.type}} in {{bed.location.city}} </h1>
+        <h2> Stay with host </h2>
+        <h3> Speaks: {{bed.languages.join(', ')}} </h3>
+
+        <h2 class="bottom-bed-preview"> {{bed.rating}} </h2>
+
+
     </section>
 </template>
 
@@ -9,9 +17,13 @@ export default {
     props: {
         bed: Object,
         default: {}
+    },
+    computed: {
+        
+        },
     }
 
-}
+
 </script>
 
 <style>
