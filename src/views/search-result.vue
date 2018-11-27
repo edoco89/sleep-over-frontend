@@ -1,24 +1,27 @@
 <template>
-    <section>
-        <advanced-search> </advanced-search>
-        <bed-list :beds="beds"></bed-list>
-    </section>
+  <section>
+    <advanced-search></advanced-search>
+    <!-- <bed-list :beds="beds"></bed-list> -->
+    <result-map :beds="beds"></result-map>
+  </section>
 </template>
 
 <script>
 import bedList from '@/components/bed-list.vue'
 import advancedSearch from '@/components/advanced-search.vue'
+import resultMap from '@/components/bed-map.vue'
 
 export default {
 created(){
 this.$store.dispatch('loadBeds')
 },
 computed:{
-beds(){ return this.$store.getters.bedsToDisplay} 
+beds(){return this.$store.getters.bedsToDisplay} 
 },
 components: {
     bedList,
-    advancedSearch
+    advancedSearch,
+    resultMap
 }
 }
 </script>

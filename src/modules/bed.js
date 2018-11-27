@@ -8,7 +8,6 @@ export default {
     getters: {
         bedsToDisplay:(state) => state.beds,
         getCurrBed: (state) => state.currBed
-
     },
     mutations: {
         setBeds(state, { beds }) {
