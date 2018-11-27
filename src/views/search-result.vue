@@ -14,7 +14,7 @@ created(){
 this.$store.dispatch('loadBeds')
 },
 computed:{
-beds(){ return this.$store.getters.bedsToDisplay} 
+beds(){ return this.$store.getters.getBeds} 
 },
 components: {
     bedList,

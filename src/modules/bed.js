@@ -14,6 +14,7 @@ export default {
     },
     actions: {
         loadBeds({ commit }) {
+            console.log('loadbeds')
             return bedService.query()
                 .then(beds => {
                     console.log({ beds })
@@ -55,6 +56,6 @@ export default {
         },
     },
     getters: {
-        getBeds: state => state.beds
+        getBeds: (state) => state.beds
     },
 }

@@ -10,6 +10,8 @@ Air Conditioner <input v-model="bedsFilter.airConditioner" type="checkbox"/>
 Shampoo <input v-model="bedsFilter.shampoo" type="checkbox"/>
 Parking <input v-model="bedsFilter.parking" type="checkbox"/>
 
+<button @click="setFilterFull"> Search </button>
+
  </div>
   </section>
 </template>
@@ -31,8 +33,8 @@ export default {
         }
     },
  methods: {
-        setFilterByDate(ev) {
-            this.$store.dispatch({ type: 'setFilter', dateStart: this.bedsFilter })
+        setFilterFull(ev) {
+            this.$store.dispatch({ type: 'loadBeds', filter: this.bedsFilter })
         }, 
  }
 }

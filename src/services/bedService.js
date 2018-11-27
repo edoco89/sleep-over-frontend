@@ -8,7 +8,7 @@ import { promises } from 'fs';
 
 
 function query(filterStatus = 'all', filterTxt = '') {
-    return promises.resolve(_createBeds())
+    return Promise.resolve(_createBeds())
     var queryParams = new URLSearchParams()
     if (filterStatus !== 'all') {
         queryParams.append('isDone', filterStatus === 'done')
@@ -36,8 +36,6 @@ function getBed(bedId) {
         .then(res => res.data)
 }
 
-
-
 export default {
     query,
     saveBed,
@@ -45,12 +43,13 @@ export default {
     getBed
 }
 
-
 function _createBeds() {
     return [
         {
             id: 1,
             hostId: 1,
+            languages: ['Hebrew', 'English'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'tel-aviv',
@@ -76,6 +75,8 @@ function _createBeds() {
         {
             id: 2,
             hostId: 12,
+            languages: ['English', 'Russian'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'hod-hasharon',
@@ -101,6 +102,8 @@ function _createBeds() {
         {
             id: 3,
             hostId: 67,
+            languages: ['Swahili', 'Chinese'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'berlin',
