@@ -18,10 +18,11 @@ export default {
         },
     },
     actions: {
-        loadBeds({ commit }) {
-            return bedService.query()
+        loadBeds({ commit }, {filter}) {
+            console.log('filter object is' , filter)
+            return bedService.query(filter)
                 .then(beds => {
-                    console.log({ beds })
+                    console.log( beds )
                     commit({ type: 'setBeds', beds })
                 })
         },

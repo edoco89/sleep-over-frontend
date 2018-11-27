@@ -7,7 +7,7 @@ import axios from 'axios'
 //     : '//localhost:3000/api/toy';
 
 
-function query(filterStatus = 'all', filterTxt = '') {
+function query(filterSorter) {
     return Promise.resolve(_createBeds())
     var queryParams = new URLSearchParams()
     if (filterStatus !== 'all') {
@@ -38,8 +38,6 @@ function getBed(bedId) {
         .then(res => res.data)
 }
 
-
-
 export default {
     query,
     saveBed,
@@ -47,12 +45,13 @@ export default {
     getBed
 }
 
-
 function _createBeds() {
     return [
         {
             id: 1,
             hostId: 1,
+            languages: ['Hebrew', 'English'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'tel-aviv',
@@ -78,6 +77,8 @@ function _createBeds() {
         {
             id: 2,
             hostId: 12,
+            languages: ['English', 'Russian'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'hod-hasharon',
@@ -103,6 +104,8 @@ function _createBeds() {
         {
             id: 3,
             hostId: 67,
+            languages: ['Swahili', 'Chinese'],
+            imgUrl: '',
             location: {
                 country: 'israel',
                 city: 'berlin',

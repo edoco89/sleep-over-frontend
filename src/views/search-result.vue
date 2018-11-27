@@ -13,7 +13,7 @@ import resultMap from '@/components/bed-map.vue'
 
 export default {
 created(){
-this.$store.dispatch('loadBeds')
+this.$store.dispatch({type: 'loadBeds', filter: {}})
 },
 computed:{
 beds(){return this.$store.getters.bedsToDisplay} 
