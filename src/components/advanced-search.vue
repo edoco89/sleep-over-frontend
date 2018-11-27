@@ -8,7 +8,6 @@
       Leave
       <input v-model="bedsFilterSorter.dateEnd" type="date">
     </h3>
-    <button @click="setFilterFull">Search</button>
     <div class="ameneties-filter">
       Accesible
       <input v-model="bedsFilterSorter.filterByAmeneties.accesible" type="checkbox">
@@ -76,5 +75,6 @@ section{
     background-color: $bg-color-secondary;
     border-radius: 4px;
 }
+
 
 </style>

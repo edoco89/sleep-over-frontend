@@ -30,10 +30,10 @@ function saveBed(bed) {
         return axios.post(`${BASE_URL}`, newBed).then(res => res.data)
     }
 }
-
+//todo: get by real id
 function getBed(bedId) {
-    const bed = _createBeds()
-    return Promise.resolve(bed[0])
+    const beds = _createBeds()
+    return Promise.resolve(beds[0])
     return axios.get(`${BASE_URL}/${bedId}`)
         .then(res => res.data)
 }
@@ -51,7 +51,7 @@ function _createBeds() {
             id: 1,
             hostId: 1,
             languages: ['Hebrew', 'English'],
-            imgUrl: '',
+            imgUrl: 'https://a0.muscache.com/im/pictures/505bc60e-5bee-40ce-9972-8a166d997ea5.jpg?aki_policy=xx_large',
             location: {
                 country: 'israel',
                 city: 'tel-aviv',
@@ -63,7 +63,7 @@ function _createBeds() {
             },
             type: 'couch',
             rating: 4.5,
-            reviews: [{}, {}, {}],
+            reviews: [{name: 'Jake', txt: 'I loved it'}, {name: 'Anat', txt: 'It was terrible'}, {}],
             ditstanceFromCityCenter: 12,
             ameneties: {
                 accesible: true,
@@ -78,7 +78,7 @@ function _createBeds() {
             id: 2,
             hostId: 12,
             languages: ['English', 'Russian'],
-            imgUrl: '',
+            imgUrl: 'https://a0.muscache.com/im/pictures/8c809b10-710f-47a2-bdc8-da0b7899e1b3.jpg?aki_policy=xx_large',
             location: {
                 country: 'israel',
                 city: 'hod-hasharon',
@@ -105,7 +105,7 @@ function _createBeds() {
             id: 3,
             hostId: 67,
             languages: ['Swahili', 'Chinese'],
-            imgUrl: '',
+            imgUrl: 'https://a0.muscache.com/im/pictures/df707dc6-34a2-47a0-ba97-e85e66780efc.jpg?aki_policy=xx_large',
             location: {
                 country: 'israel',
                 city: 'berlin',

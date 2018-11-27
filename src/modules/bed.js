@@ -2,13 +2,12 @@ import bedService from '../services/bedService';
 
 export default {
     state: {
-        // beds: []
+        beds: [],
         currBed: null
     },
     getters: {
         bedsToDisplay:(state) => state.beds,
         getCurrBed: (state) => state.currBed
-
     },
     mutations: {
         setBeds(state, { beds }) {
