@@ -4,10 +4,13 @@
     <router-view/>
   </div>
 </template>
+
 <script>
+
   import navBar from './components/nav-bar.vue'
+
 export default{
-  components:{
+  components: {
     navBar
   }
 }

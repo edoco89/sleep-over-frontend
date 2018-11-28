@@ -1,5 +1,5 @@
 <template>
-<router-link :to="'/' + bed.id">
+<router-link :to="'/bed/' + bed._id">
   <section>
     <!-- {{bed}} -->
     <img :src="bed.imgUrl" :title="bed.hostId">
@@ -17,12 +17,11 @@
 <script>
 export default {
     props: {
-        bed: Object,
+        bed: {
+        type: Object,
         default: {}
-    },
-    computed: {
-        
-        },
+        }
+    }
     }
 
 

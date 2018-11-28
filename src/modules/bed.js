@@ -3,11 +3,30 @@ import bedService from '../services/bedService';
 export default {
     state: {
         beds: [],
-        currBed: null
+        currBed: null,
+        filter: {
+            dateStart: '2018-01-01',
+            dateEnd: '2029-12-31',
+            byCountry: '',
+            byCity: '',
+            sortBy: {
+                type: 'rating',
+                order: -1
+            },
+            filterByAmeneties: {
+                accessibility: false,
+                wifi: false,
+                acceptsPets: false,
+                airConditioner: false,
+                shampoo: false,
+                parking: false
+            }
+        }
     },
     getters: {
-        bedsToDisplay:(state) => state.beds,
-        getCurrBed: (state) => state.currBed
+        bedsToDisplay: (state) => state.beds,
+        getCurrBed: (state) => state.currBed,
+        getFilterByCountry: (state) => state.filter.byCountry
     },
     mutations: {
         setBeds(state, { beds }) {
@@ -16,13 +35,18 @@ export default {
         setBed(state, { bed }) {
             state.currBed = bed;
         },
+        setFilter(state, { filter }) {
+            state.filter = filter; 
+        },
+        setFilterByCountry(state, { filterByCountry }) {
+            state.filter.byCountry = filterByCountry;
+        }
     },
     actions: {
-        loadBeds({ commit }, {filter}) {
-            console.log('filter object is' , filter)
-            return bedService.query(filter)
+        loadBeds({ commit, state }) {
+
+            return bedService.query(state.filter)
                 .then(beds => {
-                    console.log( beds )
                     commit({ type: 'setBeds', beds })
                 })
         },
@@ -37,27 +61,22 @@ export default {
             return BedService.removeBed(bedId)
                 .then(() => {
                     context.commit({ type: 'removeBed', bedId })
-
-                    const activity = {
-                        txt: 'Removed the Bed',
-                        at: Date.now(),
-                        bedTxt: ''
-                    }
-                    context.commit({ type: 'addActivity', activity })
                 })
         },
         saveBed(context, { bed }) {
             return BedService.saveBed(bed)
                 .then(savedBed => {
-                    const activity = {
-                        txt: (bed.id) ? 'Bed Updated' : 'Added a Bed',
-                        at: Date.now(),
-                        bedTxt: bed.txt
-                    }
-                    context.commit({ type: 'addActivity', activity })
                     context.commit({ type: 'saveBed', bed: savedBed })
                     return savedBed
                 })
         },
+        setFilte({ commit, dispatch }, { filter }) {
+            commit({ type: 'setFilter', filter })
+            return dispatch({ type: 'loadBeds' })
+        },
+        setFilterByCountry({ commit, dispatch }, { filterByCountry }) {
+            commit({ type: 'setFilterByCountry', filterByCountry })
+            return dispatch({ type: 'loadBeds' })
+        }
     }
 }

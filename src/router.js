@@ -36,7 +36,7 @@ export default new Router({
       component: searchResult
     },
     {
-      path: '/:bedId?',
+      path: '/bed/:bedId',
       name: 'bed-details',
       component: bedDetails
     }

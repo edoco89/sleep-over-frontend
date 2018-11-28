@@ -5,8 +5,7 @@
         <h1>Sleep-Over</h1>
       </router-link>
       <div>
-        <router-link to="/searchResult">Search Result</router-link>|
-        <router-link to="/searchResult/bedId">details</router-link>|
+        <router-link to="/searchResult">Search Result</router-link> |
         <a @click="LoginModal">Login</a>
         <!-- <router-link to="/">Home</router-link>| -->
         <!-- <router-link to="/about">About </router-link>| -->
@@ -56,5 +55,8 @@ div{
             opacity: .8;
         }
     }
+}
+a{
+    margin: 5px;
 }
 </style>

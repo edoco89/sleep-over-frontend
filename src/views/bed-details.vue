@@ -2,47 +2,41 @@
   <section v-if="bed">
     <img class="main-img" :src="bed.imgUrl">
     <!-- <img :src="bed.userImg"> -->
-    <div class="host-details">
+    <div class="host-details" >
       <h4>Languages: {{bed.languages.join(', ')}}</h4>
-      <h4>Rating: {{bed.rating}}</h4>
+          <h4>Rating: {{bed.rating}}</h4>
+          <div>{{bed.type}}</div>
+          <span>{{bed.location.country}}</span>
+          <div>{{bed.rating}}</div>
+          <div>{{bed.amenities}}</div>
+          <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
     </div>
-    <div>{{bed.type}}</div>
-    <span>{{bed.location.country}}</span>
-    <span>{{bed.location.city}}</span>
-    <span>{{bed.location.street}}</span>
-    <div>{{bed.rating}}</div>
-    <div>{{bed.amenities}}</div>
-    <div>{{bed.reviews}}</div>
   </section>
 </template>
 
 <script>
 export default {
-  created(){
-    this.$store.dispatch({ type: 'getBedById'})
-       const bedId = this.$route.params.bedId;
-      //  debugger
-          if (bedId) {
-              this.$store.dispatch({ type: 'getBedById', bedId })
-          }
+  created() {
+    const bedId = this.$route.params.bedId;
+    if (bedId) {
+      this.$store.dispatch({ type: 'getBedById', bedId });
+    }
   },
-computed: {
-        bed() {
-            return this.$store.getters.getCurrBed
-        }
-    },
-}
+  computed: {
+    bed() {
+      return this.$store.getters.getCurrBed;
+    }
+  }
+};
 </script>
 
 <style  scoped lang="scss">
-
-@import '@/assets/scss/_vars.scss';
+@import "@/assets/scss/_vars.scss";
 
 img {
-height: 300px;
-margin: 25px 0;
+  height: 300px;
+  margin: 25px 0;
 }
-
 </style>
 
 //  {

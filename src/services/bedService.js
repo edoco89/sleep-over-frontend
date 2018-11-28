@@ -1,42 +1,46 @@
 'use strict'
 import axios from 'axios'
-// import { promises } from 'fs';
-// const BASE_URL = 'http://localhost:3000/api/toy'
-// const BASE_URL = (process.env.NODE_ENV === 'production')
-//     ? '/api/toy'
-//     : '//localhost:3000/api/toy';
 
+const BASE_URL = 'http://localhost:3000/api/bed'
 
-function query(filterSorter) {
-    return Promise.resolve(_createBeds())
-    var queryParams = new URLSearchParams()
-    if (filterStatus !== 'all') {
-        queryParams.append('isDone', filterStatus === 'done')
+function query(filter = null) {
+    const searchParams = new URLSearchParams();
+    const sortParams = new URLSearchParams();
+    const searchAmenetiesParams = new URLSearchParams();
+    if (filter) {
+        searchParams.append('byCountry', filter.byCountry)
+        searchParams.append('byCity', filter.byCity)
+        sortParams.append('type', filter.sortBy.type)
+        sortParams.append('order', filter.sortBy.order)
+        searchAmenetiesParams.append('accessibility', filter.filterByAmeneties.accessibility)
+        searchAmenetiesParams.append('wifi', filter.filterByAmeneties.wifi)
+        searchAmenetiesParams.append('airConditioner', filter.filterByAmeneties.airConditioner)
+        searchAmenetiesParams.append('shampoo', filter.filterByAmeneties.shampoo)
+        searchAmenetiesParams.append('parking', filter.filterByAmeneties.parking)
     }
-    if (filterTxt) queryParams.append('q', filterTxt)
-    return axios.get(`${BASE_URL}?${queryParams}`)
+    const routeUrl = `${BASE_URL}?${searchParams}&${sortParams}&${searchAmenetiesParams}`
+    return axios.get(routeUrl)
         .then(res => res.data)
 }
 
-function removeBed(bedId) {
-    return axios.delete(`${BASE_URL}/${bedId}`)
+function removeBed(toyId) {
+    return axios.delete(`${BASE_URL}/${toyId}`)
         .then(res => res.data)
 }
 
-function saveBed(bed) {
-    if (bed.id) return axios.put(`${BASE_URL}/${bed.id}`, bed).then(res => res.data)
+function saveBed(bed, userId) {
+    if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
     else {
-        const newBed = _createBed(bed)
+        const newBed = _createBed(bed, userId)
         return axios.post(`${BASE_URL}`, newBed).then(res => res.data)
     }
 }
-//todo: get by real id
+
 function getBed(bedId) {
-    const beds = _createBeds()
-    return Promise.resolve(beds[0])
     return axios.get(`${BASE_URL}/${bedId}`)
         .then(res => res.data)
 }
+
 
 export default {
     query,
@@ -45,88 +49,17 @@ export default {
     getBed
 }
 
-function _createBeds() {
-    return [
-        {
-            id: 1,
-            hostId: 1,
-            languages: ['Hebrew', 'English'],
-            imgUrl: 'https://a0.muscache.com/im/pictures/505bc60e-5bee-40ce-9972-8a166d997ea5.jpg?aki_policy=xx_large',
-            location: {
-                country: 'israel',
-                city: 'tel-aviv',
-                street: 'sokolov',
-                coords: {
-                    lat: 32.0853,
-                    lng: 34.7818
-                }
-            },
-            type: 'couch',
-            rating: 4.5,
-            reviews: [{name: 'Jake', txt: 'I loved it'}, {name: 'Anat', txt: 'It was terrible'}, {}],
-            ditstanceFromCityCenter: 12,
-            ameneties: {
-                accesible: true,
-                wifi: false,
-                acceptsPets: true,
-                airConditioner: false,
-                shampoo: true,
-                parking: false,
-            },
-        },
-        {
-            id: 2,
-            hostId: 12,
-            languages: ['English', 'Russian'],
-            imgUrl: 'https://a0.muscache.com/im/pictures/8c809b10-710f-47a2-bdc8-da0b7899e1b3.jpg?aki_policy=xx_large',
-            location: {
-                country: 'israel',
-                city: 'hod-hasharon',
-                street: 'sokolov',
-                coords: {
-                    lat: 33.0853,
-                    lng: 35.7818
-                }
-            },
-            type: 'room',
-            rating: 4.2,
-            reviews: [{}, {}, {}],
-            ditstanceFromCityCenter: 15,
-            ameneties: {
-                accesible: true,
-                wifi: false,
-                acceptsPets: false,
-                airConditioner: true,
-                shampoo: true,
-                parking: true,
-            },
-        },
-        {
-            id: 3,
-            hostId: 67,
-            languages: ['Swahili', 'Chinese'],
-            imgUrl: 'https://a0.muscache.com/im/pictures/df707dc6-34a2-47a0-ba97-e85e66780efc.jpg?aki_policy=xx_large',
-            location: {
-                country: 'israel',
-                city: 'berlin',
-                street: 'yarden',
-                coords: {
-                    lat: 32.0853,
-                    lng: 34.7818
-                }
-            },
-            type: 'couch',
-            rating: 2.5,
-            reviews: [{}, {}, {}],
-            ditstanceFromCityCenter: 22,
-            ameneties: {
-                accesible: true,
-                wifi: false,
-                acceptsPets: true,
-                airConditioner: false,
-                shampoo: true,
-                parking: false,
-            },
-        }
-    ]
+function _createBed(bed, userId) {
+    return {
+        hostId: userId,
+        languages: bed.languages,
+        languages: ['English', 'Russian'],
+        imgUrl: 'https://a0.muscache.com/im/pictures/8c809b10-710f-47a2-bdc8-da0b7899e1b3.jpg?aki_policy=xx_large',
+        location: bed.location,
+        type: bed.type,
+        rating: null,
+        reviews: [],
+        ameneties: bed.ameneties
+    }
 }
+
