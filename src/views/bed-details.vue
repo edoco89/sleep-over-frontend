@@ -2,20 +2,51 @@
   <section v-if="bed">
     <img class="main-img" :src="bed.imgUrl">
     <!-- <img :src="bed.userImg"> -->
-    <div class="host-details" >
-      <h4>Languages: {{bed.languages.join(', ')}}</h4>
+    <div class="details-bottom">
+      <div class="flex-col">
+        <div class="flex-col-start">
+          <h5 class="minor-header">{{bed.type}}</h5>
+          <h2 class="summary-standout">A beautiful summary sentence</h2>
+          <h4 class="secondary-header">{{bed.location.country}}</h4>
+        </div>
+
+        <div class="host-details">
+          <h4>Languages: {{bed.languages.join(', ')}}</h4>
           <h4>Rating: {{bed.rating}}</h4>
-          <div>{{bed.type}}</div>
-          <span>{{bed.location.country}}</span>
-          <div>{{bed.rating}}</div>
+
           <div>{{bed.amenities}}</div>
-          <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
+        </div>
+      </div>
+
+      <!-- <v-calendar :attributes="attrs"></v-calendar> -->
+      <div class="booking-container">
+        <book-bed></book-bed>
+      </div>
     </div>
+
+    <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
   </section>
 </template>
 
 <script>
+
+import bookBed from '@/components/book-bed.vue';
+
 export default {
+  data() {
+    return {
+       attrs: [
+        {
+          key: 'today',
+          highlight: {
+            backgroundColor: '#ff8080',
+            // Other properties are available too, like `height` & `borderRadius`
+          },
+          dates: new Date(2018, 0, 1)
+        }
+      ],
+  }
+  },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
@@ -26,6 +57,9 @@ export default {
     bed() {
       return this.$store.getters.getCurrBed;
     }
+  },
+  components: {
+    bookBed
   }
 };
 </script>
@@ -33,10 +67,65 @@ export default {
 <style  scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: $container;
+    height: inherit;
+    margin: auto;
+    font-family: $main-font-bold;
+}
+
 img {
   height: 300px;
   margin: 25px 0;
 }
+
+.minor-header {
+  font-size: 0.7rem;
+}
+
+.summary-standout {
+  font-size: 1.3rem;
+}
+
+.secondary-header {
+  font-size: 0.9rem;
+}
+
+.flex-col-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding: 10px;
+  text-align: start;
+}
+
+.booking-container {
+  display: flex;
+  border: 1px $border-color solid;
+  flex-direction: row;
+}
+
+.details-bottom {
+  display: flex;
+  flex-direction: row;
+}
+
+.host-details {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  font-family: $main-font-light;
+}
+
 </style>
 
 //  {
