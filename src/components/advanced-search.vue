@@ -11,18 +11,29 @@
     </h3>
     <div class="ameneties-filter">
       Accesible
-      <input v-model="filter.filterByAmeneties.accessibility" type="checkbox">
+      <input @click="setFilterByAmenity('accessibility')" 
+             :checked="filter.filterByAmeneties.accessibility" 
+             type="checkbox">
       Wifi
-      <input v-model="filter.filterByAmeneties.wifi" type="checkbox">
+      <input @click="setFilterByAmenity('wifi')" 
+             :checked="filter.filterByAmeneties.wifi" 
+             type="checkbox">
       Pets
-      <input v-model="filter.filterByAmeneties.acceptsPets" type="checkbox">
+      <input @click="setFilterByAmenity('acceptsPets')" 
+             :checked="filter.filterByAmeneties.acceptsPets" 
+             type="checkbox">
       Air Conditioner
-      <input v-model="filter.filterByAmeneties.airConditioner" type="checkbox">
+            <input @click="setFilterByAmenity('airConditioner')" 
+             :checked="filter.filterByAmeneties.airConditioner" 
+             type="checkbox">
       Shampoo
-      <input v-model="filter.filterByAmeneties.shampoo" type="checkbox">
+      <input @click="setFilterByAmenity('shampoo')" 
+             :checked="filter.filterByAmeneties.shampoo" 
+             type="checkbox">
       Parking
-      <input v-model="filter.filterByAmeneties.parking" type="checkbox">
-      
+            <input @click="setFilterByAmenity('parking')" 
+             :checked="filter.filterByAmeneties.parking" 
+             type="checkbox">      
       <button @click="setFilter">Find</button>
     </div>
   </section>
@@ -32,29 +43,29 @@
 export default {
   data() {
     return {
-      filter: {
-        dateStart: '2018-01-01',
-        dateEnd: '2029-12-31',
-        byCountry: '',
-        byCity: '',
-        sortBy: {
-          type: 'rating',
-          order: -1
-        },
-        filterByAmeneties: {
-          accessibility: false,
-          wifi: false,
-          acceptsPets: false,
-          airConditioner: false,
-          shampoo: false,
-          parking: false
-        }
-      }
+      filter: {}
     };
+  },
+  created() {
+    this.filter = { ...this.$store.getters.getFilter };
   },
   methods: {
     setFilter() {
-      this.$store.dispatch({ type: "setFilte", filter:  this.filter });
+      this.$store.dispatch({ type: "setFilte", filter: { ...this.filter } });
+    },
+    setFilterByAmenity(amenityType) {
+      this.$store.dispatch({
+        type: "setFilterByAmenity",
+        amenityFilter: {
+          name: amenityType,
+          value: this.filter.filterByAmeneties[amenityType]
+        }
+      });
+    }
+  },
+  watch: {
+    filter() {
+      return this.$store.getters.getFilter;
     }
   }
 };

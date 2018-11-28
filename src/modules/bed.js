@@ -26,7 +26,8 @@ export default {
     getters: {
         bedsToDisplay: (state) => state.beds,
         getCurrBed: (state) => state.currBed,
-        getFilterByCountry: (state) => state.filter.byCountry
+        getFilterByCountry: (state) => state.filter.byCountry,
+        getFilter: (state) => state.filter
     },
     mutations: {
         setBeds(state, { beds }) {
@@ -40,11 +41,13 @@ export default {
         },
         setFilterByCountry(state, { filterByCountry }) {
             state.filter.byCountry = filterByCountry;
-        }
+        },
+        setFilterByAmenity(state, { amenityFilter }) {
+            state.filter.filterByAmeneties[amenityFilter.name] = !amenityFilter.value;
+          }
     },
     actions: {
         loadBeds({ commit, state }) {
-
             return bedService.query(state.filter)
                 .then(beds => {
                     commit({ type: 'setBeds', beds })
@@ -77,6 +80,9 @@ export default {
         setFilterByCountry({ commit, dispatch }, { filterByCountry }) {
             commit({ type: 'setFilterByCountry', filterByCountry })
             return dispatch({ type: 'loadBeds' })
-        }
+        },
+        setFilterByAmenity({ commit }, { amenityFilter }) {
+            commit({ type: 'setFilterByAmenity', amenityFilter })
+          }
     }
 }
