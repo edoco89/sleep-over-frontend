@@ -27,7 +27,7 @@ function createUser() {
             hostBadge: '',  //determine by number of hostings ['Not yet', 'First steps', 'Super host']
             age: 25,
             gender: 'male',
-            beds: [{ address: }],
+            beds: [],
             visitHistory: [],
             reviewsIGotAsGuest: [
                 {

@@ -8,8 +8,8 @@ function query(filter = null) {
     const sortParams = new URLSearchParams();
     const searchAmenetiesParams = new URLSearchParams();
     if (filter) {
-        searchParams.append('byCountry', filter.byCountry)
-        searchParams.append('byCity', filter.byCity)
+        searchParams.append('byLat', filter.byLocation.lat)
+        searchParams.append('byLng', filter.byLocation.lng)
         sortParams.append('type', filter.sortBy.type)
         sortParams.append('order', filter.sortBy.order)
         searchAmenetiesParams.append('accessibility', filter.filterByAmeneties.accessibility)

@@ -4,7 +4,6 @@ import axios from 'axios'
 const API_KEY = '';
 
 function getCoordsByAddress(address) {
-    // return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${API_KEY}`)
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938&key=${API_KEY}`)
         .then(res => res.data)
 }
