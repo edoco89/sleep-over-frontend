@@ -2,7 +2,7 @@
   <header>
     <section>
       <router-link to="/">
-        <h1>Sleep-Over</h1>
+        <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
         <router-link to="/searchResult">Search Result</router-link> |

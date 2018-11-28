@@ -1,7 +1,84 @@
 @import './vars.scss';
 
+@font-face {
+    font-family: "Pacifico";
+    src: url("./fonts/Pacifico-Regular.ttf") 
+  }
+
+  @font-face {
+      font-family: "Raleway-Bold";
+      src: url("./fonts/Raleway-Bold.ttf");
+  }
+
+  @font-face {
+      font-family: "Raleway-Light";
+      src: url("./fonts/Raleway-Light.ttf")
+  }
+
+  @font-face {
+    font-family: "Cookie";
+    src: url("./fonts/Cookie/Cookie-Regular.ttf") 
+  }
+
+  @font-face {
+    font-family: "Courgette";
+    src: url("./fonts/Courgette/Courgette-Regular.ttf") 
+  }
+
+  @font-face {
+    font-family: "DancingScript";
+    src: url("./fonts/Dancing_Script/DancingScript-Regular.ttf") 
+  }
+
+  @font-face {
+    font-family: "Gloria";
+    src: url("./fonts/Gloria_Hallelujah/GloriaHallelujah.ttf") 
+  }
+
+  @font-face {
+    font-family: "Handlee";
+    src: url("./fonts/Handlee/Handlee-Regular.ttf") 
+  }
+
+  @font-face {
+    font-family: "PatrickHand";
+    src: url("./fonts/Patrick_Hand/PatrickHand-Regular.ttf") 
+  }
+
 body, html{
     margin: 0;
     padding: 0;
     color: $text-color;
+}
+
+.logos {
+    font-size: 2.2rem;
+}
+
+.logo {
+    font-family:  Pacifico;
+}
+
+.cookie-font {
+    font-family:  Cookie;
+}
+
+.courgette-font {
+    font-family:  Courgette;
+}
+
+.dancing-font {
+    font-family:  DancingScript;
+}
+
+.gloria-font {
+    font-family:  Gloria;
+}
+
+.handlee-font {
+    font-family:  Handlee;
+}
+
+.patrick-font {
+    font-family:  PatrickHand;
 }
