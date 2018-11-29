@@ -2,7 +2,11 @@
   <section>
     <advanced-search></advanced-search>
     <bed-list :beds="beds"></bed-list>
+<<<<<<< HEAD
     <!-- <result-map v-if="beds.length" :beds="beds"></result-map> -->
+=======
+    <result-map v-if="beds.length" :beds="beds"></result-map>
+>>>>>>> 504b86008bfd11dfc25ae0dd8d1211737254c20a
   </section>
 </template>
 

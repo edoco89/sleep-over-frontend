@@ -1,20 +1,30 @@
 <template>
   <section v-if="bed">
     <img class="main-img" :src="bed.imgUrl">
-    <!-- <img :src="bed.userImg"> -->
     <div class="details-bottom">
       <div class="flex-col">
         <div class="flex-col-start">
           <h5 class="minor-header">{{bed.type}}</h5>
-          <h2 class="summary-standout">A beautiful summary sentence</h2>
+          <h2 class="summary-standout">
+            A beautiful {{bed.type}} in
+            {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1)}}
+          </h2>
           <h4 class="secondary-header">{{bed.location.country}}</h4>
         </div>
 
         <div class="host-details">
+          <img class="host-img" :src="bed.hostImg">
           <h4>Languages: {{bed.languages.join(', ')}}</h4>
           <h4>Rating: {{bed.rating}}</h4>
-
-          <div>{{bed.amenities}}</div>
+          <div class="amenities">
+            <h5 class="minor-header">Amenities</h5>
+            <div>{{bed.ameneties}}</div>
+            <!-- <img
+              v-if="bed.ameneties.airConditioner"
+              src="../../../src/assets/img/aircondition.png"
+              class="icon"
+            > -->
+          </div>
         </div>
       </div>
 
@@ -29,28 +39,16 @@
 </template>
 
 <script>
-
-import bookBed from '@/components/book-bed.vue';
+import bookBed from "@/components/book-bed.vue";
 
 export default {
   data() {
-    return {
-       attrs: [
-        {
-          key: 'today',
-          highlight: {
-            backgroundColor: '#ff8080',
-            // Other properties are available too, like `height` & `borderRadius`
-          },
-          dates: new Date(2018, 0, 1)
-        }
-      ],
-  }
+    return {};
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
-      this.$store.dispatch({ type: 'getBedById', bedId });
+      this.$store.dispatch({ type: "getBedById", bedId });
     }
   },
   computed: {
@@ -67,20 +65,31 @@ export default {
 <style  scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
-section{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: $container;
-    height: inherit;
-    margin: auto;
-    font-family: $main-font-bold;
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: $container;
+  height: inherit;
+  // margin: auto;
+  font-family: $main-font-bold;
 }
 
 img {
+  align-self: flex-start;
   height: 300px;
   margin: 25px 0;
+}
+
+.amenities {
+  border: $border-color 1px solid;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.host-img {
+  height: 130px;
 }
 
 .minor-header {
@@ -125,7 +134,6 @@ img {
   align-content: flex-start;
   font-family: $main-font-light;
 }
-
 </style>
 
 //  {
