@@ -18,6 +18,7 @@
           to="/searchResult"
           @click.native="setFilterByLocation">🔎</router-link>
           </div>
+
       <div class="people-images">
         <div class="small-box mild-shadow">
           <img src="/img/friends-sofa.jpg" alt="Food">
@@ -25,7 +26,7 @@
         </div>
         <div class="small-box mild-shadow">
           <img src="/img/friends-hang.jpg" alt="Sport">
-          <span>❤ Sport</span>
+          <span>Sport</span>
         </div>
 
         <div class="small-box mild-shadow">
@@ -49,15 +50,12 @@
         <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
       </div>
     </div>
-
-    <footer></footer>
   </section>
 </template>
 
 
 <script>
 // @ is an alias to /src
-
 export default {
   data(){
     return {
@@ -75,7 +73,7 @@ export default {
       };
       this.place = JSON.parse(JSON.stringify(place));
     }
-  }
+  },
 };
 </script>
 

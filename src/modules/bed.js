@@ -98,6 +98,10 @@ export default {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByLocation', place })
         },
+        setFilterByMyLocation({ commit, dispatch }, { place }) {
+            commit({ type: 'setPlace', place })
+            commit({ type: 'setFilterByMyLocation', place })
+        },
         setPlace({ commit, dispatch }, { place }) {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByLocation', place })

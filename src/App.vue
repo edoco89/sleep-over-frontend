@@ -2,7 +2,7 @@
   <div id="app">
     <nav-bar></nav-bar>
     <router-view/>
-    <footer-bar> </footer-bar>
+    <footer-bar></footer-bar>
 
   </div>
 </template>
@@ -20,6 +20,7 @@ export default{
 }
 </script>
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -38,7 +39,6 @@ export default{
 
 footer {
   margin-top: 35px;
-  width: $container;
 }
 
 #nav a.router-link-exact-active {

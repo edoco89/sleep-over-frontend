@@ -1,6 +1,6 @@
 <template>
   <section class="advanced-search">
-      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+    <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
     <h3>
       Arrive
       <input v-model="filter.dateStart" type="date" required>
@@ -11,29 +11,41 @@
     </h3>
     <div class="ameneties-filter">
       Accesible
-      <input @click="setFilterByAmenity('accessibility')" 
-             :checked="filter.filterByAmeneties.accessibility" 
-             type="checkbox">
+      <input
+        @click="setFilterByAmenity('accessibility')"
+        :checked="filter.filterByAmeneties.accessibility"
+        type="checkbox"
+      >
       Wifi
-      <input @click="setFilterByAmenity('wifi')" 
-             :checked="filter.filterByAmeneties.wifi" 
-             type="checkbox">
+      <input
+        @click="setFilterByAmenity('wifi')"
+        :checked="filter.filterByAmeneties.wifi"
+        type="checkbox"
+      >
       Pets
-      <input @click="setFilterByAmenity('acceptsPets')" 
-             :checked="filter.filterByAmeneties.acceptsPets" 
-             type="checkbox">
+      <input
+        @click="setFilterByAmenity('acceptsPets')"
+        :checked="filter.filterByAmeneties.acceptsPets"
+        type="checkbox"
+      >
       Air Conditioner
-            <input @click="setFilterByAmenity('airConditioner')" 
-             :checked="filter.filterByAmeneties.airConditioner" 
-             type="checkbox">
+      <input
+        @click="setFilterByAmenity('airConditioner')"
+        :checked="filter.filterByAmeneties.airConditioner"
+        type="checkbox"
+      >
       Shampoo
-      <input @click="setFilterByAmenity('shampoo')" 
-             :checked="filter.filterByAmeneties.shampoo" 
-             type="checkbox">
+      <input
+        @click="setFilterByAmenity('shampoo')"
+        :checked="filter.filterByAmeneties.shampoo"
+        type="checkbox"
+      >
       Parking
-            <input @click="setFilterByAmenity('parking')" 
-             :checked="filter.filterByAmeneties.parking" 
-             type="checkbox">      
+      <input
+        @click="setFilterByAmenity('parking')"
+        :checked="filter.filterByAmeneties.parking"
+        type="checkbox"
+      >
       <button @click="setFilter">Find</button>
     </div>
   </section>
@@ -56,6 +68,9 @@ export default {
   methods: {
     setFilter() {
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
+    },
+    setSearch(ev) {
+      console.log("filter", ev);
     },
     setFilterByAmenity(amenityType) {
       this.$store.dispatch({
@@ -87,6 +102,11 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
+.primary-filter {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 
 section {
   display: flex;
