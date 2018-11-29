@@ -1,10 +1,6 @@
 <template>
   <section class="advanced-search">
-<<<<<<< HEAD
-    <primary-search @setSearch="setSearch"></primary-search>
-    <div class="ameneties-filter" v-if="false">
-=======
-      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+    <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
     <h3>
       Arrive
       <input v-model="filter.dateStart" type="date" required>
@@ -14,7 +10,6 @@
       <input v-model="filter.dateEnd" type="date" required>
     </h3>
     <div class="ameneties-filter">
->>>>>>> 8294d00a7d12c1160cba6edbe919412e27deeb08
       Accesible
       <input
         @click="setFilterByAmenity('accessibility')"
@@ -57,12 +52,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import primarySearch from "@/components/primary-search.vue";
-=======
 import mapService from "@/services/mapService.js";
 
->>>>>>> 8294d00a7d12c1160cba6edbe919412e27deeb08
 export default {
   data() {
     return {
@@ -72,17 +63,13 @@ export default {
   },
   created() {
     this.filter = { ...this.$store.getters.getFilter };
-    var autocomplete2 = new google.maps.places.Autocomplete(
-      document.getElementById("autocomplete2"),
-      { types: ["geocode"] }
-    );
     this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
   methods: {
     setFilter() {
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
     },
-      setSearch(ev) {
+    setSearch(ev) {
       console.log("filter", ev);
     },
     setFilterByAmenity(amenityType) {
@@ -109,9 +96,6 @@ export default {
     place() {
       return this.$store.getters.getPlace;
     }
-  },
-  components: {
-    primarySearch
   }
 };
 </script>

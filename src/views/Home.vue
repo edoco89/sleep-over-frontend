@@ -8,27 +8,17 @@
         <span class="secondary-header">A social community offering sleep accomodations
           <br>with verified users and great guests
         </span>
-
-        <div class="search-bar">
-          <input type="text" placeholder="Where do you want to go? " v-model="filterByCountry">
-          <router-link
-            class="homepage-search"
-            tag="button"
-            to="/searchResult"
-            @click.native="setFilterByCountry"
-          >🔎</router-link>
-        </div>
       </div>
-      <div class="search-bar">
 
-        <primary-search @setSearch="setSearch"></primary-search>
+      <div class="search-bar">
        <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
-        
         <router-link
           class="homepage-search"
           tag="button"
           to="/searchResult"
           @click.native="setFilterByLocation">🔎</router-link>
+          </div>
+
       <div class="people-images">
         <div class="small-box mild-shadow">
           <img src="/img/friends-sofa.jpg" alt="Food">
@@ -36,7 +26,7 @@
         </div>
         <div class="small-box mild-shadow">
           <img src="/img/friends-hang.jpg" alt="Sport">
-          <span>❤ Sport</span>
+          <span>Sport</span>
         </div>
 
         <div class="small-box mild-shadow">
@@ -68,7 +58,6 @@
 
 <script>
 // @ is an alias to /src
-import primarySearch from "@/components/primary-search.vue";
 export default {
   data(){
     return {
@@ -76,16 +65,6 @@ export default {
     }
   },
   methods: {
-<<<<<<< HEAD
-    setFilterByCountry() {
-      this.$store.dispatch({
-        type: "setFilterByCountry",
-        filterByCountry: this.filterByCountry
-      });
-    },
-    setSearch(ev) {
-      console.log("filter", ev);
-=======
     setFilterByLocation() {
       this.$store.dispatch({ type: "setPlace", place: JSON.parse(JSON.stringify(this.place))});
     },
@@ -95,12 +74,8 @@ export default {
         lng: place.geometry.location.lng()
       };
       this.place = JSON.parse(JSON.stringify(place));
->>>>>>> 8294d00a7d12c1160cba6edbe919412e27deeb08
     }
   },
-  components: {
-    primarySearch
-  }
 };
 </script>
 

@@ -36,7 +36,7 @@ export default {
   display: flex;
   text-align: left;
   justify-content: space-between;
-  align-items: center;
+  // align-items: center;
   width: 25%;
   min-width: 150px;
   // height: inherit;
