@@ -1,7 +1,7 @@
 <template>
   <section>
     <advanced-search></advanced-search>
-    <!-- <bed-list :beds="beds"></bed-list> -->
+    <bed-list :beds="beds"></bed-list>
     <result-map v-if="beds.length" :beds="beds"></result-map>
   </section>
 </template>

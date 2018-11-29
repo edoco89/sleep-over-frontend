@@ -1,5 +1,5 @@
 <template>
-<section>
+<section class="container">
      <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
     <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
   <v-date-picker mode="range" :min-date="new Date()" v-model="selectedDate">
@@ -18,7 +18,17 @@
     </b-field>
   </v-date-picker>
 
-  <button @click="showDate">Book</button>
+  <button @click="showBookMessage">Book</button>
+
+<div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
+  <div class="modal-background"></div>
+  <div  class="modal-content">
+    Great! Your booking has been submitted, <br>
+    we will notify you as soon as the host approves this request.
+  </div>
+  <button  class="modal-close is-large" aria-label="close"></button>
+</div>
+
   </section>
 </template>
 
@@ -30,6 +40,7 @@ export default {
     return {
       selectedDate: new Date(2018, 0, 10),
       selectedValue: null,
+      showModal: false,
     };
   },
   computed: {
@@ -47,9 +58,14 @@ export default {
     },
   },
   methods: {
-      showDate() {
+      showBookMessage() {
           console.log( 'selectedDate', this.selectedDate) //date ready, need to add dispatch
-          console.log('selectedValue', this.selectedValue)
+          this.showModal = true;
+
+      },
+      closeModal() {
+        this.showModal = false;
+        console.log ('closemodal function', this.showModal)
       }
   }
 };
@@ -65,9 +81,22 @@ button {
     color:$button-danger-text-color;
     border: 0px;
     font-size: 1.3rem;
-    padding: 5px 20px;
+    padding: 5px 40px;
     margin: 10px;
     border-radius: 4px;
+    width: 100%;
+}
+
+.container {
+  width: 90%;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 4px;
+  border: 2px gray solid;
+  padding: 45px;
+  width: 90%;
 }
 
 </style>
