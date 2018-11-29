@@ -1,5 +1,5 @@
 <template>
-  <section v-if="bed">
+  <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
       <div class="gallery-img">
@@ -11,7 +11,7 @@
     </div>
 
     <div class="details-bottom">
-      <div class="flex-col">
+      <div>
         <div class="flex-col-start">
           <h5 class="minor-header">{{bed.type}}</h5>
           <h2 class="summary-standout">
@@ -23,20 +23,20 @@
 
         <div class="host-details">
           <h4>
+            <b>Host Rating:</b>
+            {{bed.rating}}
+            <img src="@/assets/img/star.png">
+          </h4>
+          <h4>
+            <b>About Me:</b>
+            <br>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat quaerat animi quam. Veniam fugiat delectus molestias iusto dolores cupiditate neque nemo iure aliquam, veritatis nulla modi velit saepe error fuga.
+          </h4>
+          <h4>
             <b>Languages:</b>
             {{bed.languages.join(', ')}}
           </h4>
-          <h4>
-            <b>Host Rating:</b>
-            {{bed.rating}}
-          </h4>
-
-          <!-- {{bed.ameneties}} -->
-          <div v-if="ament.isAvailable" v-for="(ament,name) in bed.ameneties" :key="name">
-            <b>{{name}}</b>
-            <!-- <img :title="ament" src="../assets/img/shampoo.png"> -->
-            <img :title="ament.name" :src="ament.src">
-          </div>
+          <b>Home Amenities:</b>
+          <bed-amenities :details="bed.ameneties"></bed-amenities>
         </div>
       </div>
 
@@ -49,9 +49,9 @@
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
   </section>
 </template>
-
 <script>
 import bookBed from "@/components/book-bed.vue";
+import bedAmenities from "@/components/bed-amenities.vue";
 
 export default {
   data() {
@@ -69,7 +69,8 @@ export default {
     }
   },
   components: {
-    bookBed
+    bookBed,
+    bedAmenities
   }
 };
 </script>
@@ -106,7 +107,7 @@ export default {
 //   object-fit: cover;
 // }
 
-section {
+.bed-details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -117,6 +118,14 @@ section {
   font-family: $main-font-bold;
 }
 
+h4 {
+  text-align: left;
+  margin-bottom: 5px;
+  img {
+    bottom: -4px;
+    position: relative;
+  }
+}
 .amenities {
   border: $border-color 1px solid;
   width: 100%;
@@ -147,13 +156,14 @@ section {
 
 .booking-container {
   display: flex;
-  border: 1px $border-color solid;
-  flex-direction: row;
+  margin: 15px;
 }
 
 .details-bottom {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid rgb(199, 199, 199);
 }
 
 .host-details {

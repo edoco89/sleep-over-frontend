@@ -7,9 +7,8 @@
           <img src="/img/friends-sofa.jpg" title="Friends on sofa">
         </div>
       </div>
-
       <div class="search-bar">
-        <input type="text" placeholder="Where do you want to go? " v-model="filterByCountry">
+        <primary-search @setSearch="setSearch"></primary-search>
         <router-link
           class="homepage-search"
           tag="button"
@@ -34,7 +33,7 @@
 
 <script>
 // @ is an alias to /src
-
+import primarySearch from "@/components/primary-search.vue";
 export default {
   data() {
     return {
@@ -47,7 +46,13 @@ export default {
         type: "setFilterByCountry",
         filterByCountry: this.filterByCountry
       });
+    },
+    setSearch(ev) {
+      console.log("filter", ev);
     }
+  },
+  components: {
+    primarySearch
   }
 };
 </script>
@@ -125,19 +130,19 @@ input {
     transition: all 0.2s;
   }
   .kosamui {
-    background-image: url("/img/kosamui.jpg");
+    background-image: url("../assets/img/kosamui.jpg");
     background-size: cover;
     background-repeat: no-repeat;
   }
 
   .santorini {
-    background-image: url("/img/Santorini.jpg");
+    background-image: url("../assets/img/Santorini.jpg");
     background-size: cover;
     background-repeat: no-repeat;
   }
 
   .tuscany {
-    background-image: url("/img/tuscany.jpg");
+    background-image: url("../assets/img/tuscany.jpg");
     background-size: cover;
     background-repeat: no-repeat;
   }

@@ -1,7 +1,7 @@
 
 
 <template>
-<section>
+<section class="bed-list">
 <bed-preview v-for="bed in beds" :bed="bed" :key="bed.id"></bed-preview>
 </section>
     
@@ -22,6 +22,12 @@ components: {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+@import '@/assets/scss/_vars.scss';
+.bed-list{
+width: $container;
+margin: auto;
+display: flex;
 
+}
 </style>

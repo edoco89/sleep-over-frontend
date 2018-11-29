@@ -82,13 +82,14 @@ button {
     border: 0px;
     font-size: 1.3rem;
     padding: 5px 40px;
-    margin: 10px;
+    margin-top: 10px;
     border-radius: 4px;
     width: 100%;
 }
 
-.container {
-  width: 90%;
+.container{
+width: 90%;
+min-width: 200px;
 }
 
 .modal-content {
