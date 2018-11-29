@@ -50,8 +50,6 @@
         <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
       </div>
     </div>
-
-    <footer></footer>
   </section>
 </template>
 

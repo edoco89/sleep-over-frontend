@@ -84,7 +84,8 @@ export default {
 .main-img {
   object-fit: cover;
   max-height: 340px;
-  border: 1px solid gray;
+  border: 1px solid $border-color;
+  border-top: none;
   min-height: 340px;
   width: 50%;
 }
@@ -94,7 +95,8 @@ export default {
   flex-wrap: wrap;
   max-height: 340px;
   img {
-    border: 1px solid gray;
+    border: 1px solid $border-color;
+    border-top: none;
     height: 170px;
     width: 50%;
     object-fit: cover;

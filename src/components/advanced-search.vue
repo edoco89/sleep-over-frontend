@@ -69,9 +69,6 @@ export default {
     setFilter() {
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
     },
-    setSearch(ev) {
-      console.log("filter", ev);
-    },
     setFilterByAmenity(amenityType) {
       this.$store.dispatch({
         type: "setFilterByAmenity",

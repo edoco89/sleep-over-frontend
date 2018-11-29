@@ -1,27 +1,31 @@
 <template>
   <div id="app">
     <nav-bar></nav-bar>
-    <router-view/>
-    <footer-bar> </footer-bar>
-
+    <section class="main-view">
+      <router-view/>
+    </section>
+    <footer-bar></footer-bar>
   </div>
 </template>
 
 <script>
+import navBar from "./components/nav-bar.vue";
+import footerBar from "./components/footer-bar.vue";
 
-  import navBar from './components/nav-bar.vue'
-  import footerBar from './components/footer-bar.vue'
-
-export default{
+export default {
   components: {
     navBar,
     footerBar
   }
-}
+};
 </script>
 <style>
+.main-view {
+  margin-top: 60px;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

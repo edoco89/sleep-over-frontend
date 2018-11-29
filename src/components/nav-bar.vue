@@ -51,6 +51,9 @@ header{
     color: $text-color;
     background-color: $nav-bg-color;
     border-bottom: 1px $border-color solid;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 h1{
     width: fit-content;
