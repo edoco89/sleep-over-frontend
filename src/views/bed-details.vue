@@ -1,29 +1,41 @@
 <template>
   <section v-if="bed">
-    <img class="main-img" :src="bed.imgUrl">
+    <div class="img-gallery">
+      <img class="main-img" :src="bed.hostImg">
+      <div class="gallery-img">
+        <img :src="bed.imgUrl">
+        <img :src="bed.imgUrl">
+        <img :src="bed.imgUrl">
+        <img :src="bed.imgUrl">
+      </div>
+    </div>
+
     <div class="details-bottom">
       <div class="flex-col">
         <div class="flex-col-start">
           <h5 class="minor-header">{{bed.type}}</h5>
           <h2 class="summary-standout">
-            A beautiful {{bed.type}} in
+            {{bed.hostName+ ' ' + bed.type}} in
             {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1)}}
           </h2>
           <h4 class="secondary-header">{{bed.location.country}}</h4>
         </div>
 
         <div class="host-details">
-          <img class="host-img" :src="bed.hostImg">
-          <h4>Languages: {{bed.languages.join(', ')}}</h4>
-          <h4>Rating: {{bed.rating}}</h4>
-          <div class="amenities">
-            <h5 class="minor-header">Amenities</h5>
-            <div>{{bed.ameneties}}</div>
-            <!-- <img
-              v-if="bed.ameneties.airConditioner"
-              src="../../../src/assets/img/aircondition.png"
-              class="icon"
-            > -->
+          <h4>
+            <b>Languages:</b>
+            {{bed.languages.join(', ')}}
+          </h4>
+          <h4>
+            <b>Host Rating:</b>
+            {{bed.rating}}
+          </h4>
+
+          <!-- {{bed.ameneties}} -->
+          <div v-if="ament.isAvailable" v-for="(ament,name) in bed.ameneties" :key="name">
+            <b>{{name}}</b>
+            <!-- <img :title="ament" src="../assets/img/shampoo.png"> -->
+            <img :title="ament.name" :src="ament.src">
           </div>
         </div>
       </div>
@@ -65,6 +77,35 @@ export default {
 <style  scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+.img-gallery {
+  display: flex;
+}
+.main-img {
+  object-fit: cover;
+  max-height: 340px;
+  border: 1px solid gray;
+  min-height: 340px;
+  width: 50%;
+}
+
+.gallery-img {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 340px;
+  img {
+    border: 1px solid gray;
+    height: 170px;
+    width: 50%;
+    object-fit: cover;
+  }
+}
+
+// img {
+//   align-self: flex-start;
+//   margin: 25px 0;
+//   object-fit: cover;
+// }
+
 section {
   display: flex;
   flex-direction: column;
@@ -72,14 +113,8 @@ section {
   align-items: center;
   width: $container;
   height: inherit;
-  // margin: auto;
+  margin: auto;
   font-family: $main-font-bold;
-}
-
-img {
-  align-self: flex-start;
-  height: 300px;
-  margin: 25px 0;
 }
 
 .amenities {
@@ -88,8 +123,21 @@ img {
   flex-wrap: wrap;
 }
 
+<<<<<<< HEAD
 .host-img {
   height: 130px;
+=======
+.minor-header {
+  font-size: 0.7rem;
+}
+
+.summary-standout {
+  font-size: 1.3rem;
+}
+
+.secondary-header {
+  font-size: 0.9rem;
+>>>>>>> 1a95aff772b781f56186a558bba36da763df0562
 }
 
 .flex-col-start {
