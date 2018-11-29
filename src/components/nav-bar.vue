@@ -41,10 +41,16 @@ methods:{
 <style scoped lang="scss">
 @import '@/assets/scss/_vars.scss';
 
+.logo {
+    font-size: 1.8rem;
+}
+
 header{
     background: $bg-color;
     height: 60px;
     color: $text-color;
+    background-color: $nav-bg-color;
+    border-bottom: 1px $border-color solid;
 }
 h1{
     width: fit-content;
