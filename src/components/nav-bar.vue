@@ -1,27 +1,40 @@
 <template>
   <header>
-    <section>
+    <section class="main-nav">
       <router-link to="/">
         <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
-        <router-link to="/searchResult">Search Result</router-link> |
-        <a @click="LoginModal">Login</a>
-        <!-- <router-link to="/">Home</router-link>| -->
+        <router-link to="/searchResult">Search Result</router-link>|
+        <a @click="showModal">Login</a>
         <!-- <router-link to="/about">About </router-link>| -->
         <!-- <router-link to="/userProfile">Profile </router-link>| -->
       </div>
     </section>
+    <login-modal :show="chosen"></login-modal>
   </header>
 </template>
 
 <script>
+import loginModal from './login-modal.vue'
 export default {
+    data(){
+        return{
+            modalClass: ''
+        }
+    },
+    computed:{
+            chosen(){ return this.modalClass}
+    },
 methods:{
-    LoginModal(){
+    showModal(){
+        this. modalClass = ' open-modal';
         console.log('opened modal');
+    },
+},
+    components:{
+        loginModal
     }
-}
 }
 </script>
 
@@ -37,7 +50,7 @@ h1{
     width: fit-content;
     margin: 0;
 }
-section{
+.main-nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
