@@ -1,10 +1,22 @@
 <template>
   <section>
     <div class="main-view">
-      <div class="people-images">
-        <div class="small-box">
-          <span>People</span>
-          <img src="/img/friends-sofa.jpg" title="Friends on sofa">
+      <div class="main-banner mild-border">
+        <span class="summary-standout">Thousands of hosts
+          <br>around the world
+        </span>
+        <span class="secondary-header">A social community offering sleep accomodations
+          <br>with verified users and great guests
+        </span>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Where do you want to go? " v-model="filterByCountry">
+          <router-link
+            class="homepage-search"
+            tag="button"
+            to="/searchResult"
+            @click.native="setFilterByCountry"
+          >🔎</router-link>
         </div>
       </div>
 
@@ -15,18 +27,39 @@
           tag="button"
           to="/searchResult"
           @click.native="setFilterByLocation">🔎</router-link>
+      <div class="people-images">
+        <div class="small-box mild-shadow">
+          <img src="/img/friends-sofa.jpg" alt="Food">
+          <span>Foodies</span>
+        </div>
+        <div class="small-box mild-shadow">
+          <img src="/img/friends-hang.jpg" alt="Sport">
+          <span>❤ Sport</span>
+        </div>
+
+        <div class="small-box mild-shadow">
+          <img src="/img/friends-sofa.jpg" alt="Kids">
+          <span>With kids</span>
+        </div>
+
+        <div class="small-box mild-shadow">
+          <img src="/img/friends-hang.jpg" alt="Chill">
+          <span>Chill</span>
+        </div>
       </div>
 
       <div class="ido-sentence">Connecting people around the world</div>
 
       <div class="world-images-container">
-        <div class="kosamui">Try the beaches of
+        <div class="kosamui mild-shadow mild-border">Try the beaches of
           <br>Ko Samui
         </div>
-        <div class="santorini">Visit the beautiful Santorini</div>
-        <div class="tuscany">Hosts in breathtaking Tuscany</div>
+        <div class="santorini mild-shadow mild-border">Visit the beautiful Santorini</div>
+        <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
       </div>
     </div>
+
+    <footer></footer>
   </section>
 </template>
 
@@ -58,8 +91,34 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+.main-banner {
+  margin-top: 25px;
+  background-image: url("../assets/img/ponder.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  font-family: $main-font-bold;
+  text-align: left;
+
+  .summary-standout {
+    font-size: 2.1rem;
+    margin-left: 20px;
+  }
+
+  .secondary-header {
+    font-size: 1.4rem;
+    margin-left: 20px;
+  }
+}
+
 .search-bar {
   margin-top: 75px;
+  padding-right: 45px;
+  margin-left: 20px;
 }
 
 input {
@@ -89,24 +148,37 @@ input {
 }
 
 .people-images {
+  margin-top: 100px;
   display: flex;
-  color: white;
-  font-size: 1.6rem;
+  flex-direction: row;
+  color: $text-color-cards;
+  font-size: 1.2rem;
   font-weight: bold;
   text-shadow: 0.8px 0.8px black;
-  font-family: $main-font-light;
+  font-family: $main-font-bold;
+  line-height: 90px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   .small-box {
     border: 1px solid $border-color;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
   }
 
   img {
-    height: 120px;
+    height: 90px;
+  }
+
+  span {
+    margin-left: 8px;
+    white-space: nowrap;
   }
 
   div {
-    height: 240px;
-    width: 370px;
+    height: 90px;
+    width: 320px;
     margin: 10px;
     cursor: pointer;
   }
