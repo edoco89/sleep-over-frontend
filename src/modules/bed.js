@@ -1,10 +1,13 @@
-import bedService from '../services/bedService';
+import bedService from '@/services/bedService';
+import mapService from "@/services/mapService.js";
 
 export default {
     state: {
         beds: [],
         currBed: null,
+        place: {},
         filter: {
+            byLocation: {},
             dateStart: '2018-01-01',
             dateEnd: '2029-12-31',
             byCountry: '',
@@ -26,8 +29,9 @@ export default {
     getters: {
         bedsToDisplay: (state) => state.beds,
         getCurrBed: (state) => state.currBed,
-        getFilterByCountry: (state) => state.filter.byCountry,
-        getFilter: (state) => state.filter
+        getFilter: (state) => state.filter,
+        getPlace: (state) => JSON.parse(JSON.stringify(state.place)),
+        getCurrentMapCenter: (state) => state.filter.byLocation
     },
     mutations: {
         setBeds(state, { beds }) {
@@ -37,14 +41,24 @@ export default {
             state.currBed = bed;
         },
         setFilter(state, { filter }) {
-            state.filter = filter; 
-        },
-        setFilterByCountry(state, { filterByCountry }) {
-            state.filter.byCountry = filterByCountry;
+            state.filter = filter;
         },
         setFilterByAmenity(state, { amenityFilter }) {
             state.filter.filterByAmeneties[amenityFilter.name] = !amenityFilter.value;
-          }
+        },
+        setPlace(state, { place }) {
+            state.place = place;
+        },
+        setFilterByLocation(state, { place }) {
+            state.filter.byLocation.lat = place.geometry.location.lat;
+            state.filter.byLocation.lng = place.geometry.location.lng;
+        },
+        setFilterByMyLocation(state, {place}) {
+        navigator.geolocation.getCurrentPosition(position => {
+            state.filter.byLocation.lat = position.coords.latitude,
+            state.filter.byLocation.lng = position.coords.longitude
+           });
+        }
     },
     actions: {
         loadBeds({ commit, state }) {
@@ -73,16 +87,21 @@ export default {
                     return savedBed
                 })
         },
-        setFilte({ commit, dispatch }, { filter }) {
+        setFilter({ commit, dispatch }, { filter }) {
             commit({ type: 'setFilter', filter })
-            return dispatch({ type: 'loadBeds' })
-        },
-        setFilterByCountry({ commit, dispatch }, { filterByCountry }) {
-            commit({ type: 'setFilterByCountry', filterByCountry })
             return dispatch({ type: 'loadBeds' })
         },
         setFilterByAmenity({ commit }, { amenityFilter }) {
             commit({ type: 'setFilterByAmenity', amenityFilter })
-          }
+        },
+        setFilterByLocation({ commit, dispatch }, { place }) {
+            commit({ type: 'setPlace', place })
+            commit({ type: 'setFilterByLocation', place })
+        },
+        setPlace({ commit, dispatch }, { place }) {
+            commit({ type: 'setPlace', place })
+            commit({ type: 'setFilterByLocation', place })
+            return dispatch({ type: 'loadBeds' })
+        },
     }
 }

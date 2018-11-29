@@ -65,7 +65,6 @@ export default {
       },
       closeModal() {
         this.showModal = false;
-        console.log ('closemodal function', this.showModal)
       }
   }
 };
@@ -75,7 +74,12 @@ export default {
 <style  scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+*{
+  font-family: $main-font-light;
+}
+
 button {
+  font-family: $main-font-bold;
     background-color:$button-danger-color;
     cursor: pointer;
     color:$button-danger-text-color;

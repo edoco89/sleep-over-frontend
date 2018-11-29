@@ -1,6 +1,28 @@
 @import './vars.scss';
 @import '../../../node_modules/bulma/css/bulma.css';
 
+.mild-shadow {
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
+    box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
+}
+
+.mild-border {
+    border: 1px solid rgb(224, 221, 221);
+}
+
+.minor-header {
+    font-size: 0.7rem;
+  }
+  
+  .summary-standout {
+    font-size: 1.3rem;
+  }
+  
+  .secondary-header {
+    font-size: 0.9rem;
+  }
+
 @font-face {
     font-family: "Pacifico";
     src: url("./fonts/Pacifico-Regular.ttf") 
