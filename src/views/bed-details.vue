@@ -123,21 +123,8 @@ section {
   flex-wrap: wrap;
 }
 
-<<<<<<< HEAD
 .host-img {
   height: 130px;
-=======
-.minor-header {
-  font-size: 0.7rem;
-}
-
-.summary-standout {
-  font-size: 1.3rem;
-}
-
-.secondary-header {
-  font-size: 0.9rem;
->>>>>>> 1a95aff772b781f56186a558bba36da763df0562
 }
 
 .flex-col-start {
