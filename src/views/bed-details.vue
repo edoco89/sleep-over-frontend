@@ -92,18 +92,6 @@ img {
   height: 130px;
 }
 
-.minor-header {
-  font-size: 0.7rem;
-}
-
-.summary-standout {
-  font-size: 1.3rem;
-}
-
-.secondary-header {
-  font-size: 0.9rem;
-}
-
 .flex-col-start {
   display: flex;
   flex-direction: column;
