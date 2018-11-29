@@ -4,7 +4,6 @@
      
       <div>
        Copy Rights 2018
-      
       </div>
     </section>
   </footer>

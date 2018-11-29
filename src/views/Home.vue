@@ -8,16 +8,6 @@
         <span class="secondary-header">A social community offering sleep accomodations
           <br>with verified users and great guests
         </span>
-
-        <div class="search-bar">
-          <input type="text" placeholder="Where do you want to go? " v-model="filterByCountry">
-          <router-link
-            class="homepage-search"
-            tag="button"
-            to="/searchResult"
-            @click.native="setFilterByCountry"
-          >🔎</router-link>
-        </div>
       </div>
 
       <div class="search-bar">
@@ -27,6 +17,7 @@
           tag="button"
           to="/searchResult"
           @click.native="setFilterByLocation">🔎</router-link>
+          </div>
       <div class="people-images">
         <div class="small-box mild-shadow">
           <img src="/img/friends-sofa.jpg" alt="Food">

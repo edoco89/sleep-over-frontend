@@ -51,10 +51,6 @@ export default {
   },
   created() {
     this.filter = { ...this.$store.getters.getFilter };
-    var autocomplete2 = new google.maps.places.Autocomplete(
-      document.getElementById("autocomplete2"),
-      { types: ["geocode"] }
-    );
     this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
   methods: {
