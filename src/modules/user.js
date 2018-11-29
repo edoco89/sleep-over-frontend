@@ -1,30 +1,37 @@
-import AuthService from '../services/authService.js';
+// import AuthService from '../services/authService.js';
+import AuthService from '../services/userService.js';
+import userService from '../services/userService.js';
+
 export default {
     state: {
-        user: {
-            nickname: '',
-            _id: ''
-        }
+        user: null
     },
     getters: {
         isUserLoggedIn: state => !!state.user._id,
-        loggedInUser : state => state.user
+        loggedInUser: state => state.user
     },
     mutations: {
         setUser(state, { user }) {
+            console.log(user);
             state.user = user
         }
     },
     actions: {
-        login(context, { user }) {
-            return AuthService.login(user)
-                .then(user => {
-                    if (user) {
-                        context.commit({type: 'setUser',user})
-                        localStorage.setItem('loggedInUser', JSON.stringify(user))
-                    }
-                    return user
-                })
+        checkLogin({ commit }, { user }) {
+            userService.getUser(user.email, user.pass)
+                .then(user => commit.setUser)
+            // return AuthService.login(user)
+            //     .then(user => {
+            //         if (user) {
+            //             context.commit({ type: 'setUser', user })
+            //             localStorage.setItem('loggedInUser', JSON.stringify(user))
+            //         }
+            //         return user
+            //     })
+        },
+        addUser({ commit }, { user }) {
+            userService.addUser(user)
+                .then(user => commit.setUser)
         }
     }
 }

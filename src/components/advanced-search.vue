@@ -45,11 +45,17 @@ import mapService from "@/services/mapService.js";
 export default {
   data() {
     return {
-      filter: {}
+      filter: {},
+      place: {}
     };
   },
   created() {
     this.filter = { ...this.$store.getters.getFilter };
+    var autocomplete2 = new google.maps.places.Autocomplete(
+      document.getElementById("autocomplete2"),
+      { types: ["geocode"] }
+    );
+    this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
   methods: {
     setFilter() {
@@ -75,6 +81,9 @@ export default {
   watch: {
     filter() {
       return this.$store.getters.getFilter;
+    },
+    place() {
+      return this.$store.getters.getPlace;
     }
   }
 };

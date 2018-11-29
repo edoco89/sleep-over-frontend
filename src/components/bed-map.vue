@@ -288,7 +288,7 @@ export default {
           lng: position.coords.longitude
         };
         this.$store.dispatch({
-          type: "setFilterByLocation",
+          type: "setPlace",
           place: this.place
         });
       });

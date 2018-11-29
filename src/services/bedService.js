@@ -23,11 +23,11 @@ function query(filter = null) {
         .then(res => res.data)
 }
 
-function removeBed(toyId) {
-    return axios.delete(`${BASE_URL}/${toyId}`)
+function removeBed(bedId) {
+    return axios.delete(`${BASE_URL}/${bedId}`)
         .then(res => res.data)
 }
-
+//TAKE CARE OF ADD UPDATE
 function saveBed(bed, userId) {
     if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
     else {

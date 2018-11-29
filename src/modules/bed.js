@@ -29,7 +29,6 @@ export default {
     getters: {
         bedsToDisplay: (state) => state.beds,
         getCurrBed: (state) => state.currBed,
-        getFilterByCountry: (state) => state.filter.byCountry,
         getFilter: (state) => state.filter,
         getPlace: (state) => JSON.parse(JSON.stringify(state.place)),
         getCurrentMapCenter: (state) => state.filter.byLocation
@@ -43,9 +42,6 @@ export default {
         },
         setFilter(state, { filter }) {
             state.filter = filter;
-        },
-        setFilterByCountry(state, { filterByCountry }) {
-            state.filter.byCountry = filterByCountry;
         },
         setFilterByAmenity(state, { amenityFilter }) {
             state.filter.filterByAmeneties[amenityFilter.name] = !amenityFilter.value;
@@ -95,16 +91,17 @@ export default {
             commit({ type: 'setFilter', filter })
             return dispatch({ type: 'loadBeds' })
         },
-        setFilterByCountry({ commit, dispatch }, { filterByCountry }) {
-            commit({ type: 'setFilterByCountry', filterByCountry })
-            return dispatch({ type: 'loadBeds' })
-        },
         setFilterByAmenity({ commit }, { amenityFilter }) {
             commit({ type: 'setFilterByAmenity', amenityFilter })
         },
-        setFilterByLocation({ commit }, { place }) {
+        setFilterByLocation({ commit, dispatch }, { place }) {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByLocation', place })
+        },
+        setPlace({ commit, dispatch }, { place }) {
+            commit({ type: 'setPlace', place })
+            commit({ type: 'setFilterByLocation', place })
+            return dispatch({ type: 'loadBeds' })
         },
     }
 }
