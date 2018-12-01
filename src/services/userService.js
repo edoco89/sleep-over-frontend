@@ -8,6 +8,13 @@ function query() {
         .then(res => res.data)
 }
 
+function login({ nickname }) {
+    return axios.put(`${BASE_URL}/login`, {
+        nickname
+    })
+        .then(res => res.data)
+}
+
 function removeUser(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
         .then(res => res.data)
@@ -44,23 +51,27 @@ export default {
     addUser,
     saveUser,
     removeUser,
-    getUser
+    getUser,
+    login
 }
 
-function createUser() {
-    return [
-        {
-            fullname: 'Jake Collins',
-            email: 'ggg@gmail.com',
-            password: '',
-            hobbies: [], 
-            aboutMe: '',
-            guestBadge: '', 
-            hostBadge: '', 
-            age: 25,
-            gender: 'male',
-            hostBeds: [],
-            visitHistory: [],
-        }
-    ]
+function _createUser(user) {
+    return {
+        fullname: user.name,
+        email: user.email,
+        password: user.email,
+        hobbies: (user.hobbies) ? user.hobbies : [],
+        languages: (user.languages) ? user.languages : [],
+        isHost: false,
+        aboutMe: (user.aboutMe) ? user.aboutMe : '',
+        guestBadge: '',
+        hostBadge: '',
+        age: (user.age) ? user.age : 100,
+        gender: (user.gender) ? user.gender : 'female',
+        imgUrl: (user.imgUrl) ? user.imgUrl : 'https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg',
+        hostBedsId: [],
+        bedVisitedId: [],
+        reviews: [],
+        chatHistory: []
+    }
 }

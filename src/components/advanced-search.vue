@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import mapService from "@/services/mapService.js";
+
 import selectMenu from "./select-menu.vue";
 
 export default {

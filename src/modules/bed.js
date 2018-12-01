@@ -1,5 +1,4 @@
 import bedService from '@/services/bedService';
-import mapService from "@/services/mapService.js";
 
 export default {
     state: {
