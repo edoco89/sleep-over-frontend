@@ -4,6 +4,7 @@ import home from './views/Home.vue'
 import userProfile from './views/Home.vue'
 import searchResult from './views/search-result.vue'
 import bedDetails from './views/bed-details.vue'
+import chatBox from './components/chat-box.vue'
 
 
 Vue.use(Router)
@@ -21,6 +22,7 @@ export default new Router({
       path: '/about',
       name: 'about',
       // route level code-splitting
+      //
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
@@ -28,7 +30,12 @@ export default new Router({
     {
       path: '/userProfile',
       name: 'user-profile',
-      component: userProfile
+      component: userProfile,
+    },
+    {
+      path: '/chat/:chatId',
+      name: 'chat-box',
+      component: chatBox,
     },
     {
       path: '/searchResult',
@@ -39,6 +46,7 @@ export default new Router({
       path: '/bed/:bedId',
       name: 'bed-details',
       component: bedDetails
-    }
+    },
+    
   ]
 })

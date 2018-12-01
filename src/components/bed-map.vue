@@ -271,7 +271,7 @@ export default {
           }
         ]
       },
-      place: null,
+      place: {},
       isChosen: false,
       bedDetails: {}
     };
@@ -288,7 +288,7 @@ export default {
           lng: position.coords.longitude
         };
         this.$store.dispatch({
-          type: "setPlace",
+          type: "setFilterByLocation",
           place: this.place
         });
       });

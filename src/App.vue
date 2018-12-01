@@ -23,9 +23,13 @@ export default {
 @import '@/assets/scss/_vars.scss';
 
 .main-view {
+<<<<<<< HEAD
 position: relative;
 bottom: -60px;
 margin-bottom: 50px;
+=======
+  padding-top: 66px;
+>>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
 }
 
 #app {
@@ -44,6 +48,13 @@ margin-bottom: 50px;
   color: #2c3e50;
 }
 
+<<<<<<< HEAD
+=======
+footer {
+  margin-top: 35px;
+}
+
+>>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
 #nav a.router-link-exact-active {
   color: #42b983;
 }

@@ -5,8 +5,13 @@
         <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
+<<<<<<< HEAD
         <router-link to="/searchResult">Search Result</router-link>|
         <a @click="showModal = true">Login</a>
+=======
+        <router-link to="/searchResult">Search</router-link>|
+        <a @click="showModal">Login</a>
+>>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
         <!-- <router-link to="/about">About </router-link>| -->
         <!-- <router-link to="/userProfile">Profile </router-link>| -->
       </div>

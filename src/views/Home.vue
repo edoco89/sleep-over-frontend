@@ -1,5 +1,6 @@
 <template>
   <section>
+<<<<<<< HEAD
     <img class="main-view">
     <div class="main-banner mild-border">
       <div class="main-banner-text">
@@ -7,6 +8,31 @@
           Thousands of hosts
           around the world
           <br>
+=======
+    <div class="main-view">
+      <div class="main-banner mild-border">
+        <span class="summary-standout">Thousands of hosts
+          <br>around the world
+        </span>
+        <span class="secondary-header">A social community offering sleep accomodations
+          <br>with verified users and great guests
+        </span>
+      </div>
+
+      <div class="search-bar">
+       <GmapAutocomplete id="map1" placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+        <router-link
+          class="homepage-search"
+          tag="button"
+          to="/searchResult"
+          @click.native="setFilterByLocation">🔎</router-link>
+          </div>
+
+      <div class="people-images">
+        <div class="small-box mild-shadow">
+          <img src="/img/friends-sofa.jpg" alt="Food">
+          <span>Foodies</span>
+>>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
         </div>
         <div class="secondary-header">
           A social community offering sleep accomodations
@@ -76,6 +102,7 @@
 
 <script>
 // @ is an alias to /src
+
 export default {
   data() {
     return {

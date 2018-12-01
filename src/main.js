@@ -8,11 +8,23 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VCalendar from 'v-calendar'
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+<<<<<<< HEAD
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+=======
+import VueSocketIO from 'vue-socket.io'
+ 
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:3000',
+    vuex: {
+        store,
+    }
+}))
+>>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
 
 Vue.use(ElementUI);
 Vue.use(BootstrapVue);
