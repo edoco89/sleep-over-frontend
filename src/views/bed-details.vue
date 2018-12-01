@@ -2,14 +2,34 @@
   <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
-      <div class="gallery-imgs" @click="showModal">
-        <img v-if="bed.imgUrls[0]" class="single-img" :src="bed.imgUrls[0]">
+      <div class="gallery-imgs">
+        <img
+          v-if="bed.imgUrls[0]"
+          class="single-img"
+          @click="showModal = true"
+          :src="bed.imgUrls[0]"
+        >
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[1]" class="single-img" :src="bed.imgUrls[1]">
+        <img
+          v-if="bed.imgUrls[1]"
+          class="single-img"
+          @click="showModal = true"
+          :src="bed.imgUrls[1]"
+        >
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[2]" class="single-img" :src="bed.imgUrl[2]">
+        <img
+          v-if="bed.imgUrls[2]"
+          class="single-img"
+          @click="showModal = true"
+          :src="bed.imgUrl[2]"
+        >
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[3]" class="single-img" :src="bed.imgUrl[3]">
+        <img
+          v-if="bed.imgUrls[3]"
+          class="single-img"
+          @click="showModal = true"
+          :src="bed.imgUrl[3]"
+        >
         <img v-else src="@/assets/img/no-img.jpg" alt>
       </div>
     </div>
@@ -74,12 +94,17 @@ export default {
       this.$store.dispatch({ type: "getBedById", bedId });
     }
   },
-  methods: {
+  watch: {
     showModal() {
-      this.showModal = true;
-    },
+      console.log(this.showModal);
+    }
+  },
+  methods: {
     closeModal() {
       this.showModal = false;
+    },
+    show() {
+      console.log("showing");
     }
   },
   computed: {
@@ -117,7 +142,7 @@ export default {
   .single-img {
     &:hover {
       cursor: pointer;
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   img {

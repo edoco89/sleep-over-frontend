@@ -1,6 +1,5 @@
 <template>
   <section class="advanced-search">
-<<<<<<< HEAD
     <div class="primary-filter">
       <img
         src="@/assets/img/filter.png"
@@ -24,19 +23,6 @@
 
     <div class="ameneties-filter" v-if="isShown">
       <select-menu @setFilter="setFilterByAmenity"></select-menu>Accesible
-=======
-    <GmapAutocomplete id="map2" placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
-    <h3>
-      Arrive
-      <input v-model="filter.dateStart" type="date" required>
-    </h3>
-    <h3>
-      Leave
-      <input v-model="filter.dateEnd" type="date" required>
-    </h3>
-    <div class="ameneties-filter">
-      Accesible
->>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
       <input
         @click="setFilterByAmenity('accessibility')"
         :checked="filter.filterByAmeneties.accessibility"
@@ -77,12 +63,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import mapService from "@/services/mapService.js";
 import selectMenu from "./select-menu.vue";
-=======
-
->>>>>>> 1228b1da986f19fdbc05fbffbb0ffdeab6779957
 
 export default {
   data() {
