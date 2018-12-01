@@ -12,11 +12,12 @@ function query(filter = null) {
         searchParams.append('byLng', filter.byLocation.lng)
         sortParams.append('type', filter.sortBy.type)
         sortParams.append('order', filter.sortBy.order)
-        searchAmenetiesParams.append('accessibility', filter.filterByAmeneties.accessibility)
-        searchAmenetiesParams.append('wifi', filter.filterByAmeneties.wifi)
-        searchAmenetiesParams.append('airConditioner', filter.filterByAmeneties.airConditioner)
-        searchAmenetiesParams.append('shampoo', filter.filterByAmeneties.shampoo)
-        searchAmenetiesParams.append('parking', filter.filterByAmeneties.parking)
+        searchAmenetiesParams.append('accessibility', filter.filterByAmeneties.Accessible)
+        searchAmenetiesParams.append('wifi', filter.filterByAmeneties.Wifi)
+        searchAmenetiesParams.append('airConditioner', filter.filterByAmeneties["Air Conditioner"])
+        searchAmenetiesParams.append('shampoo', filter.filterByAmeneties.Shampoo)
+        searchAmenetiesParams.append('parking', filter.filterByAmeneties.Parking)
+        searchAmenetiesParams.append('children', filter.filterByAmeneties["Children Ok"])
     }
     const routeUrl = `${BASE_URL}?${searchParams}&${sortParams}&${searchAmenetiesParams}`
     return axios.get(routeUrl)

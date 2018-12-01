@@ -1,5 +1,4 @@
 import bedService from '@/services/bedService';
-import mapService from "@/services/mapService.js";
 
 export default {
     state: {
@@ -17,12 +16,13 @@ export default {
                 order: -1
             },
             filterByAmeneties: {
-                accessibility: false,
-                wifi: false,
-                acceptsPets: false,
-                airConditioner: false,
-                shampoo: false,
-                parking: false
+                Accessible: false,
+                Wifi: false,
+                Pets: false,
+                "Children Ok": false,
+                "Air Conditioner": false,
+                Shampoo: false,
+                Parking: false
             }
         }
     },
@@ -43,8 +43,13 @@ export default {
         setFilter(state, { filter }) {
             state.filter = filter;
         },
-        setFilterByAmenity(state, { amenityFilter }) {
-            state.filter.filterByAmeneties[amenityFilter.name] = !amenityFilter.value;
+        setFilterByAmenity(state, { amenityTypes }) {
+            for (let filter in state.filter.filterByAmeneties) {
+                state.filter.filterByAmeneties[filter] = false;
+            }
+            amenityTypes.forEach(filter => {
+                state.filter.filterByAmeneties[filter] = true;
+            })
         },
         setPlace(state, { place }) {
             state.place = place;
@@ -53,11 +58,11 @@ export default {
             state.filter.byLocation.lat = place.geometry.location.lat;
             state.filter.byLocation.lng = place.geometry.location.lng;
         },
-        setFilterByMyLocation(state, {place}) {
-        navigator.geolocation.getCurrentPosition(position => {
-            state.filter.byLocation.lat = position.coords.latitude,
-            state.filter.byLocation.lng = position.coords.longitude
-           });
+        setFilterByMyLocation(state, { place }) {
+            navigator.geolocation.getCurrentPosition(position => {
+                state.filter.byLocation.lat = position.coords.latitude,
+                    state.filter.byLocation.lng = position.coords.longitude
+            });
         }
     },
     actions: {
@@ -91,8 +96,8 @@ export default {
             commit({ type: 'setFilter', filter })
             return dispatch({ type: 'loadBeds' })
         },
-        setFilterByAmenity({ commit }, { amenityFilter }) {
-            commit({ type: 'setFilterByAmenity', amenityFilter })
+        setFilterByAmenity({ commit }, { amenityTypes }) {
+            commit({ type: 'setFilterByAmenity', amenityTypes })
         },
         setFilterByLocation({ commit, dispatch }, { place }) {
             commit({ type: 'setPlace', place })

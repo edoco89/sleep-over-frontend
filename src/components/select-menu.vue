@@ -35,6 +35,10 @@ export default {
         {
           value: "Children Ok",
           label: "Children Ok"
+        },
+        {
+          value: "Accessible",
+          label: "Accessible"
         }
       ],
       value5: [],

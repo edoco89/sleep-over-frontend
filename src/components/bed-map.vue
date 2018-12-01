@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import mapService from "@/services/mapService.js";
 export default {
   props: {
     beds: {
