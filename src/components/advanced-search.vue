@@ -22,48 +22,12 @@
     </div>
 
     <div class="ameneties-filter" v-if="isShown">
-      <select-menu @setFilter="setFilterByAmenity"></select-menu>Accesible
-      <input
-        @click="setFilterByAmenity('accessibility')"
-        :checked="filter.filterByAmeneties.accessibility"
-        type="checkbox"
-      >
-      Wifi
-      <input
-        @click="setFilterByAmenity('wifi')"
-        :checked="filter.filterByAmeneties.wifi"
-        type="checkbox"
-      >
-      Pets
-      <input
-        @click="setFilterByAmenity('acceptsPets')"
-        :checked="filter.filterByAmeneties.acceptsPets"
-        type="checkbox"
-      >
-      Air Conditioner
-      <input
-        @click="setFilterByAmenity('airConditioner')"
-        :checked="filter.filterByAmeneties.airConditioner"
-        type="checkbox"
-      >
-      Shampoo
-      <input
-        @click="setFilterByAmenity('shampoo')"
-        :checked="filter.filterByAmeneties.shampoo"
-        type="checkbox"
-      >
-      Parking
-      <input
-        @click="setFilterByAmenity('parking')"
-        :checked="filter.filterByAmeneties.parking"
-        type="checkbox"
-      >
+      <select-menu @setFilter="setFilterByAmenity"></select-menu>
     </div>
   </section>
 </template>
 
 <script>
-
 import selectMenu from "./select-menu.vue";
 
 export default {
@@ -82,20 +46,11 @@ export default {
     toggleFilter() {
       this.isShown = !this.isShown;
     },
+    setFilterByAmenity(amenityTypes) {
+      this.$store.dispatch({ type: "setFilterByAmenity", amenityTypes });
+    },
     setFilter() {
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
-    },
-    setFilterByAmenity(amenityType) {
-      //TODO WITH IDO
-      console.log(amenityType);
-
-      this.$store.dispatch({
-        type: "setFilterByAmenity",
-        amenityFilter: {
-          name: amenityType,
-          value: this.filter.filterByAmeneties[amenityType]
-        }
-      });
     },
     setPlace(place) {
       place.geometry.location = {

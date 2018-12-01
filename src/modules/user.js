@@ -20,14 +20,6 @@ export default {
         checkLogin({ commit }, { user }) {
             userService.getUser(user.email, user.pass)
                 .then(user => commit.setUser)
-            // return AuthService.login(user)
-            //     .then(user => {
-            //         if (user) {
-            //             context.commit({ type: 'setUser', user })
-            //             localStorage.setItem('loggedInUser', JSON.stringify(user))
-            //         }
-            //         return user
-            //     })
         },
         addUser({ commit }, { user }) {
             userService.addUser(user)

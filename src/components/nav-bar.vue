@@ -5,7 +5,7 @@
         <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
-        <router-link to="/searchResult">Search Result</router-link>|
+        <router-link to="/searchResult">Search</router-link>|
         <a @click="showModal = true">Login</a>
         <!-- <router-link to="/about">About </router-link>| -->
         <!-- <router-link to="/userProfile">Profile </router-link>| -->
