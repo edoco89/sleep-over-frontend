@@ -382,4 +382,5 @@ export default {
   width: $container;
   margin: auto;
 }
+
 </style>

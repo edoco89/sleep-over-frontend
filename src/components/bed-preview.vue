@@ -1,30 +1,34 @@
 <template>
   <router-link :to="'/bed/' + bed._id" class="bed-preview">
     <section>
-      <img :src="bed.imgUrl" :title="bed.hostId" class="card-img">
+      <!-- <img :src="bed.imgUrl" :title="bed.hostId" class="card-img"> -->
+      <photo-carusel :pics="bed.imgUrls"></photo-carusel>
       <div class="text-preview">
-        <b>
-          {{bed.hostName+ "'s " + bed.type}}
-          <br>
+        <b>{{bed.hostName+ "'s " + bed.type}}</b>
+        <br>
+        <p>
           {{bed.location.street +', '+ bed.location.city[0].toUpperCase() + bed.location.city.slice(1)}}
-        </b>
-        <h4>
+          <br>
           {{bed.rating}}
           <img src="@/assets/img/star.png">
           ({{parseInt(Math.random()*50)}})
-        </h4>
+        </p>
       </div>
     </section>
   </router-link>
 </template>
 
 <script>
+import photoCarusel from "@/components/photo-carousel.vue";
 export default {
   props: {
     bed: {
       type: Object,
       default: {}
     }
+  },
+  components: {
+    photoCarusel
   }
 };
 </script>
@@ -36,23 +40,27 @@ export default {
   display: flex;
   text-align: left;
   justify-content: space-between;
-  // align-items: center;
-  width: 25%;
-  min-width: 150px;
-  // height: inherit;
-  margin: 20px 8px;
+  width: 100%;
   background-color: $bg-color-secondary;
   border-radius: 4px;
   padding: 10px;
   border: 1px solid $border-color;
   color: $text-color-cards;
+  &:hover {
+    text-decoration: none;
+  }
   .card-img {
     height: 150px;
     width: 100%;
     object-fit: cover;
   }
 }
-
+b {
+  font-size: 17px;
+}
+p {
+  font-size: 14px;
+}
 a {
   color: initial;
   text-decoration: initial;

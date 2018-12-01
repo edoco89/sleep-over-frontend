@@ -1,23 +1,35 @@
 <template>
-  <section :class="'modal-login' + show">
-    <h1>{{formType}}</h1>
-    <form @submit.prevent="setUser">
-      Email:
-      <input v-model="user.email" type="email" name="email">
-      Password:
-      <input v-model="user.pass" type="password" name="pass">
-      <button>{{formType}}</button>
-    </form>
-    <button @click="changeForm">{{(formType === 'Login')? 'Sign up': 'Login'}}</button>
+  <section>
+    <!-- @click="showModal" -->
+    <div :class="{'is-active' : showModal}" class="modal">
+      <div class="modal-background" @click="$emit('closeModal')"></div>
+      <div class="modal-content">
+        <h1>{{'SleepOver ' + formType}}</h1>
+        <form @submit.prevent="setUser">
+          <div>
+            <b>Email:</b>
+            <input v-model="user.email" type="email" name="email">
+          </div>
+          <div>
+            <b>Password:</b>
+            <input v-model="user.pass" type="password" name="pass">
+          </div>
+          <button>{{formType}}</button>
+          <span @click="changeForm">{{(formType === 'Login')? 'Join': 'Login'}}</span>
+        </form>
+      </div>
+      <button @click="$emit('closeModal')" class="modal-close is-large" aria-label="close"></button>
+    </div>
   </section>
 </template>
 <script>
 export default {
   props: {
-    show: String
+    showModal: Boolean
   },
   data() {
     return {
+      // showModal: false,
       formType: "Login",
       user: {
         email: "",
@@ -35,7 +47,7 @@ export default {
     },
     changeForm() {
       this.formType === "Login"
-        ? (this.formType = "Sign up")
+        ? (this.formType = "Join")
         : (this.formType = "Login");
     }
   }
@@ -43,13 +55,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.modal-login {
-  height: 100px;
-  background: blue;
-  position: relative;
-  bottom: 400px;
+.modal-content {
+  width: 100%;
+  form {
+    width: 85%;
+    margin: auto;
+    div {
+      font-size: 15px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      margin: 10px;
+    }
+    span,
+    button {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
 }
-.open-modal {
-  transform: translateY(500px);
+
+@media (min-width: 400px) {
+  .modal-content {
+    width: 400px;
+  }
 }
 </style>

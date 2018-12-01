@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "buefy": "^0.7.1",
     "bulma": "^0.7.2",
+    "element-ui": "^2.4.11",
     "node-sass": "^4.10.0",
     "register-service-worker": "^1.0.0",
     "sass-loader": "^7.1.0",

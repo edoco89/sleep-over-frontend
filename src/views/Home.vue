@@ -1,55 +1,75 @@
 <template>
   <section>
-    <div class="main-view">
-      <div class="main-banner mild-border">
-        <span class="summary-standout">Thousands of hosts
-          <br>around the world
-        </span>
-        <span class="secondary-header">A social community offering sleep accomodations
-          <br>with verified users and great guests
-        </span>
-      </div>
-
-      <div class="search-bar">
-       <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
-        <router-link
-          class="homepage-search"
-          tag="button"
-          to="/searchResult"
-          @click.native="setFilterByLocation">🔎</router-link>
-          </div>
-
-      <div class="people-images">
-        <div class="small-box mild-shadow">
-          <img src="/img/friends-sofa.jpg" alt="Food">
-          <span>Foodies</span>
+    <img class="main-view">
+    <div class="main-banner mild-border">
+      <div class="main-banner-text">
+        <div class="summary-standout">
+          Thousands of hosts
+          around the world
+          <br>
         </div>
-        <div class="small-box mild-shadow">
-          <img src="/img/friends-hang.jpg" alt="Sport">
-          <span>Sport</span>
+        <div class="secondary-header">
+          A social community offering sleep accomodations
+          with verified users and great guests
         </div>
-
-        <div class="small-box mild-shadow">
-          <img src="/img/friends-sofa.jpg" alt="Kids">
-          <span>With kids</span>
-        </div>
-
-        <div class="small-box mild-shadow">
-          <img src="/img/friends-hang.jpg" alt="Chill">
-          <span>Chill</span>
-        </div>
-      </div>
-
-      <div class="ido-sentence">Connecting people around the world</div>
-
-      <div class="world-images-container">
-        <div class="kosamui mild-shadow mild-border">Try the beaches of
-          <br>Ko Samui
-        </div>
-        <div class="santorini mild-shadow mild-border">Visit the beautiful Santorini</div>
-        <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
       </div>
     </div>
+    <div class="search-bar">
+      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+      <router-link
+        class="homepage-search"
+        tag="button"
+        to="/searchResult"
+        @click.native="setFilterByLocation"
+      >SEARCH</router-link>
+    </div>
+
+    <div class="catg-title">Find Your Kind Of People..</div>
+    <div class="people-images">
+      <div class="host-catg1">
+        <div
+          :class="'catg-hover ' + catg1"
+          @mouseover="catg1 = 'show-catg'"
+          @mouseout="catg1 = ''"
+        >Sport</div>
+        <img src="@/assets/img/sports.jpg" alt="Sport">
+      </div>
+      <div class="host-catg2">
+        <div
+          :class="'catg-hover ' + catg2"
+          @mouseover="catg2 = 'show-catg'"
+          @mouseout="catg2 = ''"
+        >Outdoors</div>
+        <img src="@/assets/img/outdoors.jpg" alt="Sport">
+      </div>
+      <div class="host-catg3">
+        <div
+          :class="'catg-hover ' + catg3"
+          @mouseover="catg3 = 'show-catg'"
+          @mouseout="catg3 = ''"
+        >Out Going</div>
+        <img src="@/assets/img/party.jpg" alt="Sport">
+      </div>
+      <div class="host-catg4">
+        <div
+          :class="'catg-hover ' + catg4"
+          @mouseover="catg4 = 'show-catg'"
+          @mouseout="catg4 = ''"
+        >Foodies</div>
+        <img src="@/assets/img/foodies.jpg" alt="Sport">
+      </div>
+    </div>
+
+    <div class="ido-sentence">Connecting people around the world</div>
+
+    <div class="world-images-container">
+      <div class="kosamui mild-shadow mild-border">Try the beaches of
+        <br>Ko Samui
+      </div>
+      <div class="santorini mild-shadow mild-border">Visit the beautiful Santorini</div>
+      <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
+    </div>
+    <!-- </img> -->
   </section>
 </template>
 
@@ -57,14 +77,21 @@
 <script>
 // @ is an alias to /src
 export default {
-  data(){
+  data() {
     return {
-      place: {}
-    }
+      place: {},
+      catg1: "",
+      catg2: "",
+      catg3: "",
+      catg4: ""
+    };
   },
   methods: {
     setFilterByLocation() {
-      this.$store.dispatch({ type: "setPlace", place: JSON.parse(JSON.stringify(this.place))});
+      this.$store.dispatch({
+        type: "setPlace",
+        place: JSON.parse(JSON.stringify(this.place))
+      });
     },
     setPlace(place) {
       place.geometry.location = {
@@ -73,7 +100,7 @@ export default {
       };
       this.place = JSON.parse(JSON.stringify(place));
     }
-  },
+  }
 };
 </script>
 
@@ -81,11 +108,13 @@ export default {
 @import "@/assets/scss/_vars.scss";
 
 .main-banner {
-  margin-top: 25px;
-  background-image: url("../assets/img/ponder.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right;
+  margin-top: -25px;
+  background-image: url("../assets/img/balcony-seat.jpg");
+  background-size: cover;
+  color: white;
+  // background-repeat: no-repeat;
+  background-position: top;
+  border: none;
   height: 320px;
   display: flex;
   flex-direction: column;
@@ -93,21 +122,31 @@ export default {
   font-family: $main-font-bold;
   text-align: left;
 
-  .summary-standout {
-    font-size: 2.1rem;
-    margin-left: 20px;
-  }
-
-  .secondary-header {
-    font-size: 1.4rem;
-    margin-left: 20px;
+  .main-banner-text {
+    width: $container;
+    margin: 15px auto;
+    .summary-standout {
+      font-size: 25px;
+      width: 250px;
+    }
+    .secondary-header {
+      font-size: 18px;
+      width: 200px;
+    }
   }
 }
 
 .search-bar {
-  margin-top: 75px;
+  margin: 0 auto;
   padding-right: 45px;
-  margin-left: 20px;
+  border-bottom: 1px solid $border-color;
+  padding: 10px;
+  background: #222222;
+  input {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+  }
 }
 
 input {
@@ -119,10 +158,15 @@ input {
 }
 
 .homepage-search {
-  background-color: white;
   padding: 10px;
+  color: white;
   border-radius: 4px;
   border: 0px;
+  background: rgb(117, 51, 51);
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 }
 
 .main-view {
@@ -137,43 +181,89 @@ input {
 }
 
 .people-images {
-  margin-top: 100px;
-  display: flex;
-  flex-direction: row;
+  width: $container;
+  margin: auto;
+  display: grid;
+  grid-gap: 5px;
+  // grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 55px 55px 55px 55px;
   color: $text-color-cards;
   font-size: 1.2rem;
   font-weight: bold;
-  text-shadow: 0.8px 0.8px black;
   font-family: $main-font-bold;
-  line-height: 90px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  .small-box {
-    border: 1px solid $border-color;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-  }
-
   img {
-    height: 90px;
-  }
-
-  span {
-    margin-left: 8px;
-    white-space: nowrap;
-  }
-
-  div {
-    height: 90px;
-    width: 320px;
-    margin: 10px;
-    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }
 
+.catg-title {
+  text-align: left;
+  width: $container;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-family: $main-font-bold;
+  font-size: 20px;
+}
+
+.catg-hover {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  color: black;
+  font-size: 25px;
+  background: rgba(128, 128, 128, 0.603);
+  opacity: 0;
+  transition: 0.4s;
+}
+.show-catg {
+  opacity: 1;
+  cursor: pointer;
+}
+.host-catg1 {
+  position: relative;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  img {
+    object-position: bottom;
+  }
+}
+
+.host-catg2 {
+  position: relative;
+  grid-row-start: 3;
+  grid-row-end: -1;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  img {
+    object-position: top;
+  }
+}
+
+.host-catg3 {
+  position: relative;
+  grid-row-start: 3;
+  grid-row-end: -1;
+}
+
+.host-catg4 {
+  position: relative;
+  grid-row-start: 1;
+  grid-row-end: -1;
+  grid-column: 4;
+}
+
 .world-images-container {
+  width: $container;
+  margin: auto;
+  justify-content: space-between;
   display: flex;
   color: white;
   font-size: 1.6rem;
@@ -183,8 +273,7 @@ input {
 
   div {
     height: 240px;
-    width: 370px;
-    margin: 10px;
+    width: 30%;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -197,6 +286,7 @@ input {
   .santorini {
     background-image: url("../assets/img/Santorini.jpg");
     background-size: cover;
+    margin: 0 10px;
     background-repeat: no-repeat;
   }
 
@@ -211,10 +301,29 @@ input {
     box-shadow: 1px 1px;
     transform: scale(1.02);
   }
-
-  // img {
-  //   height: 200px;
-  //   display: inline;
+}
+@media (min-width: 550px) {
+  // .main-banner {
+  //   height: 400px;
   // }
+  .people-images {
+    grid-template-rows: 75px 75px 75px 75px;
+  }
+}
+@media (min-width: 900px) {
+  .main-banner {
+    height: 400px;
+  }
+  .people-images {
+    grid-template-rows: 85px 85px 85px 85px;
+  }
+}
+@media (min-width: 1050px) {
+  .main-banner {
+    height: 500px;
+  }
+  .people-images {
+    grid-template-rows: 100px 100px 100px 100px;
+  }
 }
 </style>

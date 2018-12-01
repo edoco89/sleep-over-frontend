@@ -23,7 +23,7 @@ footer {
   grid-row: 1000;
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: -110px;
 }
 
 section {

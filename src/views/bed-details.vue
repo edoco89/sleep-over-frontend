@@ -2,11 +2,15 @@
   <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
-      <div class="gallery-img">
-        <img :src="bed.imgUrl">
-        <img :src="bed.imgUrl">
-        <img :src="bed.imgUrl">
-        <img :src="bed.imgUrl">
+      <div class="gallery-imgs" @click="showModal">
+        <img v-if="bed.imgUrls[0]" class="single-img" :src="bed.imgUrls[0]">
+        <img v-else src="@/assets/img/no-img.jpg" alt>
+        <img v-if="bed.imgUrls[1]" class="single-img" :src="bed.imgUrls[1]">
+        <img v-else src="@/assets/img/no-img.jpg" alt>
+        <img v-if="bed.imgUrls[2]" class="single-img" :src="bed.imgUrl[2]">
+        <img v-else src="@/assets/img/no-img.jpg" alt>
+        <img v-if="bed.imgUrls[3]" class="single-img" :src="bed.imgUrl[3]">
+        <img v-else src="@/assets/img/no-img.jpg" alt>
       </div>
     </div>
 
@@ -45,22 +49,37 @@
         <book-bed></book-bed>
       </div>
     </div>
-
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
+    <!-- photo gallery modal -->
+    <div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content"></div>
+      <photo-carusel :pics="bed.imgUrls"></photo-carusel>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
   </section>
 </template>
 <script>
 import bookBed from "@/components/book-bed.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
+import photoCarusel from "@/components/photo-carousel.vue";
 
 export default {
   data() {
-    return {};
+    return { showModal: false };
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
       this.$store.dispatch({ type: "getBedById", bedId });
+    }
+  },
+  methods: {
+    showModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
     }
   },
   computed: {
@@ -70,7 +89,8 @@ export default {
   },
   components: {
     bookBed,
-    bedAmenities
+    bedAmenities,
+    photoCarusel
   }
 };
 </script>
@@ -90,10 +110,16 @@ export default {
   width: 50%;
 }
 
-.gallery-img {
+.gallery-imgs {
   display: flex;
   flex-wrap: wrap;
   max-height: 340px;
+  .single-img {
+    &:hover {
+      cursor: pointer;
+      opacity: .8;
+    }
+  }
   img {
     border: 1px solid $border-color;
     border-top: none;
@@ -102,12 +128,6 @@ export default {
     object-fit: cover;
   }
 }
-
-// img {
-//   align-self: flex-start;
-//   margin: 25px 0;
-//   object-fit: cover;
-// }
 
 .bed-details {
   display: flex;
@@ -122,11 +142,7 @@ export default {
 
 h4 {
   text-align: left;
-  margin-bottom: 5px;
-  img {
-    bottom: -4px;
-    position: relative;
-  }
+  font-size: 17px;
 }
 .amenities {
   border: $border-color 1px solid;

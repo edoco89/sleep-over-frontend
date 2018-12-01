@@ -8,8 +8,14 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VCalendar from 'v-calendar'
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
- 
+Vue.use(ElementUI);
+Vue.use(BootstrapVue);
 Vue.use(Buefy);
 
 Vue.use(VueGoogleMaps, {

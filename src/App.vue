@@ -19,9 +19,13 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped lang="scss">
+@import '@/assets/scss/_vars.scss';
+
 .main-view {
-  margin-top: 60px;
+position: relative;
+bottom: -60px;
+margin-bottom: 50px;
 }
 
 #app {
@@ -38,11 +42,6 @@ export default {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
-}
-
-footer {
-  margin-top: 35px;
-  width: $container;
 }
 
 #nav a.router-link-exact-active {

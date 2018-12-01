@@ -1,6 +1,7 @@
 @import './vars.scss';
 @import '../../../node_modules/bulma/css/bulma.css';
 
+
 .mild-shadow {
     -webkit-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
     -moz-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
@@ -85,6 +86,15 @@ body{
     margin: 0;
     padding-bottom: 6rem;
     min-height: 100%;
+}
+
+
+//google menu
+// .pac-container{
+
+// }
+.pac-item{
+    padding: 5px;
 }
 
 
