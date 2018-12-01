@@ -1,55 +1,34 @@
 <template>
   <footer>
-    <section>
-     
-      <div>
-       Copy Rights 2018
-      </div>
-    </section>
+    <section>Copy Rights 2018</section>
   </footer>
 </template>
 
 <script>
 export default {
-methods:{
-   
-}
-}
+  methods: {}
+};
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/scss/_vars.scss';
+@import "@/assets/scss/_vars.scss";
 
 * {
-    font-family: $main-font-bold;
+  font-family: $main-font-bold;
 }
 
 footer {
-    height: 40px;
-     background-color: $bg-color;
+  height: 40px;
+  background-color: $bg-color;
+  grid-row: 1000;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: $container;
-    height: inherit;
-    margin: auto;
-    height: 2.5rem;
-}
-div{
-    width: fit-content;
-    *{
-        text-decoration: none;
-        color: $text-color;
-        div > *:hover{
-            cursor: pointer;
-            opacity: .8;
-        }
-    }
-}
-a{
-    margin: 5px;
+section {
+  width: $container;
+  margin: auto;
+  height: 2.5rem;
 }
 </style>

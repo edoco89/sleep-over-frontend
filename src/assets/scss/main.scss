@@ -69,11 +69,25 @@
     src: url("./fonts/Patrick_Hand/PatrickHand-Regular.ttf") 
   }
 
-body, html{
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing: border-box;
+}
+
+ html{
+    // margin: 0;
+    // padding: 0;
+    height: 100%;
+    box-sizing: border-box;
     color: $text-color;
 }
+
+body{
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
+}
+
 
 .logos {
     font-size: 2.2rem;

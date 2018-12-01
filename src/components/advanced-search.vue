@@ -1,6 +1,6 @@
 <template>
   <section class="advanced-search">
-    <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+    <GmapAutocomplete id="map2" placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
     <h3>
       Arrive
       <input v-model="filter.dateStart" type="date" required>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import mapService from "@/services/mapService.js";
+
 
 export default {
   data() {
@@ -68,9 +68,6 @@ export default {
   methods: {
     setFilter() {
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
-    },
-    setSearch(ev) {
-      console.log("filter", ev);
     },
     setFilterByAmenity(amenityType) {
       this.$store.dispatch({

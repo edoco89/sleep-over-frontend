@@ -5,7 +5,7 @@
         <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
-        <router-link to="/searchResult">Search Result</router-link>|
+        <router-link to="/searchResult">Search</router-link>|
         <a @click="showModal">Login</a>
         <!-- <router-link to="/about">About </router-link>| -->
         <!-- <router-link to="/userProfile">Profile </router-link>| -->
@@ -51,6 +51,9 @@ header{
     color: $text-color;
     background-color: $nav-bg-color;
     border-bottom: 1px $border-color solid;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 h1{
     width: fit-content;

@@ -8,6 +8,15 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VCalendar from 'v-calendar'
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+import VueSocketIO from 'vue-socket.io'
+ 
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:3000',
+    vuex: {
+        store,
+    }
+}))
 
  
 Vue.use(Buefy);
