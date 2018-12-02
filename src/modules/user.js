@@ -10,21 +10,31 @@ export default {
     },
     mutations: {
         setUser(state, { user }) {
-            console.log(user);
             state.user = user
+        },
+        userBeds(state, { userBeds }) {
+            console.log('BBBB', userBeds);
         }
     },
     actions: {
         checkLogin({ commit }, { user }) {
-            userService.getUser(user.email, user.pass)
+            userService.getUserLoggedIn(user.email, user.pass)
                 .then(user => commit.setUser)
         },
         addUser({ commit }, { user }) {
             userService.addUser(user)
                 .then(user => commit.setUser)
         },
+        getUserLoggedIn({ commit }, { user }) {
+            userService.getUserLoggedIn(user.email, user.pass)
+                .then(user => commit.setUser)
+        },
+        getUserById({ commit }, { userId }) {
+           return userService.getUserById(userId)
+                .then(user => user)
+        },
         getUserBeds({ commit }, { userId }) {
-            userService.getUserBeds(userId)
+            return userService.getUserBeds(userId)
                 .then(userBeds => commit.setUserBeds)
         },
         saveUser ({commit} , {user}) {
@@ -34,12 +44,3 @@ export default {
         }
     }
 }
-
-
-    // this.$store.commit({
-      //   type: 'setUser',
-      //   user: {
-      //     nickname : this.typedNickname,
-      //     _id : 'asad'
-      //   }
-      // })

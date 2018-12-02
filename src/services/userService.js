@@ -9,8 +9,8 @@ function query() {
 }
 
 function getUserBeds(userId) {
-    return axios.get(`${BASE_URL}/getBeds`, userId)
-        .then(res => res.data)
+    return axios.get(`${BASE_URL}/${userId}`)
+        .then(res => console.log(res.data))
 }
 
 function login({ nickname }) {
@@ -34,7 +34,7 @@ function saveUser(user, userId) {
     }
 }
 
-function getUser(email, pass) {
+function getUserLoggedIn(email, pass) {
     return axios.post(`${BASE_URL}/login`, { email, pass })
         .then(res => {
             sessionStorage.loggedinUser = JSON.stringify(res.data)
@@ -51,12 +51,19 @@ function addUser(user) {
 }
 
 
+function getUserById(userId) {
+    return axios.get(`${BASE_URL}/${userId}`)
+        .then(res => res.data)
+}
+
+
 export default {
     query,
     addUser,
     saveUser,
     removeUser,
-    getUser,
+    getUserById,
+    getUserLoggedIn,
     login,
     getUserBeds
 }
