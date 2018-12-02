@@ -1,5 +1,3 @@
-
-
 import userService from '../services/userService.js';
 
 export default {
@@ -31,6 +29,10 @@ export default {
         getUserById({ commit }, { userId }) {
            return userService.getUserById(userId)
                 .then(user => user)
+        },
+        getUserBeds({ commit }, { userId }) {
+            userService.getUserBeds(userId)
+                .then(userBeds => commit.setUserBeds)
         }
     }
 }

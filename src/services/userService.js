@@ -8,6 +8,11 @@ function query() {
         .then(res => res.data)
 }
 
+function getUserBeds(userId) {
+    return axios.get(`${BASE_URL}/getBeds`, userId)
+        .then(res => res.data)
+}
+
 function login({ nickname }) {
     return axios.put(`${BASE_URL}/login`, {
         nickname
@@ -58,7 +63,8 @@ export default {
     saveUser,
     removeUser,
     getUserById,
-    login
+    login,
+    getUserBeds
 }
 
 function _createUser(user) {

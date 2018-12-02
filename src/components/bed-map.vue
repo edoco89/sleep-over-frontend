@@ -21,15 +21,23 @@
     <button class="my-locatoin" @click="goToMyLocation">
       <img src="@/assets/img/my_location.png">
     </button>
+
     <section :class="chosenBed">
-      <!-- <img> -->
-      <b>{{bedDetails.title}}</b>
-      <p>{{bedDetails.rating}}</p>
+      <photo-carusel class="carousel-img" :pics="bedDetails.imgs"></photo-carusel>
+      <div class="bed-preview-details">
+        <b>{{bedDetails.title}}</b>
+        <p>{{bedDetails.desc}}</p>
+        {{bedDetails.rating}}
+        <img src="@/assets/img/star.png">
+        ({{parseInt(Math.random()*50)}})
+      </div>
     </section>
   </section>
 </template>
 
 <script>
+import photoCarusel from "@/components/photo-carousel.vue";
+
 export default {
   props: {
     beds: {
@@ -295,8 +303,13 @@ export default {
     showDetails(bed, index) {
       this.isChosen = true;
       this.bedDetails = {
-        img: "",
-        title: `${bed.type} in ${bed.location.city}`,
+        imgs: bed.imgUrls,
+        title: `${bed.hostName}'s ${bed.type}`,
+        desc:
+          bed.location.street +
+          ", " +
+          bed.location.city[0].toUpperCase() +
+          bed.location.city.slice(1),
         rating: bed.rating
       };
     },
@@ -317,6 +330,9 @@ export default {
       };
       return currMapCenter;
     }
+  },
+  components: {
+    photoCarusel
   }
 };
 </script>
@@ -336,12 +352,13 @@ export default {
 }
 .not-chosen {
   position: absolute;
-  bottom: -10px;
+  bottom: 0px;
   height: 0px;
   width: $container;
   transition: 0.4s;
   * {
     height: 0;
+    line-height: 0;
     visibility: hidden;
   }
 }
@@ -349,8 +366,8 @@ export default {
   position: relative;
   width: 40px;
   height: 40px;
-  top: -230px;
-  left: -12px;
+  top: -160px;
+  left: -10px;
   border: none;
   padding: 5px;
   background-color: rgb(255, 255, 255);
@@ -367,19 +384,30 @@ export default {
 }
 .chosen {
   position: absolute;
-  bottom: -10px;
-  height: 100px;
+  bottom: 0px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
   width: $container;
-  background: gray;
+  background: lightgray;
   transition: 0.4s;
   * {
     height: fit-content;
+    visibility: visible;
+  }
+  .bed-preview-details {
+    text-align: left;
+    align-self: flex-start;
+    margin-left: 15px;
+  }
+  .carousel-img {
+    width: 200px;
   }
 }
 .map-container {
-  height: 80vh;
+  height: 100%;
   width: $container;
   margin: auto;
 }
-
 </style>
