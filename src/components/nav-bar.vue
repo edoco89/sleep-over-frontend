@@ -7,7 +7,7 @@
       <div>
         <router-link to="/searchResult">Search</router-link>|
         <a v-if="!getUser" @click="showModal = true">Login</a>
-        <router-link v-else exact to="/userProfile">{{`Hello ${getUser.fullname}`}}</router-link>
+        <router-link v-else exact :to="'/userProfile/' +getUser._id">{{`Hello ${getUser.fullname}`}}</router-link>
         <!-- <router-link to="/about">About </router-link>| -->
       </div>
     </section>

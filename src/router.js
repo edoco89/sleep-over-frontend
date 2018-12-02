@@ -5,6 +5,8 @@ import userProfile from './views/user-profile.vue'
 import searchResult from './views/search-result.vue'
 import bedDetails from './views/bed-details.vue'
 import chatBox from './components/chat-box.vue'
+import bedEdit from './views/bed-edit.vue'
+import userEdit from './views/user-edit.vue'
 
 
 Vue.use(Router)
@@ -28,9 +30,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/userProfile',
+      path: '/userProfile/:userId',
       name: 'user-profile',
       component: userProfile,
+    },
+    {
+      path: '/userEdit/:userId',
+      name: 'user-edit',
+      component: userEdit
     },
     {
       path: '/chat/:chatId',
@@ -41,6 +48,11 @@ export default new Router({
       path: '/searchResult',
       name: 'search-result',
       component: searchResult
+    },
+    {
+      path: 'bed/edit/:bedId',
+      name: 'bed-edit',
+      component: bedEdit
     },
     {
       path: '/bed/:bedId',
