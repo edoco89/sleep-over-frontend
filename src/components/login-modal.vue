@@ -40,7 +40,9 @@ export default {
   methods: {
     setUser() {
       if (this.formType === "Login") {
-        this.$store.dispatch("checkLogin", { user: this.user });
+        this.$store.dispatch("checkLogin", { user: this.user }).then(() => {
+          this.$emit("closeModal");
+        });
       } else {
         this.$store.dispatch("addUser", { user: this.user });
       }
@@ -49,6 +51,11 @@ export default {
       this.formType === "Login"
         ? (this.formType = "Join")
         : (this.formType = "Login");
+    }
+  },
+  computed: {
+    getUser() {
+      return this.$store.getters.loggedInUser;
     }
   }
 };
