@@ -39,8 +39,14 @@
 export default {
   data() {
     return {
-      selectedDate: new Date(2018, 0, 10),
-      selectedValue: null,
+      selectedDate: {
+        start: new Date(),
+        end: new Date()
+      },
+      selectedValue: {
+        start: null,
+        end: null
+      },
       showModal: false
     };
   },
