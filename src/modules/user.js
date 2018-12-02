@@ -31,7 +31,7 @@ export default {
                 .then(user => user)
         },
         getUserBeds({ commit }, { userId }) {
-            userService.getUserBeds(userId)
+           return userService.getUserBeds(userId)
                 .then(userBeds => commit.setUserBeds)
         }
     }

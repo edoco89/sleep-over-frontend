@@ -35,7 +35,15 @@ export default {
     return {
       filter: {},
       place: {},
-      isShown: false
+      isShown: false,
+       selectedDate: {
+        start: new Date(),
+        end: new Date()
+      },
+      selectedValue: {
+        start: null,
+        end: null
+      }
     };
   },
   created() {
