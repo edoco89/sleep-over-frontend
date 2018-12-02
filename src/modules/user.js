@@ -1,5 +1,3 @@
-// import AuthService from '../services/authService.js';
-import AuthService from '../services/userService.js';
 import userService from '../services/userService.js';
 
 export default {
@@ -24,6 +22,10 @@ export default {
         addUser({ commit }, { user }) {
             userService.addUser(user)
                 .then(user => commit.setUser)
+        },
+        getUserBeds({ commit }, { userId }) {
+            userService.getUserBeds(userId)
+                .then(userBeds => commit.setUserBeds)
         }
     }
 }

@@ -3,33 +3,13 @@
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
       <div class="gallery-imgs">
-        <img
-          v-if="bed.imgUrls[0]"
-          class="single-img"
-          @click="showModal = true"
-          :src="bed.imgUrls[0]"
-        >
+        <img v-if="bed.imgUrls[0]" class="single-img" @click="openGallery" :src="bed.imgUrls[0]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img
-          v-if="bed.imgUrls[1]"
-          class="single-img"
-          @click="showModal = true"
-          :src="bed.imgUrls[1]"
-        >
+        <img v-if="bed.imgUrls[1]" class="single-img" @click="openGallery" :src="bed.imgUrls[1]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img
-          v-if="bed.imgUrls[2]"
-          class="single-img"
-          @click="showModal = true"
-          :src="bed.imgUrl[2]"
-        >
+        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrl[2]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img
-          v-if="bed.imgUrls[3]"
-          class="single-img"
-          @click="showModal = true"
-          :src="bed.imgUrl[3]"
-        >
+        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrl[3]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
       </div>
     </div>
@@ -40,9 +20,9 @@
           <h5 class="minor-header">{{bed.type}}</h5>
           <h2 class="summary-standout">
             {{bed.hostName+ ' ' + bed.type}} in
-            {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1)}}
+            {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1) + ', ' + bed.location.country[0].toUpperCase() + bed.location.country.slice(1)}}
           </h2>
-          <h4 class="secondary-header">{{bed.location.country}}</h4>
+          <a href="#" class="secondary-header" @click="openDetails">{{'About ' + bed.hostName}}</a>
         </div>
 
         <div class="host-details">
@@ -71,11 +51,13 @@
     </div>
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
     <!-- photo gallery modal -->
-    <div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-content"></div>
-      <photo-carusel :pics="bed.imgUrls"></photo-carusel>
-      <button class="modal-close is-large" aria-label="close"></button>
+    <div :class="{'is-active' : showModal}" class="modal">
+      <div @click="closeModal" class="modal-background"></div>
+      <div class="modal-content">
+        <user-details v-if="isDetalis"></user-details>
+        <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
+      </div>
+      <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
   </section>
 </template>
@@ -83,10 +65,14 @@
 import bookBed from "@/components/book-bed.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
 import photoCarusel from "@/components/photo-carousel.vue";
+import userDetails from "@/components/userDetails.vue";
 
 export default {
   data() {
-    return { showModal: false };
+    return {
+      showModal: false,
+      isDetalis: false
+    };
   },
   created() {
     const bedId = this.$route.params.bedId;
@@ -105,6 +91,14 @@ export default {
     },
     show() {
       console.log("showing");
+    },
+    openDetails() {
+      this.isDetalis = true;
+      this.showModal = true;
+    },
+    openGallery() {
+      this.isDetalis = false;
+      this.showModal = true;
     }
   },
   computed: {
@@ -115,7 +109,8 @@ export default {
   components: {
     bookBed,
     bedAmenities,
-    photoCarusel
+    photoCarusel,
+    userDetails
   }
 };
 </script>

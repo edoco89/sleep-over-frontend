@@ -6,11 +6,11 @@
       <bed-list :beds="beds"></bed-list>
     </div>
 
-    <div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
-      <div class="modal-background"></div>
+    <div :class="{'is-active' : showModal}" class="modal">
+      <div @click="closeModal" class="modal-background"></div>
       <div class="modal-content"></div>
       <result-map v-if="beds.length" :beds="beds"></result-map>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
   </section>
 </template>
