@@ -63,6 +63,7 @@ export default {
     saveUser,
     removeUser,
     getUserById,
+    getUserLoggedIn,
     login,
     getUserBeds
 }
