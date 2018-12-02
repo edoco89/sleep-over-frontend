@@ -32,6 +32,7 @@ export default {
             return userService.getUserById(userId)
                 .then(user => user)
         },
+        //TO BE CONTINUED
         saveUser({ commit }, { user }) {
             userService.saveUser(user.id, user)
                 .then(user => commit.user)
