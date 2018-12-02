@@ -8,15 +8,16 @@
         <form @submit.prevent="setUser">
           <div v-if="formType === 'Join'">
             <b>Full Name:</b>
-            <input v-model="user.fullname" type="text" name="fullname" placeholder="Your Name">
+            <input v-model="user.fullname" type="text" name="fullname" required placeholder="Your Name">
           </div>
           <div>
             <b>Email:</b>
-            <input v-model="user.email" type="email" name="email" placeholder="Email">
+            <input v-model="user.email" type="email" name="email" required placeholder="Email">
           </div>
           <div>
+            <!-- SET VALIDATION! -->
             <b>Password:</b>
-            <input v-model="user.pass" type="password" name="pass">
+            <input v-model="user.pass" type="password" required name="pass">
           </div>
           <div v-if="formType === 'Join'">
             <!-- v-validate -->
@@ -49,12 +50,11 @@ export default {
   methods: {
     setUser() {
       if (this.formType === "Login") {
-        this.$store.dispatch("checkLogin", { user: this.user }).then(() => {
-          this.$emit("closeModal");
-        });
+        this.$store.dispatch("checkLogin", { user: this.user });
       } else {
         this.$store.dispatch("addUser", { user: this.user });
       }
+      this.$emit("closeModal");
     },
     changeForm() {
       this.formType === "Login"

@@ -5,12 +5,15 @@ export default {
         user: null
     },
     getters: {
-        isUserLoggedIn: state => !!state.user,
         loggedInUser: state => state.user
     },
     mutations: {
         setUser(state, { loggeduser }) {
             state.user = loggeduser
+        },
+        logout(state) {
+            state.user = null
+            sessionStorage.clear()
         },
         userBeds(state, { userBeds }) {
             console.log('BBBB', userBeds);
@@ -23,7 +26,7 @@ export default {
         },
         addUser({ commit }, { user }) {
             userService.addUser(user)
-                .then(user => commit.setUser)
+                .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
         getUserLoggedIn({ commit }, { user }) {
             userService.getUserLoggedIn(user.email, user.pass)
@@ -40,7 +43,12 @@ export default {
         saveUser({ commit }, { user }) {
             userService.saveUser(user.id, user)
                 .then(user => commit.user)
-
+        },
+        reconnectUser({ commit }, { loggeduser }) {
+            commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
+        },
+        logout({ commit }) {
+            commit({ type: "logout" })
         }
     }
 }
