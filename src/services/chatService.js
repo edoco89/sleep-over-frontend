@@ -1,7 +1,9 @@
 'use strict'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/api/chat'
+const BASE_URL = (process.env.NODE_ENV !== 'development')
+ ? '/api/chat'
+ : '//localhost:3000/api/chat';
 
 function getById(chatId) {
     return axios.get(`${BASE_URL}/${chatId}`)
