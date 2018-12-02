@@ -28,22 +28,30 @@ export default {
             userService.addUser(user)
                 .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
-        getUserLoggedIn({ commit }, { user }) {
-            userService.getUserLoggedIn(user.email, user.pass)
-                .then(loggeduser => console.log('user', loggeduser))
-        },
         getUserById({ commit }, { userId }) {
             return userService.getUserById(userId)
                 .then(user => user)
-        },
-        getUserBeds({ commit }, { userId }) {
-            return userService.getUserBeds(userId)
-                .then(userBeds => commit.setUserBeds)
         },
         saveUser({ commit }, { user }) {
             userService.saveUser(user.id, user)
                 .then(user => commit.user)
         },
+        //WORKS. NOT IN USE CURRENTLY
+        queryUsers({ commit }) {
+            userService.query()
+            .then(users => console.log(users))
+        },
+        //WORKS. NOT IN USE CURRENTLY
+        removeUser({ commit }, { id }) {
+            userService.removeUser(id)
+                .then(() => console.log('removed successfuly'))
+        },
+        //INTEGRATE WITH BEDS
+        getUserBeds({ commit }, { userId }) {
+            return userService.getUserBeds(userId)
+                .then(userBeds => commit.setUserBeds)
+        },
+        //DONT USE SERVICE
         reconnectUser({ commit }, { loggeduser }) {
             commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
         },

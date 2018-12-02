@@ -2,33 +2,11 @@
 import axios from 'axios'
 
 const BASE_URL = (process.env.NODE_ENV !== 'development')
- ? '/api/user'
- : '//localhost:3000/api/user';
+    ? '/api/user'
+    : '//localhost:3000/api/user';
 
 
-function query() {
-    return axios.get(`${BASE_URL}`)
-        .then(res => res.data)
-}
-
-function getUserBeds(userId) {
-    return axios.get(`${BASE_URL}/userBeds/${userId}`)
-        .then(res => console.log(res.data))
-}
-
-// function login({ nickname }) {
-//     return axios.put(`${BASE_URL}/login`, {
-//         nickname
-//     })
-//         .then(res => res.data)
-// }
-
-function removeUser(userId) {
-    return axios.delete(`${BASE_URL}/${userId}`)
-        .then(res => res.data)
-}
-
-//TAKE CARE OF ADD UPDATE
+//TAKE CARE OF ADD-UPDATE
 function saveUser(user, userId) {
     if (user._id) return axios.put(`${BASE_URL}/${user._id}`, user).then(res => res.data)
     else {
@@ -37,6 +15,7 @@ function saveUser(user, userId) {
     }
 }
 
+//CHECK'S LOGIN
 function getUserLoggedIn(email, pass) {
     return axios.post(`${BASE_URL}/login`, { email, pass })
         .then(res => {
@@ -46,6 +25,7 @@ function getUserLoggedIn(email, pass) {
         .catch(err => console.log(err, 'Create msg for log-in fail'))
 }
 
+//SIGN UP - JOIN
 function addUser(user) {
     const newUser = _createUser(user)
     return axios.post(`${BASE_URL}/signup`, { newUser })
@@ -56,11 +36,30 @@ function addUser(user) {
         .catch(err => console.log('show user excist ERRROR ', err))
 }
 
-
+//GET BY ID
 function getUserById(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
         .then(res => res.data)
 }
+
+//NEED INTEGRATE 
+function getUserBeds(userId) {
+    return axios.get(`${BASE_URL}/userBeds/${userId}`)
+        .then(res => console.log(res.data))
+}
+
+//WORKS. NOT IN USE CURRENTLY
+function query() {
+    return axios.get(`${BASE_URL}`)
+        .then(res => res.data)
+}
+
+//WORKS. NOT IN USE CURRENTLY
+function removeUser(userId) {
+    return axios.delete(`${BASE_URL}/${userId}`)
+        .then(res => res.data)
+}
+
 
 
 export default {
