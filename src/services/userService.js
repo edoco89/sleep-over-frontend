@@ -1,5 +1,6 @@
 'use strict'
 import axios from 'axios'
+import { create } from 'domain';
 const BASE_URL = 'http://localhost:3000/api/user'
 
 
@@ -40,14 +41,17 @@ function getUserLoggedIn(email, pass) {
             sessionStorage.loggedinUser = JSON.stringify(res.data)
             return res.data;
         })
+        .catch(err => console.log(err, 'Create msg for log-in fail'))
 }
 
 function addUser(user) {
-    return axios.post(`${BASE_URL}/signup`, user)
+    const newUser = _createUser(user)
+    return axios.post(`${BASE_URL}/signup`, { newUser })
         .then(res => {
             sessionStorage.loggedinUser = JSON.stringify(res.data)
             return res.data;
         })
+        .catch(err => console.log('show user excist ERRROR ', err))
 }
 
 
@@ -69,9 +73,9 @@ export default {
 
 function _createUser(user) {
     return {
-        fullname: user.name,
+        fullname: user.fullname,
         email: user.email,
-        password: user.email,
+        password: user.pass,
         hobbies: (user.hobbies) ? user.hobbies : [],
         languages: (user.languages) ? user.languages : [],
         isHost: false,
