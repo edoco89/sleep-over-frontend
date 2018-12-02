@@ -1,7 +1,7 @@
 <template>
   <section class="main-grid">
-    <h2>Manage Your Profile</h2>
-    <div class="pic-box">
+   
+    <div class="pic-box mild-border">
       <img class="single-img" :src="user.imgUrl">
       <b>{{user.fullname}}</b>
       <p>{{bed.location.city}}, {{bed.location.country}}</p>
@@ -13,27 +13,40 @@
       <br>
       <span>{{user.hostBadge}}</span> |
       <span>42 Reviews</span>
+      <router-link
+        class="user-edit"
+        tag="button"
+        exact :to="'/userEdit/' + user._id"
+      >Edit</router-link>
 
       <!-- temporary - calculate num of reviewes  -->
     </div>
 
     <div class="bed-box">
       Your {{bed.type}} In {{bed.location.city}}
-      <img class="bed-img" :src="bed.imgUrls[0]">
-      Bed ameneties
-      <br>components
+      <!-- <img class="bed-img" :src="bed.imgUrls[0]"> -->
+     
+       <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
+       <br>
+      <b>Home Amenities:</b>
+          <bed-amenities :details="bed.ameneties"></bed-amenities>
     </div>
 
     <div class="about-me-box">
         <!-- <input type="number" v-model="user.age" placeholder="User age"> -->
-        <button>Save</button>
     
       <!-- <input v-model="user.age">{{user.age}}</b> -->
-      <b>{{user.gender}}</b>
+      <div class="select">
+  <select v-model="user.gender" value="user.gender">
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+</div>
+      <select>{{user.gender}}</select>
 
       <button @click="saveUser"> Save Changes </button>
       <ul>
-        <li v-for="(hobbie,idx) in user.hubbies" :key="idx">{{hobbie}}</li>
+        <li v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie}}</li>
       </ul>
       <p>{{user.languages.join(' ,')}}</p>
     </div>
@@ -44,6 +57,7 @@
       Some stuff
     </div>
     <div class="review-box">
+      {{user}}
       <ul>
         <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
       </ul>
@@ -53,19 +67,30 @@
 </template>
 
 <script>
+import photoCarusel from "@/components/photo-carousel.vue";
+import bedAmenities from "@/components/bed-amenities.vue";
+
 export default {
   created() {
     const userId = this.$route.params.userId;
     if (userId) {
-      this.$store.dispatch({ type: "getUserById", userId });
+      this.$store.dispatch({ type: "getUserById", userId })
     }
   },
+    computed: {
+    user() {
+      return this.$store.getters.loggedInUser;
+    },
+    
+  },
+  
   methods: {
 saveUser() {
+  console.log('save user func' , this.user)
      if (this.user.age) {
                 this.$store.dispatch({type: 'saveUser', todo: this.user})
                     .then(_=> {
-                        this.$router.push('/userProfile')                      
+                        // this.$router.push('/userProfile')                      
                     })
                     // .catch(_=> {
                     //     EventBusService.$emit(SHOW_MSG, {txt: 'Could not save Todo', type: 'danger'})
@@ -77,35 +102,6 @@ saveUser() {
   },
   data() {
     return {
-      user: {
-        fullname: "Jake Cohen",
-        email: "edo@gogo.gov",
-        password: "fdvvf",
-        hobbies: ["Sports", "Wine", "Friends"],
-        languages: ["English", "Hebrew"],
-        isHost: true,
-        aboutMe:
-          "I will tell you about myself but then I will be forced to kill you",
-        guestBadge: "Begginer",
-        hostBadge: "Super Hoster",
-        age: 29,
-        gender: "male",
-        imgUrl:
-          "https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg",
-        hostBedsId: [12, 67],
-        bedVisitedId: [],
-        reviews: [
-          {
-            name: "Reviewer person",
-            review: "It was awesome"
-          },
-          {
-            name: "reviewer person",
-            review: "terrrible sflnsdfsdnf lorem"
-          }
-        ],
-        chatHistory: []
-      },
       bed: {
         numberOfVisits: 43,
         type: "bed",
@@ -116,9 +112,22 @@ saveUser() {
         imgUrls: [
           "http://49cpdx1eot3t404114d6kgn480-wpengine.netdna-ssl.com/uae/wp-content/uploads/sites/15/2015/05/couchsurfing-2-.jpg",
           "https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg"
-        ]
+        ],
+        ameneties: {
+            "accessibility": true,
+            "wifi": true,
+            "acceptsPets": true,
+            "airConditioner": true,
+            "shampoo": true,
+            "parking": true,
+            "children": true
+        }
       }
     };
+  },
+  components: {
+    photoCarusel,
+    bedAmenities
   }
 };
 </script>
@@ -129,7 +138,6 @@ saveUser() {
 section {
   width: $container;
   margin: auto;
-  margin-top: 10px;
   display: grid;
   grid-gap: 5px;
   // grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -157,6 +165,10 @@ section {
   grid-column: 1;
   grid-row: 4;
   background-color: rgb(231, 225, 225);
+  display: flex;
+  flex-direction: column;
+
+  
 }
 
 .about-me-box {
@@ -177,6 +189,11 @@ section {
   background-color: rgb(243, 212, 218);
 }
 
+.user-photo-carusel {
+  height: 100%;
+  width: 100%;
+}
+
 @media (min-width: 550px) {
   .main-grid {
     grid-template-rows: 85px 85px 85px 85px 170px;
@@ -190,6 +207,10 @@ section {
 
   .main-grid {
     grid-template-rows: 100px 100px 100px 100px 200px;
+  }
+
+  .main-grid > * {
+    margin: 5px 0;
   }
 
 .pic-box {
@@ -206,13 +227,13 @@ section {
 
 .bed-box {
   grid-column: 2 / span 2;
-  grid-row: 2 / span 2;
+  grid-row: 2 / span 4;
   background-color: rgb(233, 233, 184);
 }
 
 .about-me-box {
   grid-column: 2 / span 2;
-  grid-row: 4 / span 2;
+  grid-row: 6 / span 2;
   background-color: rgb(202, 238, 202);
 }
 
@@ -224,7 +245,7 @@ section {
 
 .review-box {
   grid-column: 1 / span 3;
-  grid-row: 5 / span 2;
+  grid-row: 6 / span 2;
   background-color: rgb(243, 212, 218);
 }
 
