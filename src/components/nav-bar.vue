@@ -4,7 +4,7 @@
       <router-link to="/">
         <h1 class="logo">Sleepover</h1>
       </router-link>
-      <button @click="$store.dispatch('queryUsers')">query!!</button>
+      <!-- <button @click="$store.dispatch('queryUsers')">query!!</button> -->
       <div>
         <router-link to="/searchResult">Search</router-link>|
         <a v-if="!getUser" @click="showModal = true">Login</a>
