@@ -1,7 +1,9 @@
 'use strict'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/api/bed'
+const BASE_URL = (process.env.NODE_ENV !== 'development')
+ ? '/api/bed'
+ : '//localhost:3000/api/bed';
 
 function query(filter = null) {
     const searchParams = new URLSearchParams();

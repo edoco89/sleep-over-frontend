@@ -1,7 +1,9 @@
 'use strict'
 import axios from 'axios'
-import { create } from 'domain';
-const BASE_URL = 'http://localhost:3000/api/user'
+
+const BASE_URL = (process.env.NODE_ENV !== 'development')
+ ? '/api/user'
+ : '//localhost:3000/api/user';
 
 
 function query() {
