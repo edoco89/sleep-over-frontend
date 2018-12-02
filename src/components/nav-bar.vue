@@ -6,9 +6,9 @@
       </router-link>
       <div>
         <router-link to="/searchResult">Search</router-link>|
-        <a @click="showModal = true">Login</a>|
+        <a v-if="!getUser" @click="showModal = true">Login</a>
+        <router-link v-else exact to="/userProfile">{{`Hello ${getUser.fullname}`}}</router-link>
         <!-- <router-link to="/about">About </router-link>| -->
-        <router-link exact to="/userProfile"> User Profile </router-link>
       </div>
     </section>
     <login-modal :showModal="showModal" @closeModal="closeModal"></login-modal>
@@ -26,6 +26,11 @@ export default {
   methods: {
     closeModal() {
       this.showModal = false;
+    }
+  },
+  computed: {
+    getUser() {
+      return this.$store.getters.loggedInUser;
     }
   },
   components: {

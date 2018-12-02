@@ -6,13 +6,22 @@
       <div class="modal-content">
         <h1>{{'SleepOver ' + formType}}</h1>
         <form @submit.prevent="setUser">
+          <div v-if="formType === 'Join'">
+            <b>Full Name:</b>
+            <input v-model="user.fullname" type="text" name="fullname" placeholder="Your Name">
+          </div>
           <div>
             <b>Email:</b>
-            <input v-model="user.email" type="email" name="email">
+            <input v-model="user.email" type="email" name="email" placeholder="Email">
           </div>
           <div>
             <b>Password:</b>
             <input v-model="user.pass" type="password" name="pass">
+          </div>
+          <div v-if="formType === 'Join'">
+            <!-- v-validate -->
+            <b>Verify Password:</b>
+            <input type="password">
           </div>
           <button>{{formType}}</button>
           <span @click="changeForm">{{(formType === 'Login')? 'Join': 'Login'}}</span>
@@ -29,18 +38,20 @@ export default {
   },
   data() {
     return {
-      // showModal: false,
       formType: "Login",
       user: {
         email: "",
-        pass: ""
+        pass: "",
+        fullname: ""
       }
     };
   },
   methods: {
     setUser() {
       if (this.formType === "Login") {
-        this.$store.dispatch("checkLogin", { user: this.user });
+        this.$store.dispatch("checkLogin", { user: this.user }).then(() => {
+          this.$emit("closeModal");
+        });
       } else {
         this.$store.dispatch("addUser", { user: this.user });
       }
@@ -49,6 +60,11 @@ export default {
       this.formType === "Login"
         ? (this.formType = "Join")
         : (this.formType = "Login");
+    }
+  },
+  computed: {
+    getUser() {
+      return this.$store.getters.loggedInUser;
     }
   }
 };

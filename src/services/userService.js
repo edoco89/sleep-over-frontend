@@ -12,16 +12,16 @@ function query() {
 }
 
 function getUserBeds(userId) {
-    return axios.get(`${BASE_URL}/${userId}`)
+    return axios.get(`${BASE_URL}/userBeds/${userId}`)
         .then(res => console.log(res.data))
 }
 
-function login({ nickname }) {
-    return axios.put(`${BASE_URL}/login`, {
-        nickname
-    })
-        .then(res => res.data)
-}
+// function login({ nickname }) {
+//     return axios.put(`${BASE_URL}/login`, {
+//         nickname
+//     })
+//         .then(res => res.data)
+// }
 
 function removeUser(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
@@ -67,7 +67,6 @@ export default {
     removeUser,
     getUserById,
     getUserLoggedIn,
-    login,
     getUserBeds
 }
 
