@@ -68,8 +68,8 @@ export default {
     saveUser,
     removeUser,
     getUserById,
-    getUserLoggedIn,
-    getUserBeds
+    getUserBeds,
+    getUserLoggedIn
 }
 
 function _createUser(user) {

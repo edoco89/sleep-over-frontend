@@ -14,6 +14,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueSocketIO from 'vue-socket.io'
+import moment from 'moment';
+import VueMomentJS from 'vue-momentjs';
+ 
+
+
  
 Vue.use(new VueSocketIO({
     debug: true,
@@ -22,7 +27,7 @@ Vue.use(new VueSocketIO({
         store,
     }
 }))
-
+Vue.use(VueMomentJS, moment);
 Vue.use(ElementUI);
 Vue.use(BootstrapVue);
 Vue.use(Buefy);
@@ -49,5 +54,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  moment,
   render: h => h(app)
 }).$mount('#app')

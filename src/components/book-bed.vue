@@ -3,8 +3,7 @@
     <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
     <link
       rel="stylesheet"
-      href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
-    >
+      href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     <v-date-picker mode="range" :min-date="new Date()" v-model="selectedDate">
       <b-field :type="inputState.type" slot-scope="props">
         <b-input
@@ -16,7 +15,6 @@
           expanded
         ></b-input>
         <p class="control" v-if="selectedValue">
-          <!-- <a :class="["button", inputState.type]" @click="selectedValue = null">Clear</a> -->
         </p>
       </b-field>
     </v-date-picker>

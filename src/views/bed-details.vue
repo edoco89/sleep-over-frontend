@@ -82,7 +82,7 @@ export default {
   },
   watch: {
     showModal() {
-      console.log(this.showModal);
+
     }
   },
   methods: {

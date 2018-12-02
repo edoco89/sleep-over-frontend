@@ -7,10 +7,6 @@ export default {
         place: {},
         filter: {
             byLocation: {},
-            dateStart: '2018-01-01',
-            dateEnd: '2029-12-31',
-            byCountry: '',
-            byCity: '',
             sortBy: {
                 type: 'rating',
                 order: -1
@@ -23,6 +19,10 @@ export default {
                 "Air Conditioner": false,
                 Shampoo: false,
                 Parking: false
+            },
+            selectedDate: {
+                start: new Date(),
+                end: new Date()
             }
         }
     },
@@ -31,7 +31,8 @@ export default {
         getCurrBed: (state) => state.currBed,
         getFilter: (state) => state.filter,
         getPlace: (state) => JSON.parse(JSON.stringify(state.place)),
-        getCurrentMapCenter: (state) => state.filter.byLocation
+        getCurrentMapCenter: (state) => state.filter.byLocation,
+        getSelectedDate: (state) => state.filter.selectedDate
     },
     mutations: {
         setBeds(state, { beds }) {
@@ -42,6 +43,8 @@ export default {
         },
         setFilter(state, { filter }) {
             state.filter = filter;
+            state.filter.selectedDate.start = filter.selectedDate.start.toLocaleDateString("en-US");
+            state.filter.selectedDate.end = filter.selectedDate.end.toLocaleDateString("en-US");
         },
         setFilterByAmenity(state, { amenityTypes }) {
             for (let filter in state.filter.filterByAmeneties) {
@@ -57,6 +60,10 @@ export default {
         setFilterByLocation(state, { place }) {
             state.filter.byLocation.lat = place.geometry.location.lat;
             state.filter.byLocation.lng = place.geometry.location.lng;
+        },
+        setFilterByDates(state, { selectedDate }) {
+            state.filter.selectedDate.start = selectedDate.start.toLocaleDateString("en-US");
+            state.filter.selectedDate.end = selectedDate.end.toLocaleDateString("en-US");
         },
         setFilterByMyLocation(state, { place }) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -103,6 +110,9 @@ export default {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByLocation', place })
         },
+        setFilterByDates({ commit }, { selectedDate }) {
+            commit({ type: 'setFilterByDates', selectedDate })
+        },    
         setFilterByMyLocation({ commit, dispatch }, { place }) {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByMyLocation', place })
