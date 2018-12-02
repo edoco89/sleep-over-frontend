@@ -5,21 +5,21 @@ const BASE_URL = 'http://localhost:3000/api/bed'
 
 function query(filter = null) {
     const searchParams = new URLSearchParams();
-    const sortParams = new URLSearchParams();
-    const searchAmenetiesParams = new URLSearchParams();
     if (filter) {
         searchParams.append('byLat', filter.byLocation.lat)
         searchParams.append('byLng', filter.byLocation.lng)
-        sortParams.append('type', filter.sortBy.type)
-        sortParams.append('order', filter.sortBy.order)
-        searchAmenetiesParams.append('accessibility', filter.filterByAmeneties.Accessible)
-        searchAmenetiesParams.append('wifi', filter.filterByAmeneties.Wifi)
-        searchAmenetiesParams.append('airConditioner', filter.filterByAmeneties["Air Conditioner"])
-        searchAmenetiesParams.append('shampoo', filter.filterByAmeneties.Shampoo)
-        searchAmenetiesParams.append('parking', filter.filterByAmeneties.Parking)
-        searchAmenetiesParams.append('children', filter.filterByAmeneties["Children Ok"])
+        searchParams.append('type', filter.sortBy.type)
+        searchParams.append('order', filter.sortBy.order)
+        searchParams.append('accessibility', filter.filterByAmeneties.Accessible)
+        searchParams.append('wifi', filter.filterByAmeneties.Wifi)
+        searchParams.append('airConditioner', filter.filterByAmeneties["Air Conditioner"])
+        searchParams.append('shampoo', filter.filterByAmeneties.Shampoo)
+        searchParams.append('parking', filter.filterByAmeneties.Parking)
+        searchParams.append('children', filter.filterByAmeneties["Children Ok"])
+        searchParams.append('byStart', filter.selectedDate.start)
+        searchParams.append('byEnd', filter.selectedDate.end)
     }
-    const routeUrl = `${BASE_URL}?${searchParams}&${sortParams}&${searchAmenetiesParams}`
+    const routeUrl = `${BASE_URL}?${searchParams}`
     return axios.get(routeUrl)
         .then(res => res.data)
 }

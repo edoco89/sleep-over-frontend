@@ -5,18 +5,21 @@ export default {
         user: null
     },
     getters: {
-        isUserLoggedIn: state => !!state.user._id,
+        isUserLoggedIn: state => !!state.user,
         loggedInUser: state => state.user
     },
     mutations: {
-        setUser(state, { user }) {
-            state.user = user
+        setUser(state, { loggeduser }) {
+            state.user = loggeduser
+        },
+        userBeds(state, { userBeds }) {
+            console.log('BBBB', userBeds);
         }
     },
     actions: {
         checkLogin({ commit }, { user }) {
-            userService.getUserLoggedIn(user.email, user.pass)
-                .then(user => commit.setUser)
+            return userService.getUserLoggedIn(user.email, user.pass)
+                .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
         addUser({ commit }, { user }) {
             userService.addUser(user)
@@ -24,15 +27,20 @@ export default {
         },
         getUserLoggedIn({ commit }, { user }) {
             userService.getUserLoggedIn(user.email, user.pass)
-                .then(user => commit.setUser)
+                .then(loggeduser => console.log('user', loggeduser))
         },
         getUserById({ commit }, { userId }) {
-           return userService.getUserById(userId)
+            return userService.getUserById(userId)
                 .then(user => user)
         },
         getUserBeds({ commit }, { userId }) {
-           return userService.getUserBeds(userId)
+            return userService.getUserBeds(userId)
                 .then(userBeds => commit.setUserBeds)
+        },
+        saveUser({ commit }, { user }) {
+            userService.saveUser(user.id, user)
+                .then(user => commit.user)
+
         }
     }
 }

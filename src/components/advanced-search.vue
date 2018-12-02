@@ -9,14 +9,19 @@
       >
       <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
       <div class="date-filter">
-        <h6>
-          From:
-          <input v-model="filter.dateStart" type="date" required>
-        </h6>
-        <h6>
-          To:
-          <input v-model="filter.dateEnd" type="date" required>
-        </h6>
+    <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
+    <v-date-picker mode="range" :min-date="new Date()" v-model="filter.selectedDate">
+      <b-field slot-scope="props">
+        <b-input
+          type="text"
+          icon="calendar"
+          placeholder="Pick your traveling time"
+          :value="props.inputValue"
+          @change.native="props.updateValue($event.target.value)"
+          expanded></b-input>
+      </b-field>
+    </v-date-picker>
       </div>
       <button @click="setFilter">GO!</button>
     </div>
@@ -36,14 +41,6 @@ export default {
       filter: {},
       place: {},
       isShown: false,
-       selectedDate: {
-        start: new Date(),
-        end: new Date()
-      },
-      selectedValue: {
-        start: null,
-        end: null
-      }
     };
   },
   created() {
@@ -74,6 +71,9 @@ export default {
     },
     place() {
       return this.$store.getters.getPlace;
+    },
+    selectedDate(){
+      return this.$store.getters.getSelectedDate;
     }
   },
   components: {

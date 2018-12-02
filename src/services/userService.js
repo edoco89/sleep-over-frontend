@@ -13,12 +13,12 @@ function getUserBeds(userId) {
         .then(res => console.log(res.data))
 }
 
-function login({ nickname }) {
-    return axios.put(`${BASE_URL}/login`, {
-        nickname
-    })
-        .then(res => res.data)
-}
+// function login({ nickname }) {
+//     return axios.put(`${BASE_URL}/login`, {
+//         nickname
+//     })
+//         .then(res => res.data)
+// }
 
 function removeUser(userId) {
     return axios.delete(`${BASE_URL}/${userId}`)
@@ -63,7 +63,6 @@ export default {
     saveUser,
     removeUser,
     getUserById,
-    login,
     getUserBeds,
     getUserLoggedIn
 }
@@ -72,7 +71,7 @@ function _createUser(user) {
     return {
         fullname: user.name,
         email: user.email,
-        password: user.email,
+        password: user.pass,
         hobbies: (user.hobbies) ? user.hobbies : [],
         languages: (user.languages) ? user.languages : [],
         isHost: false,
