@@ -24,7 +24,7 @@
       >SEARCH</router-link>
     </div>
 
-    <div class="catg-title">Find Your Kind Of People..</div>
+    <div class="catg-title">Find Your Kind Of People...</div>
     <div class="people-images">
       <div class="host-catg1">
         <div
@@ -47,7 +47,7 @@
           :class="'catg-hover ' + catg3"
           @mouseover="catg3 = 'show-catg'"
           @mouseout="catg3 = ''"
-        >Out Going</div>
+        >Outgoing</div>
         <img src="@/assets/img/party.jpg" alt="Sport">
       </div>
       <div class="host-catg4">

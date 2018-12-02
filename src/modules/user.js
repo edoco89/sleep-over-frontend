@@ -36,6 +36,11 @@ export default {
         getUserBeds({ commit }, { userId }) {
             return userService.getUserBeds(userId)
                 .then(userBeds => commit.setUserBeds)
+        },
+        saveUser({ commit }, { user }) {
+            userService.saveUser(user.id, user)
+                .then(user => commit.user)
+
         }
     }
 }
