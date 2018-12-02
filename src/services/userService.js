@@ -9,8 +9,8 @@ function query() {
 }
 
 function getUserBeds(userId) {
-    return axios.get(`${BASE_URL}/getBeds`, userId)
-        .then(res => res.data)
+    return axios.get(`${BASE_URL}/${userId}`)
+        .then(res => console.log(res.data))
 }
 
 function login({ nickname }) {

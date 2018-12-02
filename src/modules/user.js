@@ -12,6 +12,9 @@ export default {
         setUser(state, { user }) {
             console.log(user);
             state.user = user
+        },
+        userBeds(state, { userBeds }) {
+            console.log('BBBB', userBeds);
         }
     },
     actions: {
@@ -24,7 +27,7 @@ export default {
                 .then(user => commit.setUser)
         },
         getUserBeds({ commit }, { userId }) {
-            userService.getUserBeds(userId)
+            return userService.getUserBeds(userId)
                 .then(userBeds => commit.setUserBeds)
         }
     }
