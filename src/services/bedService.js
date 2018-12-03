@@ -18,8 +18,8 @@ function query(filter = null) {
         searchParams.append('shampoo', filter.filterByAmeneties.Shampoo)
         searchParams.append('parking', filter.filterByAmeneties.Parking)
         searchParams.append('children', filter.filterByAmeneties["Children Ok"])
-        searchParams.append('byStart', filter.selectedDate.start)
-        searchParams.append('byEnd', filter.selectedDate.end)
+        searchParams.append('byStart', new Date(filter.selectedDate.start).getTime())
+        searchParams.append('byEnd', new Date(filter.selectedDate.end).getTime())
     }
     const routeUrl = `${BASE_URL}?${searchParams}`
     return axios.get(routeUrl)

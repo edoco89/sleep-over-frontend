@@ -1,6 +1,6 @@
 <template>
     <section>
-        <p v-for="msg in chat.messeges" :key="msg.timestemp">{{msg}}</p>
+        <p v-for="msg in chat.messages" :key="msg.timestamp">{{msg}}</p>
         <input type="text" v-model="currMsg.txt">
         <button @click="sendMsg">SEND</button>
     </section>
@@ -12,8 +12,9 @@ export default {
         return {
             currMsg: {
                 from: '', 
+                to: '',
                 txt: '', 
-                timestemp: Date.now()
+                timestamp: Date.now()
                 }
         }
     },

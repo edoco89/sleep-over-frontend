@@ -16,5 +16,6 @@ function sendMsg(chat){
 
 
 export default {
-    getById
+    getById,
+    sendMsg
 }

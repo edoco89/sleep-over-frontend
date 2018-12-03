@@ -43,8 +43,6 @@ export default {
         },
         setFilter(state, { filter }) {
             state.filter = filter;
-            state.filter.selectedDate.start = filter.selectedDate.start.toLocaleDateString("en-US");
-            state.filter.selectedDate.end = filter.selectedDate.end.toLocaleDateString("en-US");
         },
         setFilterByAmenity(state, { amenityTypes }) {
             for (let filter in state.filter.filterByAmeneties) {
@@ -62,8 +60,8 @@ export default {
             state.filter.byLocation.lng = place.geometry.location.lng;
         },
         setFilterByDates(state, { selectedDate }) {
-            state.filter.selectedDate.start = selectedDate.start.toLocaleDateString("en-US");
-            state.filter.selectedDate.end = selectedDate.end.toLocaleDateString("en-US");
+            state.filter.selectedDate.start = selectedDate.start.getTime()
+            state.filter.selectedDate.end = selectedDate.end.getTime()
         },
         setFilterByMyLocation(state, { place }) {
             navigator.geolocation.getCurrentPosition(position => {

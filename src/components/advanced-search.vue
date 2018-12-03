@@ -109,8 +109,6 @@ input {
   width: 100%;
   justify-content: center;
   margin-top: 10px;
-  input {
-  }
 }
 .advanced-search {
   display: block;
