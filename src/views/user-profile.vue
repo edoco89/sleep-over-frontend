@@ -9,8 +9,13 @@
         <span>Dashboard</span>
         <br>
         <!-- <span>{{user.hostBadge}}</span> |
+<<<<<<< HEAD
       <span>42 Reviews</span>
         <router-link v-if="user._id===loggedInUser._id" class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
+=======
+      <span>42 Reviews</span>-->
+        <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link> 
+>>>>>>> 03cc0e0d27418d20038ac3e7451ac64137915ab8
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
