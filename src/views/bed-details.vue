@@ -54,7 +54,7 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
       <div class="modal-content">
-        <user-details v-if="isDetalis"></user-details>
+        <user-details :user="hostUser" v-if="isDetalis"></user-details>
         <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
@@ -81,9 +81,7 @@ export default {
     }
   },
   watch: {
-    showModal() {
-
-    }
+    showModal() {}
   },
   methods: {
     closeModal() {
@@ -104,6 +102,11 @@ export default {
   computed: {
     bed() {
       return this.$store.getters.getCurrBed;
+    },
+    hostUser() {
+      this.$store
+        .dispatch({ type: "getUserById", id: this.bed.hostId })
+        .then(user => console.log("user", user));
     }
   },
   components: {

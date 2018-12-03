@@ -13,7 +13,7 @@
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
     >
-      <b-carousel-slide v-for="(pic,idx) in pics" :key="idx" :img-src="pic"></b-carousel-slide>
+      <b-carousel-slide class="slide-img" v-for="(pic,idx) in pics" :key="idx" :img-src="pic"></b-carousel-slide>
     </b-carousel>
   </div>
 </template>
@@ -39,3 +39,10 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.slide-img {
+  height: inherit;
+  width: inherit;
+}
+</style>

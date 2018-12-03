@@ -36,7 +36,7 @@ function addUser(user) {
         .catch(err => console.log('show user excist ERRROR ', err))
 }
 
-//GET BY ID
+//GET BY ID-WORKS. NOT IN USE CURRENTLY
 function getUserById(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
         .then(res => res.data)

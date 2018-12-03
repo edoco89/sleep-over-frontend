@@ -15,6 +15,7 @@ export default {
             state.user = null
             sessionStorage.clear()
         },
+        //NOT IN USE CURRENTLY- WAITING FOR INTEGRATE
         userBeds(state, { userBeds }) {
             console.log('BBBB', userBeds);
         }
@@ -28,8 +29,9 @@ export default {
             userService.addUser(user)
                 .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
-        getUserById({ commit }, { userId }) {
-            return userService.getUserById(userId)
+        //WORKS. NOT IN USE CURRENTLY
+        getUserById({ commit }, { id }) {
+            return userService.getUserById(id)
                 .then(user => user)
         },
         //TO BE CONTINUED
@@ -40,7 +42,7 @@ export default {
         //WORKS. NOT IN USE CURRENTLY
         queryUsers({ commit }) {
             userService.query()
-            .then(users => console.log(users))
+                .then(users => console.log(users))
         },
         //WORKS. NOT IN USE CURRENTLY
         removeUser({ commit }, { id }) {

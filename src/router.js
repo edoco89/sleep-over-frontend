@@ -5,6 +5,7 @@ import userProfile from './views/user-profile.vue'
 import searchResult from './views/search-result.vue'
 import bedDetails from './views/bed-details.vue'
 import chatBox from './components/chat-box.vue'
+import addBed from './components/add-bed.vue'
 import bedEdit from './views/bed-edit.vue'
 import userEdit from './views/user-edit.vue'
 
@@ -59,6 +60,11 @@ export default new Router({
       name: 'bed-details',
       component: bedDetails
     },
-    
+    {
+      path: '/addBed',
+      name: 'add-bed',
+      component: addBed
+    },
+
   ]
 })

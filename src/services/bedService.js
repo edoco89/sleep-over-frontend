@@ -2,8 +2,8 @@
 import axios from 'axios'
 
 const BASE_URL = (process.env.NODE_ENV !== 'development')
- ? '/api/bed'
- : '//localhost:3000/api/bed';
+    ? '/api/bed'
+    : '//localhost:3000/api/bed';
 
 function query(filter = null) {
     const searchParams = new URLSearchParams();
@@ -31,12 +31,13 @@ function removeBed(bedId) {
         .then(res => res.data)
 }
 //TAKE CARE OF ADD UPDATE
-function saveBed(bed, userId) {
-    if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
-    else {
-        const newBed = _createBed(bed, userId)
-        return axios.post(`${BASE_URL}`, newBed).then(res => res.data)
-    }
+function saveBed(bed) {
+    //UPDATE
+    // if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
+    //ADD
+    // else {
+    return axios.post(`${BASE_URL}`, { bed }).then(res => res.data)
+    // }
 }
 
 function getBed(bedId) {
@@ -51,18 +52,3 @@ export default {
     removeBed,
     getBed
 }
-
-function _createBed(bed, userId) {
-    return {
-        hostId: userId,
-        languages: bed.languages,
-        languages: ['English', 'Russian'],
-        imgUrl: 'https://a0.muscache.com/im/pictures/8c809b10-710f-47a2-bdc8-da0b7899e1b3.jpg?aki_policy=xx_large',
-        location: bed.location,
-        type: bed.type,
-        rating: null,
-        reviews: [],
-        ameneties: bed.ameneties
-    }
-}
-

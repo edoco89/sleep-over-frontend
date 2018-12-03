@@ -79,6 +79,7 @@ export default {
                     commit({ type: 'setBeds', beds })
                 })
         },
+        //works- set in editor
         getBedById({ commit }, { bedId }) {
             return bedService.getBed(bedId)
                 .then(bed => {
@@ -86,15 +87,19 @@ export default {
                     return bed;
                 })
         },
+        //works- set in editor
         removeBed(context, { bedId }) {
-            return BedService.removeBed(bedId)
+            return bedService.removeBed(bedId)
                 .then(() => {
                     context.commit({ type: 'removeBed', bedId })
                 })
         },
+        //WORK ON EDITOR FORM
         saveBed(context, { bed }) {
-            return BedService.saveBed(bed)
+            return bedService.saveBed(bed)
                 .then(savedBed => {
+                    console.log('beddd',savedBed);
+                    return
                     context.commit({ type: 'saveBed', bed: savedBed })
                     return savedBed
                 })
@@ -112,7 +117,7 @@ export default {
         },
         setFilterByDates({ commit }, { selectedDate }) {
             commit({ type: 'setFilterByDates', selectedDate })
-        },    
+        },
         setFilterByMyLocation({ commit, dispatch }, { place }) {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByMyLocation', place })

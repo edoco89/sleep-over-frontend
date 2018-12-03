@@ -16,16 +16,16 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueSocketIO from 'vue-socket.io'
 import moment from 'moment';
 import VueMomentJS from 'vue-momentjs';
- 
 
 
- 
+
+
 Vue.use(new VueSocketIO({
-    debug: true,
-    connection: 'http://localhost:3000',
-    vuex: {
-        store,
-    }
+  debug: true,
+  connection: 'http://localhost:3000',
+  vuex: {
+    store,
+  }
 }))
 Vue.use(VueMomentJS, moment);
 Vue.use(ElementUI);
@@ -34,7 +34,8 @@ Vue.use(Buefy);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: '',
+    key: 'AIzaSyB6n7iEYMeOq1PxgcjFtjgKLiuUA5_Oc20',
+    language: 'en',
     libraries: 'places',
   },
 })

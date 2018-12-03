@@ -4,11 +4,14 @@
       <router-link to="/">
         <h1 class="logo">Sleepover</h1>
       </router-link>
-      <!-- <button @click="$store.dispatch('queryUsers')">query!!</button> -->
       <div>
         <router-link to="/searchResult">Search</router-link>|
         <a v-if="!getUser" @click="showModal = true">Login</a>
-        <router-link v-if="getUser" exact :to="'/userProfile/' +getUser._id">{{`Hello ${getUser.fullname}`}} |</router-link>
+        <router-link
+          v-if="getUser"
+          exact
+          :to="'/userProfile/' +getUser._id"
+        >{{`Hello ${getUser.fullname}`}} |</router-link>
         <a v-if="getUser" @click="logout">Log-out</a>
         <!-- <router-link to="/about">About </router-link>| -->
       </div>
