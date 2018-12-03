@@ -93,10 +93,10 @@ export default {
                 })
         },
         //WORK ON EDITOR FORM
-        saveBed({dispatch}, { bed }) {
+        saveBed({ dispatch }, { bed }) {
             return bedService.saveBed(bed)
                 .then(savedBed => {
-                    dispatch.add
+                    // dispatch('addUserBed', savedBed)
                     // commit({ type: 'saveBed', bed: savedBed })
                     return savedBed
                 })

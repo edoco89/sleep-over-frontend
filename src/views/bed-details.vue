@@ -20,9 +20,10 @@
           <h5 class="minor-header">{{bed.type}}</h5>
           <h2 class="summary-standout">
             {{bed.hostName+ ' ' + bed.type}} in
-            {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1) + ', ' + bed.location.country[0].toUpperCase() + bed.location.country.slice(1)}}
+            {{bed.location.address}}
           </h2>
           <a href="#" class="secondary-header" @click="openDetails">{{'About ' + bed.hostName}}</a>
+          <button class="secondary-header" @click="openChat">{{'Send Message To ' + bed.hostName}}</button>
         </div>
 
         <div class="host-details">
@@ -31,22 +32,23 @@
             {{bed.rating}}
             <img src="@/assets/img/star.png">
           </h4>
-          <h4>
+          <h4 v-if="bedHost && bedHost.aboutMe">
             <b>About Me:</b>
-            <br>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat quaerat animi quam. Veniam fugiat delectus molestias iusto dolores cupiditate neque nemo iure aliquam, veritatis nulla modi velit saepe error fuga.
+            <br>
+            {{bedHost.aboutMe}}
           </h4>
-          <h4>
+          <h4 v-if="bed.languages">
             <b>Languages:</b>
             {{bed.languages.join(', ')}}
           </h4>
-          <b>Home Amenities:</b>
-          <bed-amenities :details="bed.ameneties"></bed-amenities>
+          <div>
+            <bed-amenities :details="bed.ameneties"></bed-amenities>
+          </div>
         </div>
       </div>
 
       <!-- <v-calendar :attributes="attrs"></v-calendar> -->
       <div class="booking-container">
-        <book-bed></book-bed>
       </div>
     </div>
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
@@ -54,7 +56,7 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
       <div class="modal-content">
-        <user-details :user="hostUser" v-if="isDetalis"></user-details>
+        <user-details :user="bedHost" v-if="isDetalis"></user-details>
         <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
@@ -71,13 +73,18 @@ export default {
   data() {
     return {
       showModal: false,
-      isDetalis: false
+      isDetalis: false,
+      bedHost: null
     };
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
-      this.$store.dispatch({ type: "getBedById", bedId });
+      this.$store.dispatch({ type: "getBedById", bedId }).then(bed => {
+        this.$store
+          .dispatch({ type: "getUserById", id: this.bed.hostId })
+          .then(user => (this.bedHost = user));
+      });
     }
   },
   watch: {
@@ -97,16 +104,19 @@ export default {
     openGallery() {
       this.isDetalis = false;
       this.showModal = true;
+    },
+    openChat() {
+      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      this.$store.dispatch({ type: "getChatByIds", chatId1: this.bed.hostId , chatId2: loggedInUserId })
+        .then(chat => {
+            if (!chat) this.$store.dispatch({ type: "createChatByIds", chatId1: this.bed.hostId  , chatId2: loggedInUserId })
+      this.$router.push(`/chat/${loggedInUserId}`)
+        })
     }
   },
   computed: {
     bed() {
       return this.$store.getters.getCurrBed;
-    },
-    hostUser() {
-      this.$store
-        .dispatch({ type: "getUserById", id: this.bed.hostId })
-        .then(user => console.log("user", user));
     }
   },
   components: {
@@ -208,31 +218,9 @@ h4 {
   align-content: flex-start;
   font-family: $main-font-light;
 }
+.modal-content {
+  width: $container;
+  height: 80%;
+  margin: 0 auto;
+}
 </style>
-
-//  {
-//             id: 1,
-//             hostId: 1,
-//             languages: ['Hebrew', 'English'],
-//             imgUrl: 'https://a0.muscache.com/im/pictures/505bc60e-5bee-40ce-9972-8a166d997ea5.jpg?aki_policy=xx_large',
-//             location: {
-//                 country: 'israel',
-//                 city: 'tel-aviv',
-//                 street: 'sokolov',
-//                 coords: {
-//                     lat: 32.0853,
-//                     lng: 34.7818
-//                 }
-//             },
-//             type: 'couch',
-//             rating: 4.5,
-//             reviews: [{}, {}, {}],
-//             ditstanceFromCityCenter: 12,
-//             ameneties: {
-//                 accesible: true,
-//                 wifi: false,
-//                 acceptsPets: true,
-//                 airConditioner: false,
-//                 shampoo: true,
-//                 parking: false,
-//             },

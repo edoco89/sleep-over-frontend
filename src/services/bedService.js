@@ -36,6 +36,7 @@ function saveBed(bed) {
     // if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
     //ADD
     // else {
+
     return axios.post(`${BASE_URL}`, { bed }).then(res => res.data)
     // }
 }

@@ -7,7 +7,7 @@
         <b>{{bed.hostName+ "'s " + bed.type}}</b>
         <br>
         <p>
-          {{bed.location.street +', '+ bed.location.city[0].toUpperCase() + bed.location.city.slice(1)}}
+          {{bed.location.address}}
           <br>
           {{bed.rating}}
           <img src="@/assets/img/star.png">

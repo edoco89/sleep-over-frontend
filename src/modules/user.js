@@ -32,11 +32,19 @@ export default {
         //WORKS. NOT IN USE CURRENTLY
         getUserById({ commit }, { id }) {
             return userService.getUserById(id)
-                .then(user => user)
+                .then(user => {
+                    console.log('the user', user);
+                    return user
+                })
+            // .then(user => user)
         },
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
             userService.saveUser( user, user._id)
+                .then(user => commit.user)
+        },
+        addUserBed({ commit }, { savedBed }) {
+            userService.saveUser(user.id, user)
                 .then(user => commit.user)
         },
         //WORKS. NOT IN USE CURRENTLY
