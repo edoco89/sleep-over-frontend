@@ -41,17 +41,17 @@ export default new Router({
       component: userEdit
     },
     {
-      path: '/chat/:chatId',
-      name: 'chat-box',
-      component: chatBox,
-    },
-    {
       path: '/searchResult',
       name: 'search-result',
       component: searchResult
     },
     {
-      path: 'bed/edit/:bedId',
+      path: '/chat/:userId',
+      name: 'chat-box',
+      component: chatBox
+    },
+    {
+      path: '/bed/edit/:bedId',
       name: 'bed-edit',
       component: bedEdit
     },

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="user">
     <section class="main-grid">
       <div class="pic-box mild-border">
         <img class="single-img" :src="user.imgUrl">
@@ -9,7 +9,10 @@
         <br>
         <!-- <span>{{user.hostBadge}}</span> |
       <span>42 Reviews</span>
-        <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
+        <router-link v-if="user._id===loggedInUser._id" class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
+        <!-- <span>42 Reviews</span>-->
+        <!-- <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link>  -->
+      
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
@@ -56,7 +59,7 @@
         </ul>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
-    </div> -->
+    </div>-->
   </section>
 </template>
 
@@ -64,6 +67,7 @@
 import photoCarusel from "@/components/photo-carousel.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
 import addBed from "@/components/add-bed.vue";
+import chatBox from "@/components/chat-box.vue";
 
 export default {
   computed: {
@@ -74,7 +78,8 @@ export default {
   components: {
     photoCarusel,
     bedAmenities,
-    addBed
+    addBed,
+    chatBox
   }
 };
 //   methods: {
