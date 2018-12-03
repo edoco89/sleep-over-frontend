@@ -143,6 +143,7 @@ export default {
   border-radius: 4px;
 }
 
+<<<<<<< HEAD
 .bed-list {
   width: $container;
   margin: auto;
@@ -151,6 +152,14 @@ export default {
     font-size: 25px;
     margin-right: 15px;
   }
+=======
+.bed-box {
+  grid-column: 1;
+  grid-row: 4;
+  background-color: rgb(231, 225, 225);
+  display: flex;
+  flex-direction: column;
+>>>>>>> f6b3114b87fbb270caf76a381c8038a341e968c1
 }
 
 .user-bed {
