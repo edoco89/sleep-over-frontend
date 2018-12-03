@@ -4,6 +4,10 @@
 
 // helpers
 
+.flex-row {
+    flex-direction: row;
+}
+
 .danger-button {
         font-family: $main-font-bold;
         background-color: $button-danger-color;
