@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <section class="main-grid">
+  <section v-if="user">
+    <section class="main-grid" >
       <div class="pic-box mild-border">
         <img class="single-img" :src="user.imgUrl">
       </div>
@@ -10,7 +10,7 @@
         <br>
         <!-- <span>{{user.hostBadge}}</span> |
       <span>42 Reviews</span>
-        <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
+        <router-link v-if="user._id===loggedInUser._id" class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
@@ -54,25 +54,12 @@
 import photoCarusel from "@/components/photo-carousel.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
 import addBed from "@/components/add-bed.vue";
+import chatBox from "@/components/chat-box.vue";
 
 export default {
-  created() {
-    const userId = this.$route.params.userId;
-    if (userId) {
-      this.$store.dispatch({ type: "getUserById", userId });
-    }
-  },
-  computed: {
-    user() {
-      return this.$store.getters.loggedInUser;
-    }
-  },
-
-  methods: {
-    openAddBed() {}
-  },
   data() {
     return {
+      user: null,
       showModal: false,
       bed: {
         numberOfVisits: 43,
@@ -97,10 +84,21 @@ export default {
       }
     };
   },
+  created() {
+    const userId = this.$route.params.userId;
+    this.$store.dispatch({ type: "getUserById", id: userId })
+    .then(user => {
+      this.user = { ...user };
+    });
+  },
+  methods: {
+    openAddBed() {}
+  },
   components: {
     photoCarusel,
     bedAmenities,
-    addBed
+    addBed,
+    chatBox
   }
 };
 </script>

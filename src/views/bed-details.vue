@@ -23,6 +23,7 @@
             {{bed.location.city[0].toUpperCase() + bed.location.city.slice(1) + ', ' + bed.location.country[0].toUpperCase() + bed.location.country.slice(1)}}
           </h2>
           <a href="#" class="secondary-header" @click="openDetails">{{'About ' + bed.hostName}}</a>
+          <button class="secondary-header" @click="openChat">{{'Send Message To ' + bed.hostName}}</button>
         </div>
 
         <div class="host-details">
@@ -46,7 +47,6 @@
 
       <!-- <v-calendar :attributes="attrs"></v-calendar> -->
       <div class="booking-container">
-        <book-bed></book-bed>
       </div>
     </div>
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
@@ -97,6 +97,14 @@ export default {
     openGallery() {
       this.isDetalis = false;
       this.showModal = true;
+    },
+    openChat() {
+      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      this.$store.dispatch({ type: "getChatByIds", chatId1: this.bed.hostId , chatId2: loggedInUserId })
+        .then(chat => {
+            if (!chat) this.$store.dispatch({ type: "createChatByIds", chatId1: this.bed.hostId  , chatId2: loggedInUserId })
+      this.$router.push(`/chat/${loggedInUserId}`)
+        })
     }
   },
   computed: {
