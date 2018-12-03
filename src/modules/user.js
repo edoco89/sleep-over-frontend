@@ -36,7 +36,7 @@ export default {
         },
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
-            userService.saveUser(user.id, user)
+            userService.saveUser( user, user._id)
                 .then(user => commit.user)
         },
         //WORKS. NOT IN USE CURRENTLY

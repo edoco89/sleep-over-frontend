@@ -7,6 +7,12 @@
       <!-- <span>Email  <input type="email" v-model="user.email" name id :placeholder="user.email"> </span>   -->
       <!-- <span>Password <input type="text"> </span> 
       <span> Password verification <input type="text"></span>-->
+      <!-- <div class="select is-multiple">
+        Hobbies
+        <select v-model="user.hobbies" multiple size="8">
+          <option v-for="hobby in user.hobbies" :key="hobby" :value="hobby"> {{hobby}} </option>
+        </select> -->
+<!--       
       <div class="select is-multiple">
         Hobbies
         <select v-model="user.hobbies" multiple size="8">
@@ -21,7 +27,7 @@
           <option value="musicals">Musicals and theater</option>
           <option value="rock">Rock</option>
           <option value="javascript">Javascript</option>
-        </select>
+        </select> -->
         Languages
         <select v-model="user.languages" multiple size="8">
           <option value="english">English</option>
@@ -93,10 +99,15 @@ export default {
       this.$store.dispatch({ type: "getUserById", userId });
     }
   },
+//   mounted() {
+// setTimeout(() => {
+//    console.log ('user hobbies', this.user)
+// }, 4000);
+//   },
   computed: {
     user() {
       return this.$store.getters.loggedInUser;
-    }
+    },
   },
   data() {
     return {
@@ -107,9 +118,8 @@ export default {
   },
   methods: {
     saveUser() {
-      console.log("save user func", this.user);
       if (this.user.age) {
-        this.$store.dispatch({ type: "saveUser", todo: this.user }).then(_ => {
+        this.$store.dispatch({ type: "saveUser", user: this.user }).then(_ => {
           // this.$router.push('/userProfile')
         });
         // .catch(_=> {
@@ -140,6 +150,11 @@ section {
   flex-direction: column;
   background-color: $bg-color;
 }
+
+button {
+  margin: 10px;
+}
+
 
 .upload-image {
     margin-top: 11px;
