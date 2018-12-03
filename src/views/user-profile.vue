@@ -10,7 +10,7 @@
         <br>
         <!-- <span>{{user.hostBadge}}</span> |
       <span>42 Reviews</span>-->
-        <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link> 
+        <router-link class="user-edit blue-button" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link> 
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
