@@ -6,10 +6,13 @@ export default {
     state: {
         chat:
             {
-                id: 1,
-                usersId: [],
-                messeges: [
-                    { txt: '', timestemp: Date.now() }
+                messages: [
+                    { 
+                        from: '',
+                        to: '',
+                        txt: '', 
+                        timestamp: Date.now() 
+                    }
                 ]
             }
 
@@ -27,6 +30,8 @@ export default {
         getChatById({ commit }, { chatId }) {
             chatService.getById(chatId)
                 .then(chat => {
+                    console.log(chat);
+                    
                     commit({ type: 'setChat', chat })
                 })
         },
