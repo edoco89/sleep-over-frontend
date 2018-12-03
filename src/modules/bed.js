@@ -95,12 +95,11 @@ export default {
                 })
         },
         //WORK ON EDITOR FORM
-        saveBed(context, { bed }) {
+        saveBed({dispatch}, { bed }) {
             return bedService.saveBed(bed)
                 .then(savedBed => {
-                    console.log('beddd',savedBed);
-                    return
-                    context.commit({ type: 'saveBed', bed: savedBed })
+                    dispatch.add
+                    // commit({ type: 'saveBed', bed: savedBed })
                     return savedBed
                 })
         },
