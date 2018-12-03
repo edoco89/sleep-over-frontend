@@ -1,5 +1,6 @@
 <template>
-  <section>
+  <section v-if="show">
+    <b>Home Amenities:</b>
     <div class="amenities-cont">
       <div v-if="details.shampoo">
         <img src="@/assets/img/shampoo.png" alt="shampoo">
@@ -37,6 +38,19 @@
 export default {
   props: {
     details: Object
+  },
+  data() {
+    return {
+      show: false
+    };
+  },
+  methods: {
+    isDetails() {
+      for (let key in details) {
+        if (details[key]) return (this.show = true);
+      }
+      this.show = false;
+    }
   }
 };
 </script>

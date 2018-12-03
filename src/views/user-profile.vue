@@ -4,7 +4,6 @@
       <div class="pic-box mild-border">
         <img class="single-img" :src="user.imgUrl">
       </div>
-
       <div class="dashboard">
         <span>Dashboard</span>
         <br>
@@ -14,19 +13,16 @@
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
-        <p>{{bed.location.city}}, {{bed.location.country}}</p>
-        <ul>
+        <p v-if="user.hostBeds[0].location.address">{{user.hostBeds[0].location.address}}</p>
+        <ul v-if="user.hobbies">
           <li v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie}}</li>
         </ul>
-        <b>{{user.fullname}}</b>
-        <p>{{user.hostBadge}}</p>
-        <b>{{user.age}}</b>
-        <b>{{user.gender}}</b>
-        <p>{{user.aboutMe}}</p>
-        <p>{{user.languages.join(' ,')}}</p>
-        <ul>
-          <li v-for="(hobbie,idx) in user.hubbies" :key="idx">{{hobbie}}</li>
-        </ul>
+        <b v-if="user.fullname">{{user.fullname}}</b>
+        <p v-if="user.hostBadge">{{user.hostBadge}}</p>
+        <b v-if="user.age">{{user.age}}</b>
+        <b v-if="user.gender">{{user.gender}}</b>
+        <p v-if="user.aboutMe">{{user.aboutMe}}</p>
+        <p v-if="user.languages[0]">{{user.languages.join(' ,')}}</p>
       </div>
     </section>
 
@@ -34,19 +30,33 @@
       <span>Your Beds</span>
       <router-link to="/addBed" href="#">Add Bed</router-link>
       <!-- v-for="bed in user.beds" -->
-      <div class="user-bed">
+      <div v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
         <div class="bed-details">
-          <b>Your {{bed.type}} In {{bed.location.city}}</b>
-          <br>
-          <h6>Home Amenities:</h6>
-          <bed-amenities :details="bed.ameneties"></bed-amenities>
+          <b>Your {{bed.type}} In {{bed.location.address}}</b>
+          <div>
+            <img src="@/assets/img/star.png">
+            <span>{{bed.rating}}</span>
+          </div>
+          <div v-if="bed.ameneties">
+            <bed-amenities :details="bed.ameneties"></bed-amenities>
+          </div>
+          <div>
+            <button v-if="bed.reviews[0]" @click="showReview">Bed Reviews</button>
+          </div>
         </div>
         <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
       </div>
     </div>
-    <ul>
-      <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
-    </ul>
+
+    <!-- <div :class="{'is-active' : showModal}" class="modal">
+      <div @click="closeModal" class="modal-background"></div>
+      <div class="modal-content">
+        <ul>
+          <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
+        </ul>
+      </div>
+      <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
+    </div> -->
   </section>
 </template>
 
@@ -56,46 +66,10 @@ import bedAmenities from "@/components/bed-amenities.vue";
 import addBed from "@/components/add-bed.vue";
 
 export default {
-  created() {
-    const userId = this.$route.params.userId;
-    if (userId) {
-      this.$store.dispatch({ type: "getUserById", userId });
-    }
-  },
   computed: {
     user() {
       return this.$store.getters.loggedInUser;
     }
-  },
-
-  methods: {
-    openAddBed() {}
-  },
-  data() {
-    return {
-      showModal: false,
-      bed: {
-        numberOfVisits: 43,
-        type: "bed",
-        location: {
-          city: "Berlin",
-          country: "Germany"
-        },
-        imgUrls: [
-          "http://49cpdx1eot3t404114d6kgn480-wpengine.netdna-ssl.com/uae/wp-content/uploads/sites/15/2015/05/couchsurfing-2-.jpg",
-          "https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg"
-        ],
-        ameneties: {
-          accessibility: true,
-          wifi: true,
-          acceptsPets: true,
-          airConditioner: true,
-          shampoo: true,
-          parking: true,
-          children: true
-        }
-      }
-    };
   },
   components: {
     photoCarusel,
@@ -103,6 +77,37 @@ export default {
     addBed
   }
 };
+//   methods: {
+//     openAddBed() {}
+//   },
+//   data() {
+//     return {
+//       showModal: false,
+//       bed: {
+//         numberOfVisits: 43,
+//         type: "bed",
+//         location: {
+//           city: "Berlin",
+//           country: "Germany"
+//         },
+//         imgUrls: [
+//           "http://49cpdx1eot3t404114d6kgn480-wpengine.netdna-ssl.com/uae/wp-content/uploads/sites/15/2015/05/couchsurfing-2-.jpg",
+//           "https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg"
+//         ],
+//         ameneties: {
+//           accessibility: true,
+//           wifi: true,
+//           acceptsPets: true,
+//           airConditioner: true,
+//           shampoo: true,
+//           parking: true,
+//           children: true
+//         }
+//       }
+//     };
+//   },
+
+// };
 </script>
 
 <style scoped lang="scss">
