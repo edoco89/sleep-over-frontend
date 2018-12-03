@@ -2,6 +2,21 @@
 @import '../../../node_modules/bulma/css/bulma.css';
 
 
+// helpers
+
+.danger-button {
+        font-family: $main-font-bold;
+        background-color: $button-danger-color;
+        cursor: pointer;
+        color: $button-danger-text-color;
+        border: 0px;
+        font-size: 1.3rem;
+        padding: 5px 40px;
+        margin-top: 10px;
+        border-radius: 4px;
+        width: 100%;
+}
+
 .mild-shadow {
     -webkit-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
     -moz-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);

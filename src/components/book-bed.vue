@@ -19,7 +19,7 @@
       </b-field>
     </v-date-picker>
 
-    <button @click="showBookMessage">Book</button>
+    <button class="danger-button" @click="showBookMessage">Book</button>
 
     <div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
       <div class="modal-background"></div>
@@ -80,19 +80,6 @@ export default {
 
 * {
   font-family: $main-font-light;
-}
-
-button {
-  font-family: $main-font-bold;
-  background-color: $button-danger-color;
-  cursor: pointer;
-  color: $button-danger-text-color;
-  border: 0px;
-  font-size: 1.3rem;
-  padding: 5px 40px;
-  margin-top: 10px;
-  border-radius: 4px;
-  width: 100%;
 }
 
 .container {

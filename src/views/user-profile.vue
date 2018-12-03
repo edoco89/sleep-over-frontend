@@ -167,8 +167,6 @@ section {
   background-color: rgb(231, 225, 225);
   display: flex;
   flex-direction: column;
-
-  
 }
 
 .about-me-box {

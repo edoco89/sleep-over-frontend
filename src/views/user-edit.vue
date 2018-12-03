@@ -1,9 +1,66 @@
 <template>
   <section>
-      <p> user edit page </p>
-  <span>Full Name</span>  <input type="text" v-model="user.fullname"><br>
-<span>Email</span>    <input type="email" v-model="user.email" name id :placeholder="user.email"><br>
+      <div class="form-container mild-border">
+  <span>Full Name <input type="text" v-model="user.fullname"> </span>  
+<!-- <span>Email  <input type="email" v-model="user.email" name id :placeholder="user.email"> </span>   -->
+ <!-- <span>Password <input type="text"> </span> 
+<span> Password verification <input type="text"></span> -->
+<div class="select is-multiple">
+    Hobbies 
+  <select v-model="user.hobbies" multiple size="8">
+    <option value="sports">Sports</option>
+    <option value="food">Food</option>
+    <option value="bars">Bars</option>
+    <option value="chill">Chill</option>
+    <option value="books">Books</option>
+    <option value="cinema">Cinema</option>
+    <option value="travel">Travel and hiking</option>
+    <option value="kids">Kids</option>
+    <option value="musicals">Musicals and theater</option>
+    <option value="rock">Rock</option>
+    <option value="javascript">Javascript</option>
+  </select>
+ Languages 
+  <select v-model="user.languages" multiple size="8">
+    <option value="english">English</option>
+    <option value="hebrew">Hebrew</option>
+    <option value="swahili">Swahili</option>
+    <option value="french">French</option>
+    <option value="spanish">Spanish</option>
+    <option value="romanian">Romanian</option>
+    <option value="chinese">Chinese</option>
+    <option value="japanese">Japanese</option>
+    <option value="thai">Thai</option>
+    <option value="portugese">Portugese</option>
+    <option value="russian">Russian</option>
+  </select>
+</div>
+  <span> About me <textarea v-model="user.aboutMe"> </textarea> </span>
+  <span> Age <input type="number" v-model="user.age"> </span>
+  <span>  <div class="control">
+      Gender
+  <label class="radio">
+    <input type="radio" name="female">
+    Female
+  </label>
+  <label class="radio">
+    <input type="radio" name="male">
+    Male
+  </label>
+  <label class="radio">
+    <input type="radio" name="fluid">
+    Not binary
+  </label>
+</div> </span>
 
+<!-- image upload -->
+
+<router-link exact :to="'/bed/edit/' + bed._id">Add Hosting Accomodations</router-link>
+
+<button @click="saveUser" class="danger-button">Save Changes</button>
+
+
+</div>
   </section>
 </template>
 
@@ -22,35 +79,53 @@ export default {
    },
   data() {
     return {
-    //   user: {
-    //     fullname: "Amy Sherring",
-    //     email: "ggg@gmail.com",
-    //     password: "1234",
-    //     hobbies: ["sport", "food"],
-    //     languages: ["Russian", "English"],
-    //     isHost: false,
-    //     aboutMe: "I love to sing with friends",
-    //     guestBadge: "",
-    //     hostBadge: "",
-    //     age: 25,
-    //     gender: "Female",
-    //     imgUrl:
-    //       "https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg",
-    //     hostBedsId: "1",
-    //     bedVisitedId: [],
-    //     reviews: [],
-    //     chatHistory: []
-    //   }
+        bed: {
+            _id: 67,
+        }
     };
-  }
+  },
+  methods: {
+saveUser() {
+  console.log('save user func' , this.user)
+     if (this.user.age) {
+                this.$store.dispatch({type: 'saveUser', todo: this.user})
+                    .then(_=> {
+                        // this.$router.push('/userProfile')                      
+                    })
+                    // .catch(_=> {
+                    //     EventBusService.$emit(SHOW_MSG, {txt: 'Could not save Todo', type: 'danger'})
+                    // })
+            } 
+            // else {
+            //     EventBusService.$emit(SHOW_MSG, {txt: 'No user to save!', type: 'danger'})
+            // }
+}
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+* {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
 section {
    width: $container;
+   display: flex;
+   flex-direction: column;
+   background-color: $bg-color;
+}
+
+.form-container {
+    width: 96%;
+    margin: 10px 0;
+    align-self: center;
+    background-color: white;
 }
 
 </style>
