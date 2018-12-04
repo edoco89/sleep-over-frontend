@@ -1,4 +1,5 @@
 import bedService from '@/services/bedService';
+import reviewService from '@/services/reviewService';
 
 export default {
     state: {
@@ -100,6 +101,11 @@ export default {
                     // commit({ type: 'saveBed', bed: savedBed })
                     return savedBed
                 })
+        },
+        addReview() {
+            commit ({type: 'addReview', review})
+            return reviewService.addReview(review)
+
         },
         setFilter({ commit, dispatch }, { filter }) {
             commit({ type: 'setFilter', filter })

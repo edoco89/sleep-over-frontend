@@ -8,7 +8,7 @@
      
       <div class="checkbox-container">
          <span class="header-edit"> Hobbies </span>
-      <el-checkbox-group v-model="checkList">
+      <el-checkbox-group v-model="user.hobbies">
         <el-checkbox label="Sports"></el-checkbox>
         <el-checkbox label="Food"></el-checkbox>
         <el-checkbox label="Bars"></el-checkbox>
@@ -22,20 +22,20 @@
         <el-checkbox label="Javascript"></el-checkbox>
       </el-checkbox-group>
 
-      <div class="select is-multiple">
+      <div class="">
        <span class="header-edit">  Languages </span>
-        <el-checkbox-group v-model="langCheckList" multiple size="8">
-          <el-checkbox label="english">English</el-checkbox>
-          <el-checkbox label="hebrew">Hebrew</el-checkbox>
-          <el-checkbox label="swahili">Swahili</el-checkbox>
-          <el-checkbox label="french">French</el-checkbox>
-          <el-checkbox label="spanish">Spanish</el-checkbox>
-          <el-checkbox label="romanian">Romanian</el-checkbox>
-          <el-checkbox label="chinese">Chinese</el-checkbox>
-          <el-checkbox label="japanese">Japanese</el-checkbox>
-          <el-checkbox label="thai">Thai</el-checkbox>
-          <el-checkbox label="portugese">Portugese</el-checkbox>
-          <el-checkbox label="russian">Russian</el-checkbox>
+        <el-checkbox-group v-model="user.languages">
+          <el-checkbox label="English">English</el-checkbox>
+          <el-checkbox label="Hebrew">Hebrew</el-checkbox>
+          <el-checkbox label="Swahili">Swahili</el-checkbox>
+          <el-checkbox label="French">French</el-checkbox>
+          <el-checkbox label="Spanish">Spanish</el-checkbox>
+          <el-checkbox label="Romanian">Romanian</el-checkbox>
+          <el-checkbox label="Chinese">Chinese</el-checkbox>
+          <el-checkbox label="Japanese">Japanese</el-checkbox>
+          <el-checkbox label="Thai">Thai</el-checkbox>
+          <el-checkbox label="Portugese">Portugese</el-checkbox>
+          <el-checkbox label="Russian">Russian</el-checkbox>
         </el-checkbox-group>
       </div>
       </div>
@@ -51,15 +51,15 @@
         <div class="control flex-row">
          <span class="header-edit">  Gender </span>
           <label class="radio">
-            <input type="radio" name="female">
+            <input :checked="user.gender === 'female'" @click="femaleClicked" type="radio" name="type">
             Female
           </label>
           <label class="radio">
-            <input type="radio" name="male">
+            <input :checked="user.gender === 'male'" @click="maleClicked" type="radio" name="type">
             Male
           </label>
           <label class="radio">
-            <input type="radio" name="fluid">
+            <input :checked="user.gender === 'bi'" @click="biClicked" type="radio" name="type">
             Not binary
           </label>
         </div>
@@ -95,22 +95,21 @@ export default {
     const userId = this.$route.params.userId;
     if (userId) {
       this.$store.dispatch({ type: "getUserById", userId });
-      // this.checkList 
     }
-  },
- 
+  }, 
   computed: {
     user() {
       return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
-    }
+    },
+    // checkList () {
+      
+    // }
   },
   data() {
     return {
       bed: {
         _id: 67
       },
-      checkList: ["Food", "Sports", "Javascript"],
-      langCheckList: ["English", "Russian"]
     };
   },
   methods: {
@@ -119,6 +118,15 @@ export default {
         this.$store.dispatch({ type: "saveUser", user: this.user }).then(_ => {
         });
       }
+    },
+    femaleClicked () {
+      this.user.gender = 'female';
+    },
+    maleClicked () {
+      this.user.gender = 'male';
+    },
+    biClicked () {
+      this.user.gender = 'bi';
     }
   }
 };
@@ -127,22 +135,33 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+
 * {
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0 auto;
+  align-items: left;
 }
 
 section {
   width: $container;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   background-color: $bg-color;
+
+  * {
+    align-content: flex-start;
+  }
 }
 
 button {
   margin: 10px;
+}
+
+textarea {
+  width: 300px;
+  height: 150px;
 }
 
 .control {

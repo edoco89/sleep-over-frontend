@@ -51,7 +51,7 @@
       <div class="booking-container">
       </div>
     </div>
-    <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
+    <!-- <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div> -->
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
@@ -61,6 +61,16 @@
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
+
+<div class="reviews flex-col mild-border"> 
+  <button @click="addReviewOpen = !addReviewOpen;"> Add Review </button>
+  <div class="review-add" v-if="addReviewOpen">
+    <textarea v-model="newReview"> </textarea>
+    <button @click="saveReview" > Save </button>
+     </div>
+  <div class="flex-row review-single" v-for="review in bed.reviews" :key="review"> <div class="flex-row bold user-box-review"> {{review.name}}: </div> <div> {{review.txt}} </div> </div>
+</div>
+
   </section>
 </template>
 <script>
@@ -74,7 +84,9 @@ export default {
     return {
       showModal: false,
       isDetalis: false,
-      bedHost: null
+      bedHost: null,
+      addReviewOpen: false,
+      newReview: null
     };
   },
   created() {
@@ -112,6 +124,10 @@ export default {
             if (!chat) this.$store.dispatch({ type: "createChatByIds", chatId1: this.bed.hostId  , chatId2: loggedInUserId })
       this.$router.push(`/chat/${loggedInUserId}`)
         })
+    },
+    saveReview() {
+      const loggedInUser = this.$store.getters.loggedInUser._id;
+      this.$store.dispatch( {type:"addReview", review: this.newReview})
     }
   },
   computed: {
@@ -207,6 +223,33 @@ h4 {
   justify-content: space-between;
   width: 100%;
   border: 1px solid rgb(199, 199, 199);
+}
+
+textarea {
+  height: 30px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reviews {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: $main-font-light;
+  text-align: left;
+  padding: 10px;
+}
+
+.review-single {
+  margin: 8px 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.user-box-review {
+ 
 }
 
 .host-details {

@@ -1,41 +1,6 @@
 <template>
   <section class="advanced-search">
     <div class="primary-filter">
-<<<<<<< HEAD
-      <div class="flex-container">
-        <div>
-          <img
-            src="@/assets/img/filter.png"
-            alt="More Filters"
-            @click="toggleFilter"
-            class="more-filters"
-          >
-        </div>
-        <div class="flex-container-second">
-          <GmapAutocomplete placeholder="Where to?" @place_changed="setPlace" required></GmapAutocomplete>
-          <div class="date-filter">
-            <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
-            <link
-              rel="stylesheet"
-              href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
-            >
-            <v-date-picker mode="range" :min-date="new Date()" v-model="filter.selectedDate">
-              <b-field slot-scope="props">
-                <b-input
-                  type="text"
-                  icon="calendar"
-                  placeholder="Pick your traveling time"
-                  :value="props.inputValue"
-                  @change.native="props.updateValue($event.target.value)"
-                  expanded
-                ></b-input>
-              </b-field>
-            </v-date-picker>
-          </div>
-          <button class="go-button" @click="setFilter">GO!</button>
-        </div>
-      </div>
-=======
       <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
       <!-- <div class="date-filter"> -->
       <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
@@ -63,7 +28,6 @@
       >
       <button @click="setFilter">GO!</button>
       <!-- </div> -->
->>>>>>> 6b76e1114bcdd1b60f6a338753b3140260894b50
     </div>
     <div class="ameneties-filter" v-if="isShown">
       <select-menu @setFilter="setFilterByAmenity"></select-menu>
