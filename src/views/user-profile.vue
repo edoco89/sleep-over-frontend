@@ -1,6 +1,39 @@
 <template>
+<<<<<<< HEAD
   <section class="profile-container" v-if="user">
     <user-details :user="user" v-if="user"></user-details>
+=======
+  <section v-if="user">
+    <section class="main-grid">
+      <div class="pic-box mild-border">
+        <img class="single-img" :src="user.imgUrl">
+      </div>
+      <div class="dashboard">
+        <span>Dashboard</span>
+        <br>
+        <!-- <span>{{user.hostBadge}}</span> -->
+
+      <span>42 Reviews</span>
+        <!-- <router-link v-if="user._id===loggedInUser._id" class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>--> -->
+        <!-- <span>42 Reviews</span>-->
+        <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link> 
+      
+      </div>
+      <div class="about-me-box">
+        <b>{{user.fullname}}</b>
+        <!-- <p v-if="user.hostBeds[0].location.address">{{user.hostBeds[0].location.address}}</p> -->
+        <ul v-if="user.hobbies">
+          <li v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie}}</li>
+        </ul>
+        <b v-if="user.fullname">{{user.fullname}}</b>
+        <p v-if="user.hostBadge">{{user.hostBadge}}</p>
+        <b v-if="user.age">{{user.age}}</b>
+        <b v-if="user.gender">{{user.gender}}</b>
+        <p v-if="user.aboutMe">{{user.aboutMe}}</p>
+        <p v-if="user.languages[0]">{{user.languages.join(' ,')}}</p>
+      </div>
+    </section>
+>>>>>>> cf587db50335182f531322629809407d8963baf8
 
     <div class="bed-list">
       <span>Your Beds</span>

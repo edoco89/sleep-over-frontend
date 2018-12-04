@@ -40,7 +40,7 @@ export default {
         },
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
-            userService.saveUser(user.id, user)
+            userService.saveUser( user, user._id)
                 .then(user => commit.user)
         },
         addUserBed({ commit }, { savedBed }) {
