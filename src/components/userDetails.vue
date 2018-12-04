@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="user-details-container">
     <section v-if="user" class="user-card">
       <img :src="user.imgUrl" alt="User image">
       <div class="user-details">
@@ -22,6 +22,12 @@
       </div>
     </section>
     <div class="more-details">
+      <router-link
+        v-if="user._id === this.$route.params.userId"
+        class="user-edit"
+        exact
+        :to="'/userEdit/' + user._id"
+      >Edit profile</router-link>
       <div v-if="user.aboutMe">
         <h5>About:</h5>
         <span>{{user.aboutMe}}</span>
@@ -43,10 +49,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "@/assets/scss/_vars.scss";
 .user-card {
-  width: 90%;
+  // width: 90%;
+  // padding: 10px;
   height: 100%;
-  margin: 25px auto;
   display: flex;
   img {
     width: 50%;
@@ -59,19 +66,28 @@ export default {
   }
   .user-details {
     text-align: left;
+    padding: 10px;
     margin-left: 15px;
     margin-top: 0px;
   }
 }
 
+.user-details-container {
+  padding-top: 0;
+  border: 1px solid $border-color;
+  border-top: none;
+}
+
 .more-details {
   text-align: left;
-  width: 90%;
+  padding: 0 10px;
+
+  // width: 90%;
   margin: 25px auto;
-  h5{
+  h5 {
     margin-bottom: 0;
   }
-  div{
+  div {
     margin-bottom: 10px;
   }
 }

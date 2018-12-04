@@ -1,29 +1,33 @@
 <template>
   <section class="advanced-search">
     <div class="primary-filter">
+      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+      <!-- <div class="date-filter"> -->
+      <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
+      <link
+        rel="stylesheet"
+        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
+      >
+      <v-date-picker mode="range" :min-date="new Date()" v-model="filter.selectedDate">
+        <b-field slot-scope="props">
+          <b-input
+            type="text"
+            icon="calendar"
+            placeholder="Pick your traveling time"
+            :value="props.inputValue"
+            @change.native="props.updateValue($event.target.value)"
+            expanded
+          ></b-input>
+        </b-field>
+      </v-date-picker>
       <img
         src="@/assets/img/filter.png"
         alt="More Filters"
         @click="toggleFilter"
         class="more-filters"
       >
-      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
-      <div class="date-filter">
-    <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
-    <v-date-picker mode="range" :min-date="new Date()" v-model="filter.selectedDate">
-      <b-field slot-scope="props">
-        <b-input
-          type="text"
-          icon="calendar"
-          placeholder="Pick your traveling time"
-          :value="props.inputValue"
-          @change.native="props.updateValue($event.target.value)"
-          expanded></b-input>
-      </b-field>
-    </v-date-picker>
-      </div>
       <button @click="setFilter">GO!</button>
+      <!-- </div> -->
     </div>
 
     <div class="ameneties-filter" v-if="isShown">
@@ -40,7 +44,7 @@ export default {
     return {
       filter: {},
       place: {},
-      isShown: false,
+      isShown: false
     };
   },
   created() {
@@ -72,7 +76,7 @@ export default {
     place() {
       return this.$store.getters.getPlace;
     },
-    selectedDate(){
+    selectedDate() {
       return this.$store.getters.getSelectedDate;
     }
   },
@@ -100,18 +104,30 @@ input {
 
 .primary-filter {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin: auto;
   margin-top: 10px;
+  img {
+    height: 100%;
+    align-self: center;
+  }
+}
+
+.ameneties-filter {
+  margin-top: 15px;
 }
 
 .date-filter {
   display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 10px;
+  // width: 80%;
+  justify-content: space-around;
+  margin-top: 10px auto;
 }
 .advanced-search {
   display: block;
+  margin: auto;
+  width: 80%;
   margin-bottom: 10px;
 }
 section {
