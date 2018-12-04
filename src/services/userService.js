@@ -8,7 +8,8 @@ const BASE_URL = (process.env.NODE_ENV !== 'development')
 
 //TAKE CARE OF ADD-UPDATE
 function saveUser(user, userId) {
-    if (user._id) return axios.put(`${BASE_URL}/${user._id}`, user).then(res => res.data)
+    console.log('user service', user, userId)
+    if (user._id) return axios.put(`${BASE_URL}/${user._id}`, {user}).then(res => res.data)
     else {
         const newUser = _createUser(user, userId)
         return axios.post(`${BASE_URL}`, newUser).then(res => res.data)
@@ -33,7 +34,7 @@ function addUser(user) {
             sessionStorage.loggedinUser = JSON.stringify(res.data)
             return res.data;
         })
-        .catch(err => console.log('show user excist ERRROR ', err))
+        .catch(err => console.log('show user exist ERROR ', err))
 }
 
 //GET BY ID-WORKS. NOT IN USE CURRENTLY
@@ -77,7 +78,19 @@ function _createUser(user) {
         fullname: user.fullname,
         email: user.email,
         password: user.pass,
-        hobbies: (user.hobbies) ? user.hobbies : [],
+        hobbies: (user.hobbies) ? user.hobbies : {
+            sports: false,
+            food: false,
+            bars: false,
+            chill: false,
+            books: false,
+            cinema: false,
+            travel: false,
+            kids: false,
+            musicals: false,
+            rock: false,
+            javascript: false
+        },
         languages: (user.languages) ? user.languages : [],
         isHost: false,
         aboutMe: (user.aboutMe) ? user.aboutMe : '',
