@@ -1,57 +1,55 @@
 <template>
   <section>
     <div class="form-container mild-border">
-      <span>Full Name
+      <span>
+        Full Name
         <input type="text" v-model="user.fullname">
       </span>
-      <!-- <span>Email  <input type="email" v-model="user.email" name id :placeholder="user.email"> </span>   -->
-      <!-- <span>Password <input type="text"> </span> 
-      <span> Password verification <input type="text"></span>-->
-      <!-- <div class="select is-multiple">
-        Hobbies
-        <select v-model="user.hobbies" multiple size="8">
-          <option v-for="hobby in user.hobbies" :key="hobby" :value="hobby"> {{hobby}} </option>
-        </select> -->
-<!--       
+     
+      <div class="checkbox-container">
+         <span class="header-edit"> Hobbies </span>
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox label="Sports"></el-checkbox>
+        <el-checkbox label="Food"></el-checkbox>
+        <el-checkbox label="Bars"></el-checkbox>
+        <el-checkbox label="Chill"></el-checkbox>
+        <el-checkbox label="Books"></el-checkbox>
+        <el-checkbox label="Cinema"></el-checkbox>
+        <el-checkbox label="Travel and Hiking"></el-checkbox>
+        <el-checkbox label="Kids"></el-checkbox>
+        <el-checkbox label="Musicals"></el-checkbox>
+        <el-checkbox label="Rock"></el-checkbox>
+        <el-checkbox label="Javascript"></el-checkbox>
+      </el-checkbox-group>
+
       <div class="select is-multiple">
-        Hobbies
-        <select v-model="user.hobbies" multiple size="8">
-          <option value="sports">Sports</option>
-          <option value="food">Food</option>
-          <option value="bars">Bars</option>
-          <option value="chill">Chill</option>
-          <option value="books">Books</option>
-          <option value="cinema">Cinema</option>
-          <option value="travel">Travel and hiking</option>
-          <option value="kids">Kids</option>
-          <option value="musicals">Musicals and theater</option>
-          <option value="rock">Rock</option>
-          <option value="javascript">Javascript</option>
-        </select> -->
-        Languages
-        <select v-model="user.languages" multiple size="8">
-          <option value="english">English</option>
-          <option value="hebrew">Hebrew</option>
-          <option value="swahili">Swahili</option>
-          <option value="french">French</option>
-          <option value="spanish">Spanish</option>
-          <option value="romanian">Romanian</option>
-          <option value="chinese">Chinese</option>
-          <option value="japanese">Japanese</option>
-          <option value="thai">Thai</option>
-          <option value="portugese">Portugese</option>
-          <option value="russian">Russian</option>
-        </select>
+       <span class="header-edit">  Languages </span>
+        <el-checkbox-group v-model="langCheckList" multiple size="8">
+          <el-checkbox label="english">English</el-checkbox>
+          <el-checkbox label="hebrew">Hebrew</el-checkbox>
+          <el-checkbox label="swahili">Swahili</el-checkbox>
+          <el-checkbox label="french">French</el-checkbox>
+          <el-checkbox label="spanish">Spanish</el-checkbox>
+          <el-checkbox label="romanian">Romanian</el-checkbox>
+          <el-checkbox label="chinese">Chinese</el-checkbox>
+          <el-checkbox label="japanese">Japanese</el-checkbox>
+          <el-checkbox label="thai">Thai</el-checkbox>
+          <el-checkbox label="portugese">Portugese</el-checkbox>
+          <el-checkbox label="russian">Russian</el-checkbox>
+        </el-checkbox-group>
       </div>
-      <span>About me
+      </div>
+      <span>
+      <span class="header-edit">About me</span>  
         <textarea v-model="user.aboutMe"></textarea>
       </span>
-      <span>Age
+      <span>
+       <span class="header-edit">  Age </span>
         <input type="number" v-model="user.age">
       </span>
       <span>
-        <div class="control">
-          Gender
+        <div class="control flex-row">
+         <span class="header-edit">  Gender </span>
           <label class="radio">
             <input type="radio" name="female">
             Female
@@ -97,38 +95,30 @@ export default {
     const userId = this.$route.params.userId;
     if (userId) {
       this.$store.dispatch({ type: "getUserById", userId });
+      // this.checkList 
     }
   },
-//   mounted() {
-// setTimeout(() => {
-//    console.log ('user hobbies', this.user)
-// }, 4000);
-//   },
+ 
   computed: {
     user() {
-      return this.$store.getters.loggedInUser;
-    },
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+    }
   },
   data() {
     return {
       bed: {
         _id: 67
-      }
+      },
+      checkList: ["Food", "Sports", "Javascript"],
+      langCheckList: ["English", "Russian"]
     };
   },
   methods: {
     saveUser() {
       if (this.user.age) {
         this.$store.dispatch({ type: "saveUser", user: this.user }).then(_ => {
-          // this.$router.push('/userProfile')
         });
-        // .catch(_=> {
-        //     EventBusService.$emit(SHOW_MSG, {txt: 'Could not save Todo', type: 'danger'})
-        // })
       }
-      // else {
-      //     EventBusService.$emit(SHOW_MSG, {txt: 'No user to save!', type: 'danger'})
-      // }
     }
   }
 };
@@ -155,9 +145,25 @@ button {
   margin: 10px;
 }
 
+.control {
+  margin: 10px 0;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-edit {
+  font-weight: bold;
+}
+
+.marked {
+  background-color: gray;
+}
 
 .upload-image {
-    margin-top: 11px;
+  margin-top: 11px;
 }
 
 .file-label {
