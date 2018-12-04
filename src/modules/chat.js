@@ -4,22 +4,23 @@ import chatService from '../services/chatService.js';
 
 export default {
     state: {
-        chat: {}
+        userChats: {},
+        currChat: {}
     },
     getters: {
-        getChat: ({ chat }) => chat
+        getChat: (state) => state.currChat,
+        getUserChats: (state) => state.userChats
     },
     mutations: {
         setChat(state, { chat }) {
-            state.chat = chat;
+            state.currChat = chat;
         }
 
     },
     actions: {
-        getChatByIds({ commit }, { chatId1, chatId2 }) {
-            return chatService.getByIds(chatId1, chatId2)
+        getChatByIds({ commit }, { userId1, userId2 }) {
+            return chatService.getByIds(userId1, userId2)
                 .then(chat => {
-                    console.log({chat});
                     commit({ type: 'setChat', chat })
                 })
         },
@@ -29,14 +30,18 @@ export default {
                     commit({ type: 'setChat', chat })
                 })
         },
-        createChatByIds({ commit }, { chatId1, chatId2 }) {
-            return chatService.createChatByIds(chatId1, chatId2)
+        getChatsById({ commit }, { userId }) {
+            return chatService.getChatsById(userId)
+                .then(users => users)
+        },
+        createChatByIds({ commit }, { userId1, userId2 }) {
+            return chatService.createChatByIds(userId1, userId2)
                 .then(chat => {
                     commit({ type: 'setChat', chat })
                 })
         },
         sendMsg({ commit, state }, { message }) {
-            chatService.sendMsg(state.chat._id, message)
+            chatService.sendMsg(state.currChat._id, message)
                 .then(chat => {
                     commit({ type: 'setChat', chat })
                 })
