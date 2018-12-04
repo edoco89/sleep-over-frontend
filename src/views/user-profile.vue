@@ -12,11 +12,10 @@
         <router-link v-if="user._id===loggedInUser._id" class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit</router-link>-->
         <!-- <span>42 Reviews</span>-->
         <!-- <router-link class="user-edit" tag="button" exact :to="'/userEdit/' + user._id">Edit Profile</router-link>  -->
-      
       </div>
       <div class="about-me-box">
         <b>{{user.fullname}}</b>
-        <p v-if="user.hostBeds[0].location.address">{{user.hostBeds[0].location.address}}</p>
+        <p v-if="user.hostBeds.length > 0">{{user.hostBeds[0].location.address}}</p>
         <ul v-if="user.hobbies">
           <li v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie}}</li>
         </ul>

@@ -12,16 +12,15 @@ export default {
     return {
       currMsg: {
         from: "",
-        to: "",
         txt: "",
+        isRead: false,
         timestamp: Date.now()
       },
       currentUser: {}
     };
   },
   created() {
-    this.currentUser = {...this.$store.getters.loggedInUser}
-    this.$store.dispatch({ type: "getChatById", chatId: this.currentUser.chatHistory[0] });
+    this.currentUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser))
   },
   computed: {
     chat() {
@@ -31,11 +30,12 @@ export default {
   methods: {
     sendMsg() {
       this.currMsg.timestamp = Date.now();
+      this.currMsg.from = this.currentUser._id;
       this.$store.dispatch({ type: "sendMsg", message: { ...this.currMsg } });
       this.currMsg = {
-        from: "",
-        to: "",
+        from: '',
         txt: "",
+        isRead: false,
         timestamp: Date.now()
       };
     }

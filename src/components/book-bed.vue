@@ -31,7 +31,6 @@
   </section>
 </template>
 
-// :available-dates='{ start: new Date(), end: null }' to show relevant options only
 
 <script>
 export default {
