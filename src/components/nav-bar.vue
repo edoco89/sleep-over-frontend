@@ -12,6 +12,11 @@
           exact
           :to="'/userProfile/' +getUser._id"
         >{{`Hello ${getUser.fullname}`}} |</router-link>
+        <router-link
+          v-if="getUser"
+          exact
+          :to="'/chat/' +getUser._id"
+        >{{'Messanger'}} |</router-link>
         <a v-if="getUser" @click="logout">Log-out</a>
         <!-- <router-link to="/about">About </router-link>| -->
       </div>
