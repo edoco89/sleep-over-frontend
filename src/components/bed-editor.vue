@@ -19,6 +19,14 @@
           </select>
         </div>
         <div>
+          Your Hosting "Catch phrase":
+          <input
+            v-model="bed.catchPhrase"
+            placeholder="Free candy for guests"
+            type="text"
+          >
+        </div>
+        <div>
           Ditstance from city center:
           <input v-model="bed.ditstanceFromCityCenter" type="text">
         </div>
@@ -67,6 +75,7 @@ export default {
       bed: {
         hostId: "",
         hostName: "",
+        catchPhrase: "",
         languages: [],
         imgUrls: [],
         hostImg: "",
@@ -100,9 +109,11 @@ export default {
   },
   methods: {
     saveImg(ev) {
-      cloudinaryService
-        .uploadImg(ev.target, ev)
-        .then(img => this.bed.imgUrls.push(img.url));
+      ev.preventDefault();
+      cloudinaryService.uploadImg(ev.target, ev).then(img => {
+        this.bed.imgUrls.push(img.url);
+        console.log(this.bed);
+      });
     },
     setPlace(place) {
       this.bed.location.coords.coordinates = [
@@ -115,7 +126,7 @@ export default {
       this.$store
         .dispatch("saveBed", { bed: this.bed, user: this.bedHost })
         .then(res => {
-          console.log("ress", res);
+          console.log("bed", res);
           this.$router.push(`/userProfile/${this.bed.hostId}`);
         });
     },

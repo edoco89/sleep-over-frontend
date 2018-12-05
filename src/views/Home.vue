@@ -244,7 +244,7 @@ input {
   height: 100%;
   padding-top: 50px;
   color: black;
-  font-size: 25px;
+  font-size: 17px;
   background: rgba(128, 128, 128, 0.603);
   opacity: 0;
   transition: 0.4s;
@@ -336,6 +336,9 @@ input {
   }
 }
 @media (min-width: 500px) {
+  .catg-hover {
+    font-size: 25px;
+  }
   .people-container {
     div {
       img {
