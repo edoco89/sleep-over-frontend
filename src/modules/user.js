@@ -39,8 +39,8 @@ export default {
         },
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
-            userService.saveUser( user, user._id)
-                .then(user => commit({ type: 'setUser', user }))
+            userService.saveUser(user, user._id)
+                .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
         addUserBed({ commit }, { savedBed }) {
             userService.saveUser(user.id, user)
