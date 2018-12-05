@@ -137,7 +137,6 @@ export default {
         });
     },
     saveReview() {
-<<<<<<< HEAD
       this.addReviewOpen = false;
       const loggedInUser = this.$store.getters.loggedInUser;
       this.newReview.givenByName = loggedInUser.fullname
@@ -146,10 +145,6 @@ export default {
       this.$store.dispatch( {type:"addReview", review: this.newReview})
       .then(res => {this.newReview.txt = null
       console.log('here', this.newReview)})
-=======
-      const loggedInUser = this.$store.getters.loggedInUser._id;
-      this.$store.dispatch({ type: "addReview", review: this.newReview });
->>>>>>> bcdfadcba1a73a553f9f0baa7ae656efb38c5012
     }
   },
   computed: {
@@ -302,12 +297,6 @@ textarea {
   font-weight: bold;
 }
 
-<<<<<<< HEAD
-=======
-.user-box-review {
-}
-
->>>>>>> bcdfadcba1a73a553f9f0baa7ae656efb38c5012
 .host-details {
   padding: 10px;
   display: flex;
