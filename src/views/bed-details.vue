@@ -7,9 +7,9 @@
         <img v-else src="@/assets/img/no-img.jpg" alt>
         <img v-if="bed.imgUrls[1]" class="single-img" @click="openGallery" :src="bed.imgUrls[1]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrl[2]">
+        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrls[2]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrl[3]">
+        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrls[3]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
       </div>
     </div>
@@ -22,41 +22,42 @@
             {{bed.hostName+ ' ' + bed.type}} in
             {{bed.location.address}}
           </h2>
-          <a href="#" class="secondary-header" @click="openDetails">{{'About ' + bed.hostName}}</a>
-          <button class="secondary-header" @click="openChat">{{'Send Message To ' + bed.hostName}}</button>
+          <a href="#" class="secondary-header" @click="openDetails">{{'More on ' + bed.hostName}}</a>
         </div>
-
+        <div class="chat-container">
+          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
+          <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
+        </div>
         <div class="host-details">
           <h4>
             <b>Host Rating:</b>
-            {{bed.rating}}
             <img src="@/assets/img/star.png">
+            {{bed.rating}}
           </h4>
           <h4 v-if="bedHost && bedHost.aboutMe">
             <b>About Me:</b>
             <br>
             {{bedHost.aboutMe}}
           </h4>
-          <h4 v-if="bed.languages">
+          <h4 v-if="bed.languages.length > 0">
             <b>Languages:</b>
             {{bed.languages.join(', ')}}
           </h4>
           <div>
-            <bed-amenities :details="bed.ameneties"></bed-amenities>
+            <bed-amenities :aments="bed.ameneties"></bed-amenities>
           </div>
         </div>
       </div>
-
-      <!-- <v-calendar :attributes="attrs"></v-calendar> -->
       <div class="booking-container">
+        <book-bed></book-bed>
       </div>
     </div>
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
-      <div class="modal-content">
-        <user-details :user="bedHost" v-if="isDetalis"></user-details>
+      <div class="modal-content-details">
+        <user-details class="host-details-modal" :user="bedHost" v-if="isDetalis"></user-details>
         <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
@@ -81,21 +82,16 @@ export default {
     const bedId = this.$route.params.bedId;
     if (bedId) {
       this.$store.dispatch({ type: "getBedById", bedId }).then(bed => {
+        console.log("bed", bed);
         this.$store
           .dispatch({ type: "getUserById", id: this.bed.hostId })
           .then(user => (this.bedHost = user));
       });
     }
   },
-  watch: {
-    showModal() {}
-  },
   methods: {
     closeModal() {
       this.showModal = false;
-    },
-    show() {
-      console.log("showing");
     },
     openDetails() {
       this.isDetalis = true;
@@ -107,11 +103,21 @@ export default {
     },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
-      this.$store.dispatch({ type: "getChatByIds", chatId1: this.bed.hostId , chatId2: loggedInUserId })
-        .then(chat => {
-            if (!chat) this.$store.dispatch({ type: "createChatByIds", chatId1: this.bed.hostId  , chatId2: loggedInUserId })
-      this.$router.push(`/chat/${loggedInUserId}`)
+      this.$store
+        .dispatch({
+          type: "getChatByIds",
+          chatId1: this.bed.hostId,
+          chatId2: loggedInUserId
         })
+        .then(chat => {
+          if (!chat)
+            this.$store.dispatch({
+              type: "createChatByIds",
+              chatId1: this.bed.hostId,
+              chatId2: loggedInUserId
+            });
+          this.$router.push(`/chat/${loggedInUserId}`);
+        });
     }
   },
   computed: {
@@ -141,6 +147,23 @@ export default {
   border-top: none;
   min-height: 340px;
   width: 50%;
+}
+
+.chat-container {
+  text-align: left;
+  margin-left: 10px;
+  .chat-btn {
+    background: rgb(76, 165, 76);
+    border-radius: 50%;
+    padding: 4px;
+    height: 33px;
+    margin-right: 10px;
+    border: 1.4px solid #222222;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
 }
 
 .gallery-imgs {
@@ -209,6 +232,16 @@ h4 {
   border: 1px solid rgb(199, 199, 199);
 }
 
+.modal-content-details {
+  flex-direction: row;
+  margin: 0 auto;
+  z-index: 1;
+  .host-details-modal {
+    background: white;
+    width: 90%;
+    margin: auto;
+  }
+}
 .host-details {
   padding: 10px;
   display: flex;
@@ -217,10 +250,5 @@ h4 {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
-}
-.modal-content {
-  width: $container;
-  height: 80%;
-  margin: 0 auto;
 }
 </style>

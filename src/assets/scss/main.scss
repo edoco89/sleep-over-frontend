@@ -40,6 +40,30 @@ background-color: rgb(140, 194, 196);
 
 }
 
+
+.carousel-inner {
+    height: 100%;
+    img{
+        object-fit: cover;
+    }
+        .carousel-item.active, .carousel-item-next, .carousel-item-prev{
+        object-fit: cover;
+        display: flex;
+    }
+}
+.carousel-indicators{
+    bottom: -10px;
+    &:hover{
+    }
+}                                       
+.carousel-control-next:hover{
+    background: rgba(255, 255, 255, 0.644);
+}
+.carousel-control-prev:hover{
+    background: rgba(255, 255, 255, 0.63);
+}
+
+
 .mild-shadow {
     -webkit-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
     -moz-box-shadow: 3px 3px 5px 0px rgba(179, 175, 179, 0.53);
