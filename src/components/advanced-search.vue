@@ -3,7 +3,7 @@
     <div class="primary-filter">
       <GmapAutocomplete
         class="auto-complete"
-        placeholder="Bed Location"
+        placeholder="Where are you Traveling"
         @place_changed="setPlace"
         required
       ></GmapAutocomplete>
@@ -40,7 +40,7 @@
       <!-- </div> -->
     </div>
     <div class="ameneties-filter" v-if="isShown">
-      <select-menu @setFilter="setFilterByAmenity"></select-menu>
+      <select-menu opt="amenities" @setFilter="setFilterByAmenity"></select-menu>
     </div>
   </section>
 </template>

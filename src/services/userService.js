@@ -43,6 +43,7 @@ function getUserById(userId) {
         .then(res => res.data)
 }
 
+
 //NEED INTEGRATE 
 function getUserBeds(userId) {
     return axios.get(`${BASE_URL}/userBeds/${userId}`)

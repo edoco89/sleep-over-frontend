@@ -1,20 +1,29 @@
 <template>
-  <section>
-    <ul class="user-list">
-      <li v-for="user in userChats" :key="user._id" @click="openChat(user._id)">{{user.fullname}}</li>
-    </ul>
-    <chat-box v-if="isShow"></chat-box>
-  </section>
+  <div :class="{'is-active' : showChatModal}" class="modal">
+    <div class="modal-background" @click="$emit('closeModal')"></div>
+    <div class="modal-content">
+      <ul v-for="user in userChats" :key="user._id" class="user-list">
+        <li @click="openChat(user._id)" class="user-preview">
+          <img :src="user.imgUrl">
+          {{user.fullname}}
+        </li>
+      </ul>
+      <chat-box v-if="isShow"></chat-box>
+    </div>
+    <button @click="$emit('closeModal')" class="modal-close is-large" aria-label="close"></button>
+  </div>
 </template>
 
 <script>
 import chatBox from "@/components/chat-box.vue";
 export default {
+  props: {
+    showChatModal: Boolean
+  },
   data() {
     return {
       userChats: [],
       currUser: {},
-      currUserChat: {},
       isShow: false
     };
   },
@@ -34,8 +43,20 @@ export default {
           userId1: this.currUser._id,
           userId2: userId
         })
-        .then(() => (this.isShow = true));
+        .then(chat => {
+          this.$socket.emit("chatRequest", {
+            currUserId: this.currUser._id,
+            userId,
+            chatId: chat._id
+          });
+          this.isShow = true;
+        });
     }
+  },
+  mounted() {
+    this.$store
+      .dispatch({ type: "getChatsById", userId: this.currUser._id })
+      .then(users => (this.userChats = users));
   },
   components: {
     chatBox
@@ -43,9 +64,40 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+@import "@/assets/scss/_vars.scss";
+
 .user-list {
+  text-align: left;
+  background: lightblue;
+  width: 25%;
+  height: 100%;
+  margin: 0;
+}
+.modal-content {
+  display: flex;
+  flex-direction: row;
   width: 90%;
-  margin: auto;
+  height: 70%;
+}
+.user-preview {
+  margin: 10px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $main-font-bold;
+  border-bottom: 1px solid gray;
+  img {
+    margin-right: 10px;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  &:hover{
+    opacity: .8;
+    cursor: pointer;
+  }
 }
 </style>

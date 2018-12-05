@@ -107,7 +107,10 @@ export default {
                     })
                 })
         },
-        addReview({commit, state}, { review }) {
+        clearCurrBed({ commit }) {
+            commit({ type: 'setBed', bed: null })
+        },
+        addReview({ commit, state }, { review }) {
             commit({ type: 'setReview', review })
             return bedService.addReview(state.currBed.reviews)
         },

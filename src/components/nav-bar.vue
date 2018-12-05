@@ -5,6 +5,9 @@
         <h1 class="logo">Sleepover</h1>
       </router-link>
       <div>
+        <a v-if="getUser" @click="showChatModal= true" class="nav-chat">
+          <img src="@/assets/img/chat.png">
+        </a>|
         <router-link to="/searchResult">Search</router-link>|
         <a v-if="!getUser" @click="showModal = true">Login</a>
         <router-link
@@ -12,25 +15,24 @@
           exact
           :to="'/userProfile/' +getUser._id"
         >{{`Hello ${getUser.fullname}`}} |</router-link>
-        <router-link
-          v-if="getUser"
-          exact
-          :to="'/chat/' +getUser._id"
-        >{{'Messanger'}} |</router-link>
         <a v-if="getUser" @click="logout">Log-out</a>
         <!-- <router-link to="/about">About </router-link>| -->
       </div>
     </section>
     <login-modal :showModal="showModal" @closeModal="closeModal"></login-modal>
+    <chat-modal :showChatModal="showChatModal" @closeModal="closeModal"></chat-modal>
   </header>
 </template>
 
+
 <script>
 import loginModal from "./login-modal.vue";
+import chatModal from "@/views/user-chat.vue";
 export default {
   data() {
     return {
-      showModal: false
+      showModal: false,
+      showChatModal: false
     };
   },
   created() {
@@ -40,6 +42,7 @@ export default {
   methods: {
     closeModal() {
       this.showModal = false;
+      this.showChatModal = false;
     },
     logout() {
       this.$store.dispatch("logout");
@@ -51,7 +54,8 @@ export default {
     }
   },
   components: {
-    loginModal
+    loginModal,
+    chatModal
   }
 };
 </script>
@@ -81,6 +85,7 @@ header {
 h1 {
   width: fit-content;
   margin: 0;
+  color: #222222;
 }
 .main-nav {
   display: flex;
@@ -89,19 +94,26 @@ h1 {
   width: $container;
   height: inherit;
   margin: auto;
-}
-div {
-  width: fit-content;
-  * {
-    text-decoration: none;
-    color: $text-color;
-    div > *:hover {
-      cursor: pointer;
-      opacity: 0.8;
+  div {
+    width: fit-content;
+    * {
+      text-decoration: none;
+      color: $text-color;
+      div > *:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
     }
   }
 }
 a {
   margin: 5px;
+}
+.nav-chat{
+img{
+  height: 30px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
 }
 </style>

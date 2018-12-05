@@ -1,107 +1,105 @@
 <template>
   <section>
-    <div class="form-container mild-border">
-      <span>
-        Full Name
-        <input type="text" v-model="user.fullname">
-      </span>
+    <span>
+      Full Name
+      <input type="text" v-model="user.fullname">
+    </span>
 
-      <div class="checkbox-container">
-        <span class="header-edit">Hobbies</span>
-        <el-checkbox-group v-model="user.hobbies">
-          <el-checkbox label="Sports"></el-checkbox>
-          <el-checkbox label="Food"></el-checkbox>
-          <el-checkbox label="Bars"></el-checkbox>
-          <el-checkbox label="Chill"></el-checkbox>
-          <el-checkbox label="Books"></el-checkbox>
-          <el-checkbox label="Cinema"></el-checkbox>
-          <el-checkbox label="Travel and Hiking"></el-checkbox>
-          <el-checkbox label="Kids"></el-checkbox>
-          <el-checkbox label="Musicals"></el-checkbox>
-          <el-checkbox label="Rock"></el-checkbox>
-          <el-checkbox label="Javascript"></el-checkbox>
+    <div class="checkbox-container">
+      <span class="header-edit">Hobbies</span>
+      <el-checkbox-group v-model="user.hobbies">
+        <el-checkbox label="Sports"></el-checkbox>
+        <el-checkbox label="Food"></el-checkbox>
+        <el-checkbox label="Bars"></el-checkbox>
+        <el-checkbox label="Chill"></el-checkbox>
+        <el-checkbox label="Books"></el-checkbox>
+        <el-checkbox label="Cinema"></el-checkbox>
+        <el-checkbox label="Travel and Hiking"></el-checkbox>
+        <el-checkbox label="Kids"></el-checkbox>
+        <el-checkbox label="Musicals"></el-checkbox>
+        <el-checkbox label="Rock"></el-checkbox>
+        <el-checkbox label="Javascript"></el-checkbox>
+      </el-checkbox-group>
+
+      <div class>
+        <span class="header-edit">Languages</span>
+        <el-checkbox-group v-model="user.languages">
+          <el-checkbox label="English">English</el-checkbox>
+          <el-checkbox label="Hebrew">Hebrew</el-checkbox>
+          <el-checkbox label="Swahili">Swahili</el-checkbox>
+          <el-checkbox label="French">French</el-checkbox>
+          <el-checkbox label="Spanish">Spanish</el-checkbox>
+          <el-checkbox label="Romanian">Romanian</el-checkbox>
+          <el-checkbox label="Chinese">Chinese</el-checkbox>
+          <el-checkbox label="Japanese">Japanese</el-checkbox>
+          <el-checkbox label="Thai">Thai</el-checkbox>
+          <el-checkbox label="Portugese">Portugese</el-checkbox>
+          <el-checkbox label="Russian">Russian</el-checkbox>
         </el-checkbox-group>
-
-        <div class>
-          <span class="header-edit">Languages</span>
-          <el-checkbox-group v-model="user.languages">
-            <el-checkbox label="English">English</el-checkbox>
-            <el-checkbox label="Hebrew">Hebrew</el-checkbox>
-            <el-checkbox label="Swahili">Swahili</el-checkbox>
-            <el-checkbox label="French">French</el-checkbox>
-            <el-checkbox label="Spanish">Spanish</el-checkbox>
-            <el-checkbox label="Romanian">Romanian</el-checkbox>
-            <el-checkbox label="Chinese">Chinese</el-checkbox>
-            <el-checkbox label="Japanese">Japanese</el-checkbox>
-            <el-checkbox label="Thai">Thai</el-checkbox>
-            <el-checkbox label="Portugese">Portugese</el-checkbox>
-            <el-checkbox label="Russian">Russian</el-checkbox>
-          </el-checkbox-group>
-        </div>
       </div>
-      <span>
-        <span class="header-edit">About me</span>
-        <textarea v-model="user.aboutMe"></textarea>
-      </span>
-      <span>
-        <span class="header-edit">Age</span>
-        <input type="number" v-model="user.age">
-      </span>
-      <span>
-        <div class="control flex-row">
-          <span class="header-edit">Gender</span>
-          <label class="radio">
-            <input
-              :checked="user.gender === 'female'"
-              @click="femaleClicked"
-              type="radio"
-              name="type"
-            >
-            Female
-          </label>
-          <label class="radio">
-            <input :checked="user.gender === 'male'" @click="maleClicked" type="radio" name="type">
-            Male
-          </label>
-          <label class="radio">
-            <input :checked="user.gender === 'bi'" @click="biClicked" type="radio" name="type">
-            Not binary
-          </label>
-        </div>
-      </span>
-
-      <div class="field upload-image">
-        <div class="file is-info has-name">
-          <label class="file-label flex-row">
-            <input class="file-input" type="file" name="resume">
-            <span class="file-cta"></span>
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-          </label>
-
-          <form
-            class="publish-form"
-            action
-            method="POST"
-            enctype="multipart/form-data"
-            @submit.prevent="saveImg"
-          >
-            <div>
-              <input type="file" name="img">
-            </div>
-            <div>
-              <button type="submit">Add Image</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- image upload -->
-      <router-link exact :to="'/bed/edit/' + bed._id">Add Hosting Accomodations</router-link>
-
-      <button @click="saveUser" class="danger-button">Save Changes</button>
     </div>
+    <span>
+      <span class="header-edit">About me</span>
+      <textarea v-model="user.aboutMe"></textarea>
+    </span>
+    <span>
+      <span class="header-edit">Age</span>
+      <input type="number" v-model="user.age">
+    </span>
+    <span>
+      <div class="control flex-row">
+        <span class="header-edit">Gender</span>
+        <label class="radio">
+          <input
+            :checked="user.gender === 'female'"
+            @click="femaleClicked"
+            type="radio"
+            name="type"
+          >
+          Female
+        </label>
+        <label class="radio">
+          <input :checked="user.gender === 'male'" @click="maleClicked" type="radio" name="type">
+          Male
+        </label>
+        <label class="radio">
+          <input :checked="user.gender === 'bi'" @click="biClicked" type="radio" name="type">
+          Not binary
+        </label>
+      </div>
+    </span>
+
+    <div class="field upload-image">
+      <div class="file is-info has-name">
+        <label class="file-label flex-row">
+          <input class="file-input" type="file" name="resume">
+          <span class="file-cta"></span>
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+        </label>
+
+        <form
+          class="publish-form"
+          action
+          method="POST"
+          enctype="multipart/form-data"
+          @submit.prevent="saveImg"
+        >
+          <div>
+            <input type="file" name="img">
+          </div>
+          <div>
+            <button type="submit">Add Image</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- image upload -->
+    <router-link exact :to="'/bed/edit/' + bed._id">Add Hosting Accomodations</router-link>
+
+    <button @click="saveUser" class="danger-button">Save Changes</button>
   </section>
 </template>
 
@@ -109,12 +107,6 @@
 import cloudinaryService from "@/services/cloudinary-service.js";
 
 export default {
-  created() {
-    const userId = this.$route.params.userId;
-    if (userId) {
-      this.$store.dispatch({ type: "getUserById", userId });
-    }
-  },
   computed: {
     user() {
       return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));

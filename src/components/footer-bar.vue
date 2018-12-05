@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <section>Copy Rights 2018</section>
+    <!-- <section>Copy Rights 2018</section> -->
   </footer>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 
 footer {
   height: 40px;
-  background-color: $bg-color;
+  background-color: #222222;
   grid-row: 1000;
   position: absolute;
   width: 100%;

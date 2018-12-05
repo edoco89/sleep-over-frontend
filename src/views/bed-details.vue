@@ -129,16 +129,27 @@ export default {
       this.$store
         .dispatch({
           type: "getChatByIds",
-          chatId1: this.bed.hostId,
-          chatId2: loggedInUserId
+          userId1: loggedInUserId,
+          userId2: this.bedHost._id
         })
         .then(chat => {
-          if (!chat)
-            this.$store.dispatch({
+          if (!chat) {
+            return this.$store.dispatch({
               type: "createChatByIds",
-              chatId1: this.bed.hostId,
-              chatId2: loggedInUserId
+              userId1: loggedInUserId,
+              userId2: this.bedHost._id
             });
+          }
+          return chat;
+        })
+        .then(chat => {
+          window.chat = chat;
+          this.$socket.emit("chatRequest", {
+            currUserId: loggedInUserId,
+            userId: this.bedHost._id,
+            chatId: chat._id
+          });
+          this.isShow = true;
           this.$router.push(`/chat/${loggedInUserId}`);
         });
     },
@@ -155,6 +166,9 @@ export default {
           console.log("here", this.newReview);
         });
     }
+  },
+  destroyed() {
+    this.$store.dispatch({ type: "clearCurrBed" });
   },
   computed: {
     bed() {

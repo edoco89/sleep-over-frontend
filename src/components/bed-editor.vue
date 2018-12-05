@@ -87,7 +87,7 @@ export default {
           }
         },
         type: "",
-        rating: 0,
+        rating: parseInt(Math.random() * 5),
         reviews: [],
         ditstanceFromCityCenter: 0,
         ameneties: {
