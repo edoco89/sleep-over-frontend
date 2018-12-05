@@ -60,14 +60,41 @@
       </div>
     </div>
 
-    <div class="ido-sentence">Connecting people around the world</div>
+    <div class="catg-title">Connecting people around the world</div>
 
-    <div class="world-images-container">
-      <div class="kosamui mild-shadow mild-border">Try the beaches of
-        <br>Ko Samui
+    <div class="people-container">
+      <div class="people1">
+        <img src="@/assets/img/ron-wendy.jpg" alt>
+        <div>
+          <b>Ron & Wendy, Berlin</b>
+          <p>
+            The loveley couple offers an
+            <b>Entire Comftorbule Room!</b>
+          </p>
+          <a href="#">Check it Out!</a>
+        </div>
       </div>
-      <div class="santorini mild-shadow mild-border">Visit the beautiful Santorini</div>
-      <div class="tuscany mild-shadow mild-border">Hosts in breathtaking Tuscany</div>
+      <div class="people2">
+        <img src="@/assets/img/john.jpeg" alt>
+        <div>
+          <b>John, L.A</b>
+          <p>
+            <b>Explore</b> L.A like a local
+          </p>
+          <a href="#">Check it Out!</a>
+        </div>
+      </div>
+      <div class="people3">
+        <img src="@/assets/img/zoey.jpeg" alt>
+        <div>
+          <b>Zoey, London</b>
+          <p>
+            Zoey is rated at our
+            <b>Top 5</b> hosts in London!
+          </p>
+          <a href="#">Check it Out!</a>
+        </div>
+      </div>
     </div>
     <!-- </img> -->
   </section>
@@ -207,7 +234,7 @@ input {
   margin-top: 30px;
   margin-bottom: 10px;
   font-family: $main-font-bold;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .catg-hover {
@@ -217,7 +244,7 @@ input {
   height: 100%;
   padding-top: 50px;
   color: black;
-  font-size: 25px;
+  font-size: 17px;
   background: rgba(128, 128, 128, 0.603);
   opacity: 0;
   transition: 0.4s;
@@ -261,57 +288,110 @@ input {
   grid-column: 4;
 }
 
-.world-images-container {
+.people-container {
   width: $container;
   margin: auto;
-  justify-content: space-between;
   display: flex;
-  color: white;
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-shadow: 0.8px 0.8px black;
-  font-family: $main-font-light;
-
+  justify-content: space-between;
   div {
-    height: 240px;
     width: 30%;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .kosamui {
-    background-image: url("../assets/img/kosamui.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  .santorini {
-    background-image: url("../assets/img/Santorini.jpg");
-    background-size: cover;
-    margin: 0 10px;
-    background-repeat: no-repeat;
-  }
-
-  .tuscany {
-    background-image: url("../assets/img/tuscany.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  div:hover {
-    opacity: 0.8;
-    box-shadow: 1px 1px;
-    transform: scale(1.02);
+    border: 1px solid $border-color;
+    img {
+      height: 80px;
+      width: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    div {
+      position: relative;
+      text-align: left;
+      padding: 4px;
+      width: 100%;
+      border: none;
+      padding-top: 10px;
+      height: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      b {
+        font-family: $main-font-bold;
+        font-size: 15px;
+      }
+      p {
+        font-family: $main-font-light;
+        font-size: 12px;
+        b {
+          font-size: 14px;
+          color: #6e6a6a;
+        }
+      }
+      a {
+        font-family: $main-font-light;
+        font-weight: bold;
+        font-style: italic;
+        position: absolute;
+        bottom: 0;
+        padding-bottom: 8px;
+      }
+    }
   }
 }
-@media (min-width: 550px) {
-  // .main-banner {
-  //   height: 400px;
-  // }
+@media (min-width: 500px) {
+  .catg-hover {
+    font-size: 25px;
+  }
+  .people-container {
+    div {
+      img {
+        height: 150px;
+      }
+      div {
+        padding: 6px;
+        padding-top: 10px;
+        height: 140px;
+        b {
+          font-family: $main-font-bold;
+          font-size: 16px;
+        }
+        p {
+          font-family: $main-font-light;
+          font-size: 14px;
+          b {
+            font-size: 14px;
+            color: #6e6a6a;
+          }
+        }
+      }
+    }
+  }
   .people-images {
     grid-template-rows: 75px 75px 75px 75px;
   }
 }
 @media (min-width: 900px) {
+  .people-container {
+    div {
+      img {
+        height: 200px;
+      }
+      div {
+        padding: 10px;
+        padding-top: 10px;
+        height: 140px;
+        b {
+          font-family: $main-font-bold;
+          font-size: 20px;
+        }
+        p {
+          font-family: $main-font-light;
+          font-size: 17px;
+          b {
+            font-size: 18px;
+            color: #6e6a6a;
+          }
+        }
+      }
+    }
+  }
   .main-banner {
     height: 400px;
   }

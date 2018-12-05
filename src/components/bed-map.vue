@@ -366,7 +366,7 @@ export default {
   position: relative;
   width: 40px;
   height: 40px;
-  top: -160px;
+  top: -230px;
   left: -10px;
   border: none;
   padding: 5px;

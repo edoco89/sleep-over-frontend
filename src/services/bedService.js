@@ -46,10 +46,18 @@ function getBed(bedId) {
         .then(res => res.data)
 }
 
+function addReview(reviews) {
+   const bedId = reviews[reviews.length-1].bedId
+    console.log('bedservice', bedId, reviews)
+    return axios.post(`${BASE_URL}/${reviews[reviews.length-1].bedId}`, reviews, bedId)
+    .then (res => res.data)
+}
+
 
 export default {
     query,
     saveBed,
     removeBed,
-    getBed
+    getBed,
+    addReview
 }

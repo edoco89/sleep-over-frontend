@@ -1,67 +1,65 @@
 <template>
   <section>
     <div class="form-container mild-border">
-      <span>Full Name
+      <span>
+        Full Name
         <input type="text" v-model="user.fullname">
       </span>
-      <!-- <span>Email  <input type="email" v-model="user.email" name id :placeholder="user.email"> </span>   -->
-      <!-- <span>Password <input type="text"> </span> 
-      <span> Password verification <input type="text"></span>-->
-      <!-- <div class="select is-multiple">
-        Hobbies
-        <select v-model="user.hobbies" multiple size="8">
-          <option v-for="hobby in user.hobbies" :key="hobby" :value="hobby"> {{hobby}} </option>
-        </select> -->
-<!--       
-      <div class="select is-multiple">
-        Hobbies
-        <select v-model="user.hobbies" multiple size="8">
-          <option value="sports">Sports</option>
-          <option value="food">Food</option>
-          <option value="bars">Bars</option>
-          <option value="chill">Chill</option>
-          <option value="books">Books</option>
-          <option value="cinema">Cinema</option>
-          <option value="travel">Travel and hiking</option>
-          <option value="kids">Kids</option>
-          <option value="musicals">Musicals and theater</option>
-          <option value="rock">Rock</option>
-          <option value="javascript">Javascript</option>
-        </select> -->
-        Languages
-        <select v-model="user.languages" multiple size="8">
-          <option value="english">English</option>
-          <option value="hebrew">Hebrew</option>
-          <option value="swahili">Swahili</option>
-          <option value="french">French</option>
-          <option value="spanish">Spanish</option>
-          <option value="romanian">Romanian</option>
-          <option value="chinese">Chinese</option>
-          <option value="japanese">Japanese</option>
-          <option value="thai">Thai</option>
-          <option value="portugese">Portugese</option>
-          <option value="russian">Russian</option>
-        </select>
+     
+      <div class="checkbox-container">
+         <span class="header-edit"> Hobbies </span>
+      <el-checkbox-group v-model="user.hobbies">
+        <el-checkbox label="Sports"></el-checkbox>
+        <el-checkbox label="Food"></el-checkbox>
+        <el-checkbox label="Bars"></el-checkbox>
+        <el-checkbox label="Chill"></el-checkbox>
+        <el-checkbox label="Books"></el-checkbox>
+        <el-checkbox label="Cinema"></el-checkbox>
+        <el-checkbox label="Travel and Hiking"></el-checkbox>
+        <el-checkbox label="Kids"></el-checkbox>
+        <el-checkbox label="Musicals"></el-checkbox>
+        <el-checkbox label="Rock"></el-checkbox>
+        <el-checkbox label="Javascript"></el-checkbox>
+      </el-checkbox-group>
+
+      <div class="">
+       <span class="header-edit">  Languages </span>
+        <el-checkbox-group v-model="user.languages">
+          <el-checkbox label="English">English</el-checkbox>
+          <el-checkbox label="Hebrew">Hebrew</el-checkbox>
+          <el-checkbox label="Swahili">Swahili</el-checkbox>
+          <el-checkbox label="French">French</el-checkbox>
+          <el-checkbox label="Spanish">Spanish</el-checkbox>
+          <el-checkbox label="Romanian">Romanian</el-checkbox>
+          <el-checkbox label="Chinese">Chinese</el-checkbox>
+          <el-checkbox label="Japanese">Japanese</el-checkbox>
+          <el-checkbox label="Thai">Thai</el-checkbox>
+          <el-checkbox label="Portugese">Portugese</el-checkbox>
+          <el-checkbox label="Russian">Russian</el-checkbox>
+        </el-checkbox-group>
       </div>
-      <span>About me
+ 
+      <span>
+      <span class="header-edit">About me</span>  
         <textarea v-model="user.aboutMe"></textarea>
       </span>
-      <span>Age
+      <span>
+       <span class="header-edit">  Age </span>
         <input type="number" v-model="user.age">
       </span>
       <span>
-        <div class="control">
-          Gender
+        <div class="control flex-row">
+         <span class="header-edit">  Gender </span>
           <label class="radio">
-            <input type="radio" name="female">
+            <input :checked="user.gender === 'female'" @click="femaleClicked" type="radio" name="type">
             Female
           </label>
           <label class="radio">
-            <input type="radio" name="male">
+            <input :checked="user.gender === 'male'" @click="maleClicked" type="radio" name="type">
             Male
           </label>
           <label class="radio">
-            <input type="radio" name="fluid">
+            <input :checked="user.gender === 'bi'" @click="biClicked" type="radio" name="type">
             Not binary
           </label>
         </div>
@@ -98,37 +96,37 @@ export default {
     if (userId) {
       this.$store.dispatch({ type: "getUserById", userId });
     }
-  },
-//   mounted() {
-// setTimeout(() => {
-//    console.log ('user hobbies', this.user)
-// }, 4000);
-//   },
+  }, 
   computed: {
     user() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     },
+    // checkList () {
+      
+    // }
   },
   data() {
     return {
       bed: {
         _id: 67
-      }
+      },
     };
   },
   methods: {
     saveUser() {
       if (this.user.age) {
         this.$store.dispatch({ type: "saveUser", user: this.user }).then(_ => {
-          // this.$router.push('/userProfile')
         });
-        // .catch(_=> {
-        //     EventBusService.$emit(SHOW_MSG, {txt: 'Could not save Todo', type: 'danger'})
-        // })
       }
-      // else {
-      //     EventBusService.$emit(SHOW_MSG, {txt: 'No user to save!', type: 'danger'})
-      // }
+    },
+    femaleClicked () {
+      this.user.gender = 'female';
+    },
+    maleClicked () {
+      this.user.gender = 'male';
+    },
+    biClicked () {
+      this.user.gender = 'bi';
     }
   }
 };
@@ -137,27 +135,54 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+
 * {
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0 auto;
+  align-items: left;
 }
 
 section {
   width: $container;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   background-color: $bg-color;
+
+  * {
+    align-content: flex-start;
+  }
 }
 
 button {
   margin: 10px;
 }
 
+textarea {
+  width: 300px;
+  height: 150px;
+}
+
+.control {
+  margin: 10px 0;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-edit {
+  font-weight: bold;
+}
+
+.marked {
+  background-color: gray;
+}
 
 .upload-image {
-    margin-top: 11px;
+  margin-top: 11px;
 }
 
 .file-label {

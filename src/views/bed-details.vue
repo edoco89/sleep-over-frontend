@@ -2,15 +2,18 @@
   <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
+
       <div class="gallery-imgs">
-        <img v-if="bed.imgUrls[0]" class="single-img" @click="openGallery" :src="bed.imgUrls[0]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[1]" class="single-img" @click="openGallery" :src="bed.imgUrls[1]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrls[2]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrls[3]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
+        <!-- ONE IMG OR LESS -->
+        <div v-if="!bed.imgUrls[1]" class="one-img-display">
+          <img v-if="bed.imgUrls.length > 0" @click="openGallery" :src="bed.imgUrls[0]">
+          <img v-else src="@/assets/img/no-img.jpg">
+        </div>
+        <!-- ONE IMG OR MORE -->
+        <div v-else class="two-img-display">
+          <img @click="openGallery" :src="bed.imgUrls[0]">
+          <img @click="openGallery" :src="bed.imgUrls[1]">
+        </div>
       </div>
     </div>
 
@@ -22,45 +25,56 @@
             {{bed.hostName+ ' ' + bed.type}} in
             {{bed.location.address}}
           </h2>
-          <a href="#" class="secondary-header" @click="openDetails">{{'About ' + bed.hostName}}</a>
-          <button class="secondary-header" @click="openChat">{{'Send Message To ' + bed.hostName}}</button>
+          <a href="#" class="secondary-header" @click="openDetails">{{'More on ' + bed.hostName}}</a>
         </div>
 
         <div class="host-details">
           <h4>
             <b>Host Rating:</b>
-            {{bed.rating}}
             <img src="@/assets/img/star.png">
+            {{bed.rating}}
           </h4>
           <h4 v-if="bedHost && bedHost.aboutMe">
             <b>About Me:</b>
             <br>
             {{bedHost.aboutMe}}
           </h4>
-          <h4 v-if="bed.languages">
+          <h4 v-if="bed.languages.length > 0">
             <b>Languages:</b>
             {{bed.languages.join(', ')}}
           </h4>
           <div>
-            <bed-amenities :details="bed.ameneties"></bed-amenities>
+            <bed-amenities :aments="bed.ameneties"></bed-amenities>
           </div>
         </div>
       </div>
-
       <div class="booking-container">
+        <div class="chat-container">
+          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
+          <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
+        </div>
         <book-bed></book-bed>
       </div>
     </div>
-    <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
-      <div class="modal-content">
-        <user-details :user="bedHost" v-if="isDetalis"></user-details>
+      <div class="modal-content-details">
+        <user-details class="host-details-modal" :user="bedHost" v-if="isDetalis"></user-details>
         <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
+
+<div class="reviews flex-col mild-border"> 
+  <button @click="addReviewOpen = !addReviewOpen;"> Add Review </button>
+  <div class="review-add" v-if="addReviewOpen">
+    <textarea v-model="newReview.txt"> </textarea>
+    <button @click="saveReview" > Save </button>
+     </div>
+  <div class="flex-row review-single" v-for="review in bed.reviews" :key="review.index"> <div class="flex-row bold user-box-review"> {{review.name}}: </div> <div> {{review.txt}} </div> </div>
+</div>
+
   </section>
 </template>
 <script>
@@ -74,28 +88,30 @@ export default {
     return {
       showModal: false,
       isDetalis: false,
-      bedHost: null
+      bedHost: null,
+      addReviewOpen: false,
+      newReview: {
+        givenByName: null,
+        txt: null,
+        givenByUserId: null,
+        bedId: null
+      }
     };
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
       this.$store.dispatch({ type: "getBedById", bedId }).then(bed => {
+        console.log("bed", bed);
         this.$store
           .dispatch({ type: "getUserById", id: this.bed.hostId })
           .then(user => (this.bedHost = user));
       });
     }
   },
-  watch: {
-    showModal() {}
-  },
   methods: {
     closeModal() {
       this.showModal = false;
-    },
-    show() {
-      console.log("showing");
     },
     openDetails() {
       this.isDetalis = true;
@@ -134,11 +150,21 @@ export default {
           this.isShow = true;
           this.$router.push(`/chat/${loggedInUserId}`);
         });
+    },
+    saveReview() {
+      this.addReviewOpen = false;
+      const loggedInUser = this.$store.getters.loggedInUser;
+      this.newReview.givenByName = loggedInUser.fullname
+      this.newReview.givenByUserId = loggedInUser._id
+      this.newReview.bedId = this.bed._id
+      this.$store.dispatch( {type:"addReview", review: this.newReview})
+      .then(res => {this.newReview.txt = null
+      console.log('here', this.newReview)})
     }
   },
   computed: {
     bed() {
-      return this.$store.getters.getCurrBed;
+      return JSON.parse(JSON.stringify(this.$store.getters.getCurrBed));
     }
   },
   components: {
@@ -165,22 +191,51 @@ export default {
   width: 50%;
 }
 
-.gallery-imgs {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 340px;
-  .single-img {
+.chat-container {
+  text-align: left;
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 15px;
+  .chat-btn {
+    background: rgb(76, 165, 76);
+    border-radius: 50%;
+    padding: 4px;
+    height: 33px;
+    margin-right: 10px;
+    border: 1.4px solid #222222;
     &:hover {
       cursor: pointer;
       opacity: 0.8;
     }
   }
+}
+
+.gallery-imgs {
+  height: 340px;
+  .one-img-display {
+    img {
+      height: 340px;
+      object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
+    }
+  }
+  .two-img-display {
+    img {
+      height: 170px;
+      object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
+    }
+  }
   img {
     border: 1px solid $border-color;
     border-top: none;
-    height: 170px;
-    width: 50%;
-    object-fit: cover;
+    width: 100%;
   }
 }
 
@@ -220,8 +275,9 @@ h4 {
 }
 
 .booking-container {
-  display: flex;
+  // display: flex;
   margin: 15px;
+  text-align: center;
 }
 
 .details-bottom {
@@ -229,6 +285,41 @@ h4 {
   justify-content: space-between;
   width: 100%;
   border: 1px solid rgb(199, 199, 199);
+}
+
+.modal-content-details {
+  flex-direction: row;
+  margin: 0 auto;
+  z-index: 1;
+  .host-details-modal {
+    background: white;
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    padding: 25px;
+  }
+}
+textarea {
+  height: 30px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reviews {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: $main-font-light;
+  text-align: left;
+  padding: 10px;
+}
+
+.review-single {
+  margin: 8px 0;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .host-details {
@@ -239,10 +330,5 @@ h4 {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
-}
-.modal-content {
-  width: $container;
-  height: 80%;
-  margin: 0 auto;
 }
 </style>

@@ -4,11 +4,20 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div class="modal-background" @click="$emit('closeModal')"></div>
       <div class="modal-content">
-        <h1>{{'SleepOver ' + formType}}</h1>
+        <h2>
+          <span>SleepOver</span>
+          {{formType}}
+        </h2>
         <form @submit.prevent="setUser">
           <div v-if="formType === 'Join'">
             <b>Full Name:</b>
-            <input v-model="user.fullname" type="text" name="fullname" required placeholder="Your Name">
+            <input
+              v-model="user.fullname"
+              type="text"
+              name="fullname"
+              required
+              placeholder="Your Name"
+            >
           </div>
           <div>
             <b>Email:</b>
@@ -25,7 +34,7 @@
             <input type="password">
           </div>
           <button>{{formType}}</button>
-          <span @click="changeForm">{{(formType === 'Login')? 'Join': 'Login'}}</span>
+          <a href="#" @click="changeForm">{{(formType === 'Login')? 'Join': 'Login'}}</a>
         </form>
       </div>
       <button @click="$emit('closeModal')" class="modal-close is-large" aria-label="close"></button>
@@ -71,8 +80,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/_vars.scss";
 .modal-content {
   width: 100%;
+  border-radius: 15px;
+  h2 {
+    background: brown;
+    color: white;
+    padding: 10px;
+    font-family: $main-font-bold;
+    span {
+      font-family: pacifico;
+    }
+  }
   form {
     width: 85%;
     margin: auto;
@@ -80,13 +100,28 @@ export default {
       font-size: 15px;
       padding: 10px;
       display: flex;
+      text-align: left;
       justify-content: space-between;
-      margin: 10px;
+      margin: 8px;
+      input{
+        padding: 5px;
+        max-height: 36px;
+      }
     }
-    span,
     button {
-      cursor: pointer;
+      background: brown;
+      color: white;
+      border: none;
+      padding: 7px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      font-family: $main-font-bold;
       opacity: 0.8;
+      cursor: pointer;
+    }
+    a {
+      font-style: italic;
+      margin-left: 10px;
     }
   }
 }

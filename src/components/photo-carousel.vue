@@ -45,4 +45,8 @@ export default {
   height: inherit;
   width: inherit;
 }
+
+.carousel-inner {
+  height: 350px;
+}
 </style>

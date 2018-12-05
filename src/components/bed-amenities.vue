@@ -2,31 +2,31 @@
   <section v-if="show">
     <b>Home Amenities:</b>
     <div class="amenities-cont">
-      <div v-if="details.shampoo">
+      <div v-if="details.Shampoo">
         <img src="@/assets/img/shampoo.png" alt="shampoo">
         Shampoo
       </div>
-      <div v-if="details.accessibility">
+      <div v-if="details.Accessible">
         <img src="@/assets/img/accesible.png" alt="accessibility">
         Accesible
       </div>
-      <div v-if="details.wifi">
+      <div v-if="details.Wifi">
         <img src="@/assets/img/wifi.png" alt="wifi">
         Wifi
       </div>
-      <div v-if="details.acceptsPets">
+      <div v-if="details.Pets">
         <img src="@/assets/img/pets.png" alt="acceptsPets">
         Pets Allowed
       </div>
-      <div v-if="details.airConditioner">
+      <div v-if="details['Air Conditioner']">
         <img src="@/assets/img/ac.png" alt="airConditioner">
         AC
       </div>
-      <div v-if="details.parking">
+      <div v-if="details.Parking">
         <img src="@/assets/img/parking.png" alt="parking">
         Parking
       </div>
-      <div v-if="details.children">
+      <div v-if="details['Children Ok']">
         <img src="@/assets/img/children.png" alt="children">
         Have Children
       </div>
@@ -37,20 +37,24 @@
 <script>
 export default {
   props: {
-    details: Object
+    aments: Object
   },
   data() {
     return {
       show: false
     };
   },
-  methods: {
-    isDetails() {
-      for (let key in details) {
-        if (details[key]) return (this.show = true);
-      }
-      this.show = false;
+  computed: {
+    details() {
+      return this.aments;
     }
+  },
+  mounted() {
+    console.log("amentss", this.aments);
+    for (let key in this.aments) {
+      if (this.aments[key]) return (this.show = true);
+    }
+    this.show = false;
   }
 };
 </script>

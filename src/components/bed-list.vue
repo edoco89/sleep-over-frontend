@@ -26,8 +26,8 @@ export default {
 .bed-list {
   width: 100%;
   display: grid;
-  grid-gap: 5px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   //   justify-content: center;
   //   flex-wrap: wrap;
   margin: 0 auto;
