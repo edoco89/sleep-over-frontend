@@ -43,6 +43,11 @@ function getUserById(userId) {
         .then(res => res.data)
 }
 
+function setUserChatHistory(userId1, userId2, chatId ) {
+    return axios.get(`${BASE_URL}/${userId2}/${userId1}/${chatId}`)
+        .then(res => res.data)
+}
+
 //NEED INTEGRATE 
 function getUserBeds(userId) {
     return axios.get(`${BASE_URL}/userBeds/${userId}`)

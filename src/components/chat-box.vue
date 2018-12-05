@@ -1,12 +1,13 @@
 <template>
   <section>
-    <p v-for="msg in chat.messages" :key="msg.timestamp">{{msg}}</p>
+    <p v-for="msg in currChat.messages" :key="msg.timestamp">{{msg}}</p>
     <input type="text" v-model="currMsg.txt">
     <button @click="sendMsg">SEND</button>
   </section>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -16,28 +17,36 @@ export default {
         isRead: false,
         timestamp: Date.now()
       },
-      currentUser: {}
+      currUser: {},
+      currChat: {}
     };
   },
   created() {
-    this.currentUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser))
+    this.currUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser))
+    this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat))
   },
-  computed: {
-    chat() {
+  watch: {
+    currChat() {
       return this.$store.getters.getChat;
     }
   },
   methods: {
     sendMsg() {
       this.currMsg.timestamp = Date.now();
-      this.currMsg.from = this.currentUser._id;
-      this.$store.dispatch({ type: "sendMsg", message: { ...this.currMsg } });
+      this.currMsg.from = this.currUser._id;
+      this.$socket.emit('sendMsg',{ chatId: this.currChat._id, message: this.currMsg });
       this.currMsg = {
         from: '',
         txt: "",
         isRead: false,
         timestamp: Date.now()
-      };
+      }
+    }
+  },
+  sockets: {
+    getMsg(msg) {
+      this.currChat.messages.push(msg)
+      this.$store.dispatch({ type: 'updateChat', message: msg })
     }
   }
 };

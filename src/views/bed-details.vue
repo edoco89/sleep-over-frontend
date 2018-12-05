@@ -7,9 +7,9 @@
         <img v-else src="@/assets/img/no-img.jpg" alt>
         <img v-if="bed.imgUrls[1]" class="single-img" @click="openGallery" :src="bed.imgUrls[1]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrl[2]">
+        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrls[2]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrl[3]">
+        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrls[3]">
         <img v-else src="@/assets/img/no-img.jpg" alt>
       </div>
     </div>
@@ -47,8 +47,8 @@
         </div>
       </div>
 
-      <!-- <v-calendar :attributes="attrs"></v-calendar> -->
       <div class="booking-container">
+        <book-bed></book-bed>
       </div>
     </div>
     <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
@@ -107,11 +107,33 @@ export default {
     },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
-      this.$store.dispatch({ type: "getChatByIds", chatId1: this.bed.hostId , chatId2: loggedInUserId })
-        .then(chat => {
-            if (!chat) this.$store.dispatch({ type: "createChatByIds", chatId1: this.bed.hostId  , chatId2: loggedInUserId })
-      this.$router.push(`/chat/${loggedInUserId}`)
+      this.$store
+        .dispatch({
+          type: "getChatByIds",
+          userId1: loggedInUserId,
+          userId2: this.bedHost._id
         })
+        .then(chat => {
+          if (!chat) {
+            return this.$store
+              .dispatch({
+                type: "createChatByIds",
+                userId1: loggedInUserId,
+                userId2: this.bedHost._id
+              })
+          }
+          return chat
+        })
+        .then(chat => {
+              window.chat = chat
+              this.$socket.emit("chatRequest", {
+                currUserId: loggedInUserId,
+                userId: this.bedHost._id,
+                chatId: chat._id
+              });
+          this.isShow = true;
+          this.$router.push(`/chat/${loggedInUserId}`);
+        });
     }
   },
   computed: {

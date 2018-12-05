@@ -33,7 +33,6 @@ export default {
         getUserById({ commit }, { id }) {
             return userService.getUserById(id)
                 .then(user => {
-                    console.log('the user', user);
                     return user
                 })
             // .then(user => user)

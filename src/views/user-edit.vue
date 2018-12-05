@@ -87,7 +87,7 @@
       <router-link exact :to="'/bed/edit/' + bed._id">Add Hosting Accomodations</router-link>
 
       <button @click="saveUser" class="danger-button">Save Changes</button>
-    </div>
+
   </section>
 </template>
 
