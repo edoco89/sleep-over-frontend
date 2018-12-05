@@ -69,6 +69,10 @@ export default {
                 state.filter.byLocation.lat = position.coords.latitude,
                     state.filter.byLocation.lng = position.coords.longitude
             });
+        },
+        setReview(state, { review }) {
+            console.log('before push in mutation', state.currBed)
+            state.currBed.reviews.push(review)
         }
     },
     actions: {
@@ -103,10 +107,9 @@ export default {
                     })
                 })
         },
-        addReview() {
-            commit ({type: 'addReview', review})
-            return reviewService.addReview(review)
-
+        addReview({commit, state}, { review }) {
+            commit({ type: 'setReview', review })
+            return bedService.addReview(state.currBed.reviews)
         },
         setFilter({ commit, dispatch }, { filter }) {
             commit({ type: 'setFilter', filter })

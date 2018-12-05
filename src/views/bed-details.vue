@@ -56,7 +56,6 @@
         <book-bed></book-bed>
       </div>
     </div>
-    <!-- <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div> -->
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
@@ -67,17 +66,15 @@
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
 
-    <div class="reviews flex-col mild-border">
-      <button @click="addReviewOpen = !addReviewOpen;">Add Review</button>
-      <div class="review-add" v-if="addReviewOpen">
-        <textarea v-model="newReview"></textarea>
-        <button @click="saveReview">Save</button>
-      </div>
-      <div class="flex-row review-single" v-for="review in bed.reviews" :key="review">
-        <div class="flex-row bold user-box-review">{{review.name}}:</div>
-        <div>{{review.txt}}</div>
-      </div>
-    </div>
+<div class="reviews flex-col mild-border"> 
+  <button @click="addReviewOpen = !addReviewOpen;"> Add Review </button>
+  <div class="review-add" v-if="addReviewOpen">
+    <textarea v-model="newReview.txt"> </textarea>
+    <button @click="saveReview" > Save </button>
+     </div>
+  <div class="flex-row review-single" v-for="review in bed.reviews" :key="review.index"> <div class="flex-row bold user-box-review"> {{review.name}}: </div> <div> {{review.txt}} </div> </div>
+</div>
+
   </section>
 </template>
 <script>
@@ -93,7 +90,12 @@ export default {
       isDetalis: false,
       bedHost: null,
       addReviewOpen: false,
-      newReview: null
+      newReview: {
+        givenByName: null,
+        txt: null,
+        givenByUserId: null,
+        bedId: null
+      }
     };
   },
   created() {
@@ -138,13 +140,19 @@ export default {
         });
     },
     saveReview() {
-      const loggedInUser = this.$store.getters.loggedInUser._id;
-      this.$store.dispatch({ type: "addReview", review: this.newReview });
+      this.addReviewOpen = false;
+      const loggedInUser = this.$store.getters.loggedInUser;
+      this.newReview.givenByName = loggedInUser.fullname
+      this.newReview.givenByUserId = loggedInUser._id
+      this.newReview.bedId = this.bed._id
+      this.$store.dispatch( {type:"addReview", review: this.newReview})
+      .then(res => {this.newReview.txt = null
+      console.log('here', this.newReview)})
     }
   },
   computed: {
     bed() {
-      return this.$store.getters.getCurrBed;
+      return JSON.parse(JSON.stringify(this.$store.getters.getCurrBed));
     }
   },
   components: {
@@ -300,9 +308,6 @@ textarea {
 
 .bold {
   font-weight: bold;
-}
-
-.user-box-review {
 }
 
 .host-details {
