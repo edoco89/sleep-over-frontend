@@ -1,20 +1,20 @@
 <template>
   <router-link :to="'/bed/' + bed._id" class="bed-preview">
-    <section>
+    <section class="preview-container">
       <!-- <img :src="bed.imgUrl" :title="bed.hostId" class="card-img"> -->
-      <photo-carusel :pics="bed.imgUrls"></photo-carusel>
+      <photo-carusel class="photo-carousel-preview" :pics="bed.imgUrls"></photo-carusel>
       <div class="text-preview">
         <b>{{bed.hostName+ "'s " + bed.type}}</b>
         <br>
-        <p>
-          {{bed.location.address}}
-          <br>
-          {{bed.rating}}
-          <img src="@/assets/img/star.png">
-          ({{parseInt(Math.random()*50)}})
-        </p>
+        <div>{{bed.location.address}}</div>
       </div>
     </section>
+    <div class="bed-rating">
+      <img src="@/assets/img/star.png">
+      {{bed.rating}}
+      |
+      ({{parseInt(Math.random()*50)}})
+    </div>
   </router-link>
 </template>
 
@@ -37,13 +37,12 @@ export default {
 @import "@/assets/scss/_vars.scss";
 
 .bed-preview {
-  display: flex;
+  position: relative;
   text-align: left;
   justify-content: space-between;
   width: 100%;
   background-color: $bg-color-secondary;
   border-radius: 4px;
-  padding: 10px;
   border: 1px solid $border-color;
   color: $text-color-cards;
   &:hover {
@@ -55,6 +54,9 @@ export default {
     object-fit: cover;
   }
 }
+.photo-carousel-preview {
+  height: 110px;
+}
 b {
   font-size: 17px;
 }
@@ -65,8 +67,25 @@ a {
   color: initial;
   text-decoration: initial;
 }
+.preview-container {
+}
+
+.bed-rating {
+  background: $border-color;
+  width: inherit;
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+  font-family: $main-font-bold;
+}
 
 .text-preview {
   flex-direction: column;
+  padding: 10px;
+  font-family: $main-font-light;
+  margin-bottom: 45px;
+  b {
+    font-family: $main-font-bold;
+  }
 }
 </style>

@@ -46,7 +46,7 @@ export default {
   width: inherit;
 }
 
-.carousel-indicators {
-  bottom:-12px;
+.carousel-inner {
+  height: 350px;
 }
 </style>

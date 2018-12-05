@@ -98,12 +98,13 @@ export default {
                 })
         },
         //WORK ON EDITOR FORM
-        saveBed({ dispatch }, { bed }) {
+        saveBed({ dispatch }, { bed, user }) {
+            user.pass = user.password;
             return bedService.saveBed(bed)
                 .then(savedBed => {
-                    // dispatch('addUserBed', savedBed)
-                    // commit({ type: 'saveBed', bed: savedBed })
-                    return savedBed
+                    return dispatch("checkLogin", { user }).then(() => {
+                        return savedBed
+                    })
                 })
         },
         addReview({commit, state}, { review }) {
