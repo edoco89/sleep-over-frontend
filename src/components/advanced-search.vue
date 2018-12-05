@@ -120,8 +120,6 @@ input {
 .primary-filter {
   display: flex;
   flex-wrap: wrap;
-  // justify-content: space-between;
-  // margin: auto;
   margin-top: 10px;
   img {
     height: 100%;
@@ -143,6 +141,7 @@ input {
     margin-right: 15px;
     margin-left: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 }
 
@@ -161,6 +160,7 @@ input {
 
 .ameneties-filter {
   margin-top: 15px;
+  text-align: left;
 }
 
 .date-filter {
@@ -172,7 +172,6 @@ input {
   display: block;
   width: 80%;
   margin: 0;
-  // margin-bottom: 10px;
   input {
     margin-right: 10px;
     margin-bottom: 10px;
@@ -194,16 +193,5 @@ input {
   width: 78%;
   align-content: center;
   flex-direction: row;
-}
-
-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: $container;
-  height: inherit;
-  margin: auto;
-  background-color: $bg-color-secondary;
-  border-radius: 4px;
 }
 </style>

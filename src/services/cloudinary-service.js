@@ -22,6 +22,7 @@ function doUploadImg(elForm) {
         .then(function (response) {
             return response.json()
         })
+        .catch(err => err)
 }
 
 export default {
