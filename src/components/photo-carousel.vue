@@ -46,13 +46,7 @@ export default {
   width: inherit;
 }
 
-.carousel {
-  height: 100%;
-}
 .carousel-inner {
   height: 350px;
-}
-.slide {
-  height: 100%;
 }
 </style>

@@ -24,10 +24,7 @@
           </h2>
           <a href="#" class="secondary-header" @click="openDetails">{{'More on ' + bed.hostName}}</a>
         </div>
-        <div class="chat-container">
-          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
-          <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
-        </div>
+
         <div class="host-details">
           <h4>
             <b>Host Rating:</b>
@@ -49,10 +46,14 @@
         </div>
       </div>
       <div class="booking-container">
+        <div class="chat-container">
+          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
+          <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
+        </div>
         <book-bed></book-bed>
       </div>
     </div>
-    <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div>
+    <!-- <div>{{(bed.reviews.length > 0)? bed.reviews : ''}}</div> -->
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
@@ -61,6 +62,18 @@
         <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+    <div class="reviews flex-col mild-border">
+      <button @click="addReviewOpen = !addReviewOpen;">Add Review</button>
+      <div class="review-add" v-if="addReviewOpen">
+        <textarea v-model="newReview"></textarea>
+        <button @click="saveReview">Save</button>
+      </div>
+      <div class="flex-row review-single" v-for="review in bed.reviews" :key="review">
+        <div class="flex-row bold user-box-review">{{review.name}}:</div>
+        <div>{{review.txt}}</div>
+      </div>
     </div>
   </section>
 </template>
@@ -75,7 +88,9 @@ export default {
     return {
       showModal: false,
       isDetalis: false,
-      bedHost: null
+      bedHost: null,
+      addReviewOpen: false,
+      newReview: null
     };
   },
   created() {
@@ -118,6 +133,10 @@ export default {
             });
           this.$router.push(`/chat/${loggedInUserId}`);
         });
+    },
+    saveReview() {
+      const loggedInUser = this.$store.getters.loggedInUser._id;
+      this.$store.dispatch({ type: "addReview", review: this.newReview });
     }
   },
   computed: {
@@ -151,7 +170,9 @@ export default {
 
 .chat-container {
   text-align: left;
-  margin-left: 10px;
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 15px;
   .chat-btn {
     background: rgb(76, 165, 76);
     border-radius: 50%;
@@ -221,8 +242,9 @@ h4 {
 }
 
 .booking-container {
-  display: flex;
+  // display: flex;
   margin: 15px;
+  text-align: center;
 }
 
 .details-bottom {
@@ -240,8 +262,36 @@ h4 {
     background: white;
     width: 90%;
     margin: auto;
+    border-radius: 10px;
+    padding: 25px;
   }
 }
+textarea {
+  height: 30px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reviews {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: $main-font-light;
+  text-align: left;
+  padding: 10px;
+}
+
+.review-single {
+  margin: 8px 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.user-box-review {
+}
+
 .host-details {
   padding: 10px;
   display: flex;

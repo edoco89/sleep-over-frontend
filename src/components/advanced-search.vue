@@ -50,6 +50,12 @@ export default {
     this.filter = { ...this.$store.getters.getFilter };
     this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
+  // mounted() {
+  //   if (!this.place.geometry.location) {
+  //     this.place.geometry.location =  { lat: 32.0853, lng: 34.7818 } 
+  //     console.log(this.place)
+  //   }
+  // },
   methods: {
     toggleFilter() {
       this.isShown = !this.isShown;
@@ -138,6 +144,13 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
+}
+
+.flex-container-second {
+  width: 78%;
+  align-content: center;
+  flex-direction: row;
 }
 
 section {

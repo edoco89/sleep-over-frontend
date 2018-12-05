@@ -33,7 +33,6 @@ export default {
         getUserById({ commit }, { id }) {
             return userService.getUserById(id)
                 .then(user => {
-                    console.log('the user', user);
                     return user
                 })
             // .then(user => user)
@@ -41,7 +40,7 @@ export default {
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
             userService.saveUser( user, user._id)
-                .then(user => commit.user)
+                .then(user => commit({ type: 'setUser', user }))
         },
         addUserBed({ commit }, { savedBed }) {
             userService.saveUser(user.id, user)

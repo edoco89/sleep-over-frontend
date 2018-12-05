@@ -55,7 +55,7 @@ export default {
   }
 }
 .photo-carousel-preview {
-  height: 120px;
+  height: 110px;
 }
 b {
   font-size: 17px;
@@ -68,7 +68,6 @@ a {
   text-decoration: initial;
 }
 .preview-container {
-  
 }
 
 .bed-rating {
@@ -76,7 +75,7 @@ a {
   width: inherit;
   position: absolute;
   bottom: 0;
-  padding: 10px;;
+  padding: 5px;
   font-family: $main-font-bold;
 }
 
@@ -85,8 +84,8 @@ a {
   padding: 10px;
   font-family: $main-font-light;
   margin-bottom: 45px;
-  b{
-  font-family: $main-font-bold;
+  b {
+    font-family: $main-font-bold;
   }
 }
 </style>
