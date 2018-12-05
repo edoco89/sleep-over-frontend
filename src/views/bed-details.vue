@@ -2,15 +2,18 @@
   <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
+
       <div class="gallery-imgs">
-        <img v-if="bed.imgUrls[0]" class="single-img" @click="openGallery" :src="bed.imgUrls[0]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[1]" class="single-img" @click="openGallery" :src="bed.imgUrls[1]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[2]" class="single-img" @click="openGallery" :src="bed.imgUrls[2]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
-        <img v-if="bed.imgUrls[3]" class="single-img" @click="openGallery" :src="bed.imgUrls[3]">
-        <img v-else src="@/assets/img/no-img.jpg" alt>
+        <!-- ONE IMG OR LESS -->
+        <div v-if="!bed.imgUrls[1]" class="one-img-display">
+          <img v-if="bed.imgUrls.length > 0" @click="openGallery" :src="bed.imgUrls[0]">
+          <img v-else src="@/assets/img/no-img.jpg">
+        </div>
+        <!-- ONE IMG OR MORE -->
+        <div v-else class="two-img-display">
+          <img @click="openGallery" :src="bed.imgUrls[0]">
+          <img @click="openGallery" :src="bed.imgUrls[1]">
+        </div>
       </div>
     </div>
 
@@ -188,21 +191,31 @@ export default {
 }
 
 .gallery-imgs {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 340px;
-  .single-img {
-    &:hover {
-      cursor: pointer;
-      opacity: 0.8;
+  height: 340px;
+  .one-img-display {
+    img {
+      height: 340px;
+      object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
+    }
+  }
+  .two-img-display {
+    img {
+      height: 170px;
+      object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
     }
   }
   img {
     border: 1px solid $border-color;
     border-top: none;
-    height: 170px;
-    width: 50%;
-    object-fit: cover;
+    width: 100%;
   }
 }
 

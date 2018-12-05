@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="search-result-container">
     <div class="toggle-view el-icon-location-outline" @click="showMap" title="Map view"></div>
     <advanced-search></advanced-search>
     <div class="results-display">
@@ -47,7 +47,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
-section {
+.search-result-container {
   width: $container;
   margin: auto;
 }
@@ -59,6 +59,7 @@ section {
 
 .toggle-view {
   position: fixed;
+  right: 40px;
   display: block;
   z-index: 1;
   font-size: 25px;
