@@ -5,7 +5,7 @@
     <div class="bed-list">
       <span>Your Beds</span>
       <router-link to="/bedEdit" href="#">Add Bed</router-link>
-      <div v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
+      <div v-if="bed" v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
         <div class="bed-details">
           <b>Your {{bed.type}} In {{bed.location.address}}</b>
           <div>
@@ -16,7 +16,7 @@
             <bed-amenities :details="bed.ameneties"></bed-amenities>
           </div>
           <div>
-            <button v-if="bed.reviews.length > 0" @click="showModal = true">Bed Reviews</button>
+            <button v-if="bed.reviews" @click="showModal = true">Bed Reviews</button>
           </div>
           <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
         </div>
@@ -28,7 +28,7 @@
       <div @click="showModal = false" class="modal-background"></div>
       <div class="modal-content">
         <ul v-if="user.reviews > 0">
-          <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
+          <li v-for="(review,idx) in user.reviews.length > 0" :key="idx">{{review}}</li>
         </ul>
         <div v-else>NO Reviews</div>
       </div>
@@ -46,7 +46,7 @@ import userDetails from "@/components/userDetails.vue";
 export default {
   computed: {
     user() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
   },
   data() {
