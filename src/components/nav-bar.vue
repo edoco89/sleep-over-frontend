@@ -37,7 +37,13 @@ export default {
   },
   created() {
     const loggeduser = sessionStorage.loggedinUser;
-    if (loggeduser) this.$store.dispatch("reconnectUser", { loggeduser });
+    if (loggeduser) {
+    this.$store.dispatch("reconnectUser", { loggeduser })
+    .then( () => {
+      let loggedInUser = this.$store.getters.loggedInUser;
+      this.$store.dispatch({ type: "getChatsById", userId: loggedInUser._id })
+    })
+    }
   },
   methods: {
     closeModal() {

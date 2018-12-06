@@ -16,7 +16,7 @@
             <bed-amenities :details="bed.ameneties"></bed-amenities>
           </div>
           <div>
-            <button v-if="bed.reviews.length > 0" @click="showModal = true">Bed Reviews</button>
+            <button v-if="bed.reviews" @click="showModal = true">Bed Reviews</button>
           </div>
           <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
         </div>
@@ -27,7 +27,7 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="showModal = false" class="modal-background"></div>
       <div class="modal-content">
-        <ul v-if="user.reviews > 0">
+        <ul v-if="user.reviews.length > 0">
           <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
         </ul>
         <div v-else>NO Reviews</div>
@@ -46,7 +46,7 @@ import userDetails from "@/components/userDetails.vue";
 export default {
   computed: {
     user() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
   },
   data() {
