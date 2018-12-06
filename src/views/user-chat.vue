@@ -36,8 +36,9 @@ export default {
     this.currUser = JSON.parse(
       JSON.stringify(this.$store.getters.loggedInUser)
     );
-    this.$store.dispatch({ type: "getChatsById", userId: this.currUser._id })
-    .then(users => (this.userChats = users));
+    this.$store
+      .dispatch({ type: "getChatsById", userId: this.currUser._id })
+      .then(users => (this.userChats = users));
   },
   methods: {
     openChat(userId) {
@@ -75,8 +76,11 @@ export default {
   text-align: left;
   background: lightblue;
   width: 25%;
-  height: 100%;
+  height: 69.7%;
   margin: 0;
+  position: fixed;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 .modal-content {
   display: flex;
@@ -89,7 +93,7 @@ export default {
   height: fit-content;
   padding-bottom: 5px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   font-family: $main-font-bold;
   border-bottom: 1px solid gray;
