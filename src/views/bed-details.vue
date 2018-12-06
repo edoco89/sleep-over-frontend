@@ -5,18 +5,32 @@
 
       <div class="gallery-imgs">
         <!-- ONE IMG OR LESS -->
-        <div v-if="!bed.imgUrls[1]" class="one-img-display">
+        <div v-if="bed.imgUrls.length < 2" class="one-img-display">
           <img v-if="bed.imgUrls.length > 0" @click="openGallery" :src="bed.imgUrls[0]">
           <img v-else src="@/assets/img/no-img.jpg">
         </div>
-        <!-- ONE IMG OR MORE -->
-        <div v-else class="two-img-display">
+        <!-- TWO IMG -->
+        <div v-if="bed.imgUrls.length === 2" class="two-img-display">
           <img @click="openGallery" :src="bed.imgUrls[0]">
           <img @click="openGallery" :src="bed.imgUrls[1]">
         </div>
+        <!-- THREE IMG -->
+        <div v-if="bed.imgUrls.length === 3" class="three-img-display">
+          <img class="img1" @click="openGallery" :src="bed.imgUrls[0]">
+          <div>
+            <img @click="openGallery" :src="bed.imgUrls[1]">
+            <img @click="openGallery" :src="bed.imgUrls[2]">
+          </div>
+        </div>
+        <!-- FOUR IMG -->
+        <div v-if="bed.imgUrls.length > 3" class="four-img-display">
+          <img @click="openGallery" :src="bed.imgUrls[0]">
+          <img @click="openGallery" :src="bed.imgUrls[1]">
+          <img @click="openGallery" :src="bed.imgUrls[2]">
+          <img @click="openGallery" :src="bed.imgUrls[3]">
+        </div>
       </div>
     </div>
-
     <div class="details-bottom">
       <div>
         <div class="flex-col-start">
@@ -58,7 +72,7 @@
         <book-bed @bookRequest="bookRequest"></book-bed>
         </div>
       <div v-if="isBook" class="booking-container">
-        <p>We are about to process a
+        <p>Your request is has submitted for a
           <span>SleepOver</span>
           at {{bedHost.fullname}}'s {{bed.type}}
         </p>
@@ -66,7 +80,7 @@
           In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
           {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
         </p>
-        <button @click="submitBooking">Are you Sure?</button>
+        <p>The host will send you a message for approval</p>
       </div>
     </div>
 
@@ -142,19 +156,21 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
-    submitBooking() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+    bookRequest(askedDates) {
+      this.askedBookDates = { ...askedDates };
+      this.isBook = true;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -163,33 +179,44 @@ export default {
         .then(chat => {
           this.$store.dispatch({
             type: "getChatsById",
-            userId: loggedInUserId
+            userId: loggedInUser._id
           });
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });
-        });
-    },
-    bookRequest(askedDates) {
-      this.askedBookDates = { ...askedDates };
-      this.isBook = true;
-      console.log(askedDates);
+          return chat._id;
+        })
+        .then( (chatId) => {
+          let msg = {
+        from: loggedInUser._id,
+        txt: `${loggedInUser.fullname} submited a request for a sleepover at your place
+        between ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
+        Send a message to aprove`,
+        isRead: false,
+        timestamp: Date.now()
+          }
+      this.$socket.emit("sendMsg", {
+        chatId,
+        message: msg,
+        userId: this.bedHost._id
+      });
+        })
     },
     openChat() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -197,7 +224,7 @@ export default {
         })
         .then(chat => {
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });
@@ -247,7 +274,7 @@ export default {
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
-  min-height: 340px;
+  // min-height: 340px;
   width: 50%;
 }
 
@@ -271,10 +298,11 @@ export default {
 }
 
 .gallery-imgs {
-  height: 340px;
+  max-height: 340px;
   .one-img-display {
     img {
-      height: 340px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -283,8 +311,10 @@ export default {
     }
   }
   .two-img-display {
+    height: 100%;
     img {
-      height: 170px;
+      width: 100%;
+      height: 50%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -292,10 +322,37 @@ export default {
       }
     }
   }
+  .three-img-display {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    div {
+      width: 50%;
+      img {
+        height: 50%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top;
+      }
+    }
+    .img1 {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .four-img-display {
+    height: 100%;
+    width: 100%;
+    img {
+      height: 50%;
+      width: 50%;
+      object-fit: cover;
+    }
+  }
   img {
     border: 1px solid $border-color;
     border-top: none;
-    width: 100%;
   }
 }
 
@@ -390,5 +447,20 @@ textarea {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
+}
+@media (max-width: 900px) {
+  .img-gallery {
+    height: 280px;
+  }
+}
+@media (max-width: 750px) {
+  .img-gallery {
+    height: 250px;
+  }
+}
+@media (max-width: 650px) {
+  .img-gallery {
+    height: 235px;
+  }
 }
 </style>
