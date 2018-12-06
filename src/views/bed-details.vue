@@ -5,18 +5,32 @@
 
       <div class="gallery-imgs">
         <!-- ONE IMG OR LESS -->
-        <div v-if="!bed.imgUrls[1]" class="one-img-display">
+        <div v-if="bed.imgUrls.length < 2" class="one-img-display">
           <img v-if="bed.imgUrls.length > 0" @click="openGallery" :src="bed.imgUrls[0]">
           <img v-else src="@/assets/img/no-img.jpg">
         </div>
-        <!-- ONE IMG OR MORE -->
-        <div v-else class="two-img-display">
+        <!-- TWO IMG -->
+        <div v-if="bed.imgUrls.length === 2" class="two-img-display">
           <img @click="openGallery" :src="bed.imgUrls[0]">
           <img @click="openGallery" :src="bed.imgUrls[1]">
         </div>
+        <!-- THREE IMG -->
+        <div v-if="bed.imgUrls.length === 3" class="three-img-display">
+          <img class="img1" @click="openGallery" :src="bed.imgUrls[0]">
+          <div>
+            <img @click="openGallery" :src="bed.imgUrls[1]">
+            <img @click="openGallery" :src="bed.imgUrls[2]">
+          </div>
+        </div>
+        <!-- FOUR IMG -->
+        <div v-if="bed.imgUrls.length > 3" class="four-img-display">
+          <img @click="openGallery" :src="bed.imgUrls[0]">
+          <img @click="openGallery" :src="bed.imgUrls[1]">
+          <img @click="openGallery" :src="bed.imgUrls[2]">
+          <img @click="openGallery" :src="bed.imgUrls[3]">
+        </div>
       </div>
     </div>
-
     <div class="details-bottom">
       <div>
         <div class="flex-col-start">
@@ -124,9 +138,8 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
-    bookRequest(askedDates){
+    bookRequest(askedDates) {
       console.log(askedDates);
-      
     },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
@@ -198,7 +211,7 @@ export default {
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
-  min-height: 340px;
+  // min-height: 340px;
   width: 50%;
 }
 
@@ -222,10 +235,11 @@ export default {
 }
 
 .gallery-imgs {
-  height: 340px;
+  max-height: 340px;
   .one-img-display {
     img {
-      height: 340px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -234,8 +248,10 @@ export default {
     }
   }
   .two-img-display {
+    height: 100%;
     img {
-      height: 170px;
+      width: 100%;
+      height: 50%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -243,10 +259,37 @@ export default {
       }
     }
   }
+  .three-img-display {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    div {
+      width: 50%;
+      img {
+        height: 50%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top;
+      }
+    }
+    .img1 {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .four-img-display {
+    height: 100%;
+    width: 100%;
+    img {
+      height: 50%;
+      width: 50%;
+      object-fit: cover;
+    }
+  }
   img {
     border: 1px solid $border-color;
     border-top: none;
-    width: 100%;
   }
 }
 
@@ -341,5 +384,20 @@ textarea {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
+}
+@media (max-width: 900px) {
+  .img-gallery {
+    height: 280px;
+  }
+}
+@media (max-width: 750px) {
+  .img-gallery {
+    height: 250px;
+  }
+}
+@media (max-width: 650px) {
+  .img-gallery {
+    height: 235px;
+  }
 }
 </style>
