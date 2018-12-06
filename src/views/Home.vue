@@ -71,7 +71,7 @@
             The loveley couple offers an
             <b>Entire Comftorbule Room!</b>
           </p>
-          <a href="#">Check it Out!</a>
+          <router-link to="/bed/5c08f6f5a336a33a6c60d27c" href="#">Check it Out!</router-link>
         </div>
       </div>
       <div class="people2">
@@ -81,7 +81,7 @@
           <p>
             <b>Explore</b> L.A like a local
           </p>
-          <a href="#">Check it Out!</a>
+          <router-link to="/bed/5c08fb9ba336a33a6c60d280" href="#">Check it Out!</router-link>
         </div>
       </div>
       <div class="people3">
