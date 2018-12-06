@@ -84,6 +84,7 @@ export default {
 }
 .user-preview {
   margin: 10px;
+  z-index: 150;
   height: fit-content;
   padding-bottom: 5px;
   display: flex;

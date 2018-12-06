@@ -62,17 +62,18 @@
           </div>
         </div>
       </div>
-      <div  v-if="!isBook" class="booking-container">
+      <div v-if="!isBook" class="booking-container">
         <div class="chat-container">
           <a @click="openChat">
             <img class="chat-btn" src="@/assets/img/chat.png">
           </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
-          </div>
-        <book-bed @bookRequest="bookRequest"></book-bed>
         </div>
+        <book-bed @bookRequest="bookRequest"></book-bed>
+      </div>
       <div v-if="isBook" class="booking-container">
-        <p>We are about to process a
+        <p>
+          We are about to process a
           <span>SleepOver</span>
           at {{bedHost.fullname}}'s {{bed.type}}
         </p>
@@ -287,6 +288,7 @@ export default {
 .gallery-imgs {
   max-height: 340px;
   .one-img-display {
+    height: 100%;
     img {
       width: 100%;
       height: 100%;
@@ -320,12 +322,20 @@ export default {
         width: 100%;
         object-fit: cover;
         object-position: top;
+        &:hover {
+          opacity: 0.9;
+          cursor: pointer;
+        }
       }
     }
     .img1 {
       width: 50%;
       height: 100%;
       object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
     }
   }
   .four-img-display {
@@ -340,6 +350,10 @@ export default {
   img {
     border: 1px solid $border-color;
     border-top: none;
+    &:hover {
+      opacity: 0.9;
+      cursor: pointer;
+    }
   }
 }
 
