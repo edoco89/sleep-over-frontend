@@ -128,7 +128,10 @@ export default {
       });
     },
     saveUser() {
-      this.$store.dispatch({ type: "saveUser", user: this.user });
+      this.$store.dispatch({ type: "saveUser", user: this.user })
+      .then(res => {
+         this.$router.push(`/userProfile/${this.user._id}`);
+      })
     },
     femaleClicked() {
       this.user.gender = "female";

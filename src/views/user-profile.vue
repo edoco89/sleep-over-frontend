@@ -5,7 +5,7 @@
     <div class="bed-list">
       <span>Your Beds</span>
       <router-link to="/bedEdit" href="#">Add Bed</router-link>
-      <div v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
+      <div v-if="bed" v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
         <div class="bed-details">
           <b>Your {{bed.type}} In {{bed.location.address}}</b>
           <div>
@@ -27,8 +27,13 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="showModal = false" class="modal-background"></div>
       <div class="modal-content">
+<<<<<<< HEAD
         <ul v-if="user.reviews.length > 0">
           <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
+=======
+        <ul v-if="user.reviews > 0">
+          <li v-for="(review,idx) in user.reviews.length > 0" :key="idx">{{review}}</li>
+>>>>>>> ec4b6ae189be3b49a7d77389a5c67522f1d41026
         </ul>
         <div v-else>NO Reviews</div>
       </div>
