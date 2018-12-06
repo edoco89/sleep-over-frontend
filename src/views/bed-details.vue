@@ -72,8 +72,7 @@
         <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
       <div v-if="isBook" class="booking-container">
-        <p>
-          We are about to process a
+        <p>Your request is has submitted for a
           <span>SleepOver</span>
           at {{bedHost.fullname}}'s {{bed.type}}
         </p>
@@ -81,12 +80,12 @@
           In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
           {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
         </p>
-        <button @click="submitBooking">Are you Sure?</button>
+        <p>The host will send you a message for approval</p>
       </div>
     </div>
 
     <div class="reviews">
-      <button @click="addReviewOpen = !addReviewOpen;" class="block">Add Review</button>
+      <button @click="addReviewOpen = !addReviewOpen;" class="review-btn">Add Review</button>
       <div class="review-add" v-if="addReviewOpen">
         <p>Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}!</p>
         <textarea v-model="newReview.txt"></textarea>
@@ -95,17 +94,16 @@
         </div>
         <button @click="saveReview">Save</button>
       </div>
-      <div
-        class="flex-row review-single mild-border"
-        v-for="review in bed.reviews"
-        :key="review.index"
-      >
-        <div class="flex-col">
+      <div class="review-container" v-for="review in bed.reviews" :key="review.index">
+        <div class="review-preview">
           <img width="80" :src="review.reviewerImg">
           <div class="bold user-box-review">{{review.givenByName}}</div>
           <star-rating :star-size="15" v-model="review.rating"></star-rating>
         </div>
-        <div>{{review.txt}}</div>
+        <span>
+          <b>{{review.givenByName}}:</b>
+          {{review.txt}}
+        </span>
       </div>
     </div>
 
@@ -171,19 +169,21 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
-    submitBooking() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+    bookRequest(askedDates) {
+      this.askedBookDates = { ...askedDates };
+      this.isBook = true;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -192,33 +192,44 @@ export default {
         .then(chat => {
           this.$store.dispatch({
             type: "getChatsById",
-            userId: loggedInUserId
+            userId: loggedInUser._id
           });
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });
-        });
-    },
-    bookRequest(askedDates) {
-      this.askedBookDates = { ...askedDates };
-      this.isBook = true;
-      console.log(askedDates);
+          return chat._id;
+        })
+        .then( (chatId) => {
+          let msg = {
+        from: loggedInUser._id,
+        txt: `${loggedInUser.fullname} submited a request for a sleepover at your place
+        between ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
+        Send a message to aprove`,
+        isRead: false,
+        timestamp: Date.now()
+          }
+      this.$socket.emit("sendMsg", {
+        chatId,
+        message: msg,
+        userId: this.bedHost._id
+      });
+        })
     },
     openChat() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -226,7 +237,7 @@ export default {
         })
         .then(chat => {
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });
@@ -277,6 +288,7 @@ export default {
 }
 .main-img {
   object-fit: cover;
+  object-position: top;
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
@@ -306,6 +318,7 @@ export default {
 .gallery-imgs {
   max-height: 340px;
   .one-img-display {
+    height: 100%;
     img {
       width: 100%;
       height: 100%;
@@ -339,12 +352,20 @@ export default {
         width: 100%;
         object-fit: cover;
         object-position: top;
+        &:hover {
+          opacity: 0.9;
+          cursor: pointer;
+        }
       }
     }
     .img1 {
       width: 50%;
       height: 100%;
       object-fit: cover;
+      &:hover {
+        opacity: 0.9;
+        cursor: pointer;
+      }
     }
   }
   .four-img-display {
@@ -359,6 +380,10 @@ export default {
   img {
     border: 1px solid $border-color;
     border-top: none;
+    &:hover {
+      opacity: 0.9;
+      cursor: pointer;
+    }
   }
 }
 
@@ -428,15 +453,39 @@ textarea {
   margin-top: 10px;
 }
 
+.review-container {
+  border: 1px solid $border-color;
+  margin-bottom: 10px;
+  display: flex;
+  text-align: left;
+  padding: 5px;
+}
+
 .reviews {
-  display: block;
   justify-content: space-between;
   width: 100%;
   font-family: $main-font-light;
   text-align: left;
-  padding: 10px;
 }
 
+.review-preview {
+  padding-left: 10px;
+  padding-right: 10px;
+  div {
+    text-align: left;
+  }
+}
+
+.review-btn{
+  margin: 10px 0;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  background: #222222;
+  color: white;
+  font-family: $main-font-bold;
+  letter-spacing: 1px;
+}
 .review-single {
   margin: 8px 0;
 }

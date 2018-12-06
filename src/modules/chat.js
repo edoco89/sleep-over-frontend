@@ -6,11 +6,13 @@ import userService from '../services/userService.js';
 export default {
     state: {
         userChats: [],
-        currChat: {}
+        currChat: {},
+        newMsg: 0
     },
     getters: {
         getChat: (state) => state.currChat,
-        getUserChats: (state) => state.userChats
+        getUserChats: (state) => state.userChats,
+        getUserChatsNewMsg: (state) => state.newMsg
     },
     mutations: {
         setChat(state, { chat }) {
@@ -21,6 +23,9 @@ export default {
         },
         updateChat(state, { message }) {
             state.currChat.messages.push(message);
+        },
+        setNewMsg(state, { number }) {
+            state.newMsg =+ number;
         }
     },
     actions: {
@@ -53,6 +58,9 @@ export default {
         },
         updateChat({ commit }, { message }) {
             commit({ type: 'updateChat', message})
+        },
+        setNewMsg({ commit }, { number }) {
+            commit({ type: 'setNewMsg',  number })
         }
     }
 }

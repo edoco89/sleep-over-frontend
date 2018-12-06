@@ -193,6 +193,7 @@ input {
   color: white;
   border-radius: 4px;
   border: 0px;
+   font-family: $main-font-bold;
   background: rgb(117, 51, 51);
   &:hover {
     cursor: pointer;

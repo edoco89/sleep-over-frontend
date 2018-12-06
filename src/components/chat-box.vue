@@ -25,7 +25,7 @@ export default {
         txt: "",
         isRead: false,
         timestamp: Date.now()
-      },
+      }
     };
   },
   computed: {
@@ -42,7 +42,8 @@ export default {
       this.currMsg.from = this.currUser._id;
       this.$socket.emit("sendMsg", {
         chatId: this.currChat._id,
-        message: this.currMsg
+        message: this.currMsg,
+        userId: this.currUser._id
       });
       this.currMsg = {
         from: "",
@@ -68,8 +69,8 @@ export default {
   // background: gray;
   // position: relative;
   position: absolute;
-  right: 0;
-  width: 70%;
+  left: 2px;
+  width: 100%;
   height: 100%;
   font-family: $main-font-light;
   p {
@@ -102,16 +103,18 @@ export default {
 }
 
 .chat-frame-container {
-  width: 65%;
-  margin-top: 100px;
-  z-index: 1;
-  overflow: hidden;
+  width: 70%;
+  margin-top: 20px;
+  position: relative;
+  right: -28%;
+  // z-index: 1;
   .msg-input {
     position: absolute;
     display: flex;
     bottom: 35px;
-    right: 7%;
     width: inherit;
+    overflow: hidden;
+    z-index: 1;
     button {
       position: fixed;
       border-radius: 5px;
@@ -121,7 +124,7 @@ export default {
     }
     input {
       position: fixed;
-      width: 60%;
+      width: 62%;
       padding: 5px;
       margin-left: 58px;
     }

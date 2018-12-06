@@ -6,6 +6,7 @@
       </router-link>
       <div>
         <a v-if="getUser" @click="showChatModal= true" class="nav-chat">
+          {{newMsgCount}}
           <img src="@/assets/img/chat.png">
         </a>|
         <router-link to="/searchResult">Search</router-link>|
@@ -32,7 +33,7 @@ export default {
   data() {
     return {
       showModal: false,
-      showChatModal: false
+      showChatModal: false,
     };
   },
   created() {
@@ -40,8 +41,9 @@ export default {
     if (loggeduser) {
     this.$store.dispatch("reconnectUser", { loggeduser })
     .then( () => {
-      let loggedInUser = this.$store.getters.loggedInUser;
+      let loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store.dispatch({ type: "getChatsById", userId: loggedInUser._id })
+      this.$store.dispatch("setNewMsg", { number: loggedInUser.newMsg })
     })
     }
   },
@@ -59,6 +61,14 @@ export default {
   computed: {
     getUser() {
       return this.$store.getters.loggedInUser;
+    },
+    newMsgCount() {
+       return this.$store.getters.getUserChatsNewMsg;
+    }
+  },
+  sockets: {
+    setNewMsg(number) {
+      this.$store.dispatch({ type: "setNewMsg", number });
     }
   },
   components: {
