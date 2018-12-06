@@ -86,7 +86,7 @@
     </div>
 
     <div class="reviews">
-      <button @click="addReviewOpen = !addReviewOpen;" class="block">Add Review</button>
+      <button @click="addReviewOpen = !addReviewOpen;" class="review-btn">Add Review</button>
       <div class="review-add" v-if="addReviewOpen">
         <p>Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}!</p>
         <textarea v-model="newReview.txt"></textarea>
@@ -95,17 +95,15 @@
         </div>
         <button @click="saveReview">Save</button>
       </div>
-      <div
-        class="flex-row review-single mild-border"
-        v-for="review in bed.reviews"
-        :key="review.index"
-      >
-        <div class="flex-col">
+      <div class="review-container" v-for="review in bed.reviews" :key="review.index">
+        <div class="review-preview">
           <img width="80" :src="review.reviewerImg">
-          <div class="bold user-box-review">{{review.givenByName}}:</div>
           <star-rating star-size="15" v-model="review.rating"></star-rating>
         </div>
-        <div>{{review.txt}}</div>
+        <span>
+          <b>{{review.givenByName}}:</b>
+          {{review.txt}}
+        </span>
       </div>
     </div>
 
@@ -277,6 +275,7 @@ export default {
 }
 .main-img {
   object-fit: cover;
+  object-position: top;
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
@@ -441,15 +440,39 @@ textarea {
   margin-top: 10px;
 }
 
+.review-container {
+  border: 1px solid $border-color;
+  margin-bottom: 10px;
+  display: flex;
+  text-align: left;
+  padding: 5px;
+}
+
 .reviews {
-  display: block;
   justify-content: space-between;
   width: 100%;
   font-family: $main-font-light;
   text-align: left;
-  padding: 10px;
 }
 
+.review-preview {
+  padding-left: 10px;
+  padding-right: 10px;
+  div {
+    text-align: left;
+  }
+}
+
+.review-btn{
+  margin: 10px 0;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  background: #222222;
+  color: white;
+  font-family: $main-font-bold;
+  letter-spacing: 1px;
+}
 .review-single {
   margin: 8px 0;
 }
