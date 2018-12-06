@@ -27,8 +27,8 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="showModal = false" class="modal-background"></div>
       <div class="modal-content">
-        <ul v-if="user.reviews > 0">
-          <li v-for="(review,idx) in user.reviews.length > 0" :key="idx">{{review}}</li>
+        <ul v-if="user.reviews.length > 0">
+          <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
         </ul>
         <div v-else>NO Reviews</div>
       </div>

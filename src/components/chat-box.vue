@@ -1,13 +1,18 @@
 <template>
-  <section class="chat-container">
-    <div
-      v-for="msg in currChat.messages"
-      :key="msg.timestamp"
-      :class="(msg.from === currUser._id )? 'my-msg':'his-msg'">
-      <p>{{msg.txt}}</p>
+  <section class="chat-frame-container">
+    <section class="chat-container">
+      <div
+        v-for="msg in currChat.messages"
+        :key="msg.timestamp"
+        :class="(msg.from === currUser._id )? 'my-msg':'his-msg'"
+      >
+        <p>{{msg.txt}}</p>
+      </div>
+    </section>
+    <div class="msg-input">
+      <input type="text" v-model="currMsg.txt">
+      <button @click="sendMsg">SEND</button>
     </div>
-    <input type="text" v-model="currMsg.txt">
-    <button @click="sendMsg">SEND</button>
   </section>
 </template>
 
@@ -21,21 +26,14 @@ export default {
         isRead: false,
         timestamp: Date.now()
       },
-      currUser: {},
-      currChat: {}
     };
   },
-  created() {
-    this.currUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser)
-    );
-    this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat));
-  },
-  watch: {
+  computed: {
     currChat() {
-      return this.$store.getters.getChat;
+      return JSON.parse(JSON.stringify(this.$store.getters.getChat));
     },
     currUser() {
-      return this.$store.getters.loggedInUser
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
   },
   methods: {
@@ -68,28 +66,17 @@ export default {
 
 .chat-container {
   // background: gray;
-  width: 80%;
+  // position: relative;
+  position: absolute;
+  right: 0;
+  width: 70%;
   height: 100%;
-  position: relative;
   font-family: $main-font-light;
-  input {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 5px;
-  }
   p {
     text-align: left;
     color: black;
     margin-left: 10px;
-    margin-top: 10px;
-  }
-  button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 5px;
+    // margin-top: 2px;
   }
   .my-msg {
     p {
@@ -107,6 +94,36 @@ export default {
       margin-right: 10px;
       padding: 12px;
       border-radius: 8px;
+    }
+  }
+  p:last-child {
+    margin-bottom: 50px;
+  }
+}
+
+.chat-frame-container {
+  width: 65%;
+  margin-top: 100px;
+  z-index: 1;
+  overflow: hidden;
+  .msg-input {
+    position: absolute;
+    display: flex;
+    bottom: 35px;
+    right: 7%;
+    width: inherit;
+    button {
+      position: fixed;
+      border-radius: 5px;
+      border: 1px solid grey;
+      margin-left: 3px;
+      padding: 5px;
+    }
+    input {
+      position: fixed;
+      width: 60%;
+      padding: 5px;
+      margin-left: 58px;
     }
   }
 }

@@ -5,18 +5,32 @@
 
       <div class="gallery-imgs">
         <!-- ONE IMG OR LESS -->
-        <div v-if="!bed.imgUrls[1]" class="one-img-display">
+        <div v-if="bed.imgUrls.length < 2" class="one-img-display">
           <img v-if="bed.imgUrls.length > 0" @click="openGallery" :src="bed.imgUrls[0]">
           <img v-else src="@/assets/img/no-img.jpg">
         </div>
-        <!-- ONE IMG OR MORE -->
-        <div v-else class="two-img-display">
+        <!-- TWO IMG -->
+        <div v-if="bed.imgUrls.length === 2" class="two-img-display">
           <img @click="openGallery" :src="bed.imgUrls[0]">
           <img @click="openGallery" :src="bed.imgUrls[1]">
         </div>
+        <!-- THREE IMG -->
+        <div v-if="bed.imgUrls.length === 3" class="three-img-display">
+          <img class="img1" @click="openGallery" :src="bed.imgUrls[0]">
+          <div>
+            <img @click="openGallery" :src="bed.imgUrls[1]">
+            <img @click="openGallery" :src="bed.imgUrls[2]">
+          </div>
+        </div>
+        <!-- FOUR IMG -->
+        <div v-if="bed.imgUrls.length > 3" class="four-img-display">
+          <img @click="openGallery" :src="bed.imgUrls[0]">
+          <img @click="openGallery" :src="bed.imgUrls[1]">
+          <img @click="openGallery" :src="bed.imgUrls[2]">
+          <img @click="openGallery" :src="bed.imgUrls[3]">
+        </div>
       </div>
     </div>
-
     <div class="details-bottom">
       <div>
         <div class="flex-col-start">
@@ -48,29 +62,49 @@
           </div>
         </div>
       </div>
-      <div class="booking-container">
+      <div v-if="!isBook" class="booking-container">
         <div class="chat-container">
-          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
+          <a @click="openChat">
+            <img class="chat-btn" src="@/assets/img/chat.png">
+          </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
         <book-bed @bookRequest="bookRequest"></book-bed>
+      </div>
+      <div v-if="isBook" class="booking-container">
+        <p>
+          We are about to process a
+          <span>SleepOver</span>
+          at {{bedHost.fullname}}'s {{bed.type}}
+        </p>
+        <p>
+          In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
+          {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+        </p>
+        <button @click="submitBooking">Are you Sure?</button>
       </div>
     </div>
 
     <div class="reviews">
       <button @click="addReviewOpen = !addReviewOpen;" class="block">Add Review</button>
       <div class="review-add" v-if="addReviewOpen">
-        <p> Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}! </p>
+        <p>Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}!</p>
         <textarea v-model="newReview.txt"></textarea>
-         <div><star-rating star-size="20" v-model="newReview.rating"></star-rating> </div>
+        <div>
+          <star-rating star-size="20" v-model="newReview.rating"></star-rating>
+        </div>
         <button @click="saveReview">Save</button>
       </div>
-      <div class="flex-row review-single mild-border" v-for="review in bed.reviews" :key="review.index">
-      <div class="flex-col">
-        <img width="80" :src="review.reviewerImg">
-        <div class="bold user-box-review">{{review.givenByName}}:</div>
-       <star-rating star-size="15" v-model="review.rating"></star-rating>
-      </div>
+      <div
+        class="flex-row review-single mild-border"
+        v-for="review in bed.reviews"
+        :key="review.index"
+      >
+        <div class="flex-col">
+          <img width="80" :src="review.reviewerImg">
+          <div class="bold user-box-review">{{review.givenByName}}:</div>
+          <star-rating star-size="15" v-model="review.rating"></star-rating>
+        </div>
         <div>{{review.txt}}</div>
       </div>
     </div>
@@ -84,10 +118,12 @@
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
+    <chat-modal :showChatModal="showChatModal" @closeModal="closeModal"></chat-modal>
   </section>
 </template>
 <script>
 import bookBed from "@/components/book-bed.vue";
+import chatModal from "./user-chat.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
 import photoCarusel from "@/components/photo-carousel.vue";
 import userDetails from "@/components/userDetails.vue";
@@ -96,6 +132,7 @@ export default {
   data() {
     return {
       showModal: false,
+      isBook: false,
       isDetalis: false,
       bedHost: null,
       addReviewOpen: false,
@@ -106,14 +143,15 @@ export default {
         bedId: null,
         rating: null,
         reviewerImg: null
-      }
+      },
+      askedBookDates: null,
+      showChatModal: false
     };
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
       this.$store.dispatch({ type: "getBedById", bedId }).then(bed => {
-        console.log("bed", bed);
         this.$store
           .dispatch({ type: "getUserById", id: this.bed.hostId })
           .then(user => (this.bedHost = user));
@@ -123,6 +161,7 @@ export default {
   methods: {
     closeModal() {
       this.showModal = false;
+      this.showChatModal = false;
     },
     openDetails() {
       this.isDetalis = true;
@@ -132,9 +171,40 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
-    bookRequest(askedDates){
+    submitBooking() {
+      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      this.$store
+        .dispatch({
+          type: "getChatByIds",
+          userId1: loggedInUserId,
+          userId2: this.bedHost._id
+        })
+        .then(chat => {
+          if (!chat) {
+            return this.$store.dispatch({
+              type: "createChatByIds",
+              userId1: loggedInUserId,
+              userId2: this.bedHost._id
+            });
+          }
+          return chat;
+        })
+        .then(chat => {
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: loggedInUserId
+          });
+          this.$socket.emit("chatRequest", {
+            currUserId: loggedInUserId,
+            userId: this.bedHost._id,
+            chatId: chat._id
+          });
+        });
+    },
+    bookRequest(askedDates) {
+      this.askedBookDates = { ...askedDates };
+      this.isBook = true;
       console.log(askedDates);
-      
     },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
@@ -160,8 +230,7 @@ export default {
             userId: this.bedHost._id,
             chatId: chat._id
           });
-          this.isShow = true;
-          this.$router.push(`/chat/${loggedInUserId}`);
+          this.showChatModal = true;
         });
     },
     saveReview() {
@@ -194,7 +263,8 @@ export default {
     bookBed,
     bedAmenities,
     photoCarusel,
-    userDetails
+    userDetails,
+    chatModal
   }
 };
 </script>
@@ -210,7 +280,7 @@ export default {
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
-  min-height: 340px;
+  // min-height: 340px;
   width: 50%;
 }
 
@@ -234,10 +304,11 @@ export default {
 }
 
 .gallery-imgs {
-  height: 340px;
+  max-height: 340px;
   .one-img-display {
     img {
-      height: 340px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -246,8 +317,10 @@ export default {
     }
   }
   .two-img-display {
+    height: 100%;
     img {
-      height: 170px;
+      width: 100%;
+      height: 50%;
       object-fit: cover;
       &:hover {
         opacity: 0.9;
@@ -255,10 +328,37 @@ export default {
       }
     }
   }
+  .three-img-display {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    div {
+      width: 50%;
+      img {
+        height: 50%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top;
+      }
+    }
+    .img1 {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .four-img-display {
+    height: 100%;
+    width: 100%;
+    img {
+      height: 50%;
+      width: 50%;
+      object-fit: cover;
+    }
+  }
   img {
     border: 1px solid $border-color;
     border-top: none;
-    width: 100%;
   }
 }
 
@@ -353,5 +453,20 @@ textarea {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
+}
+@media (max-width: 900px) {
+  .img-gallery {
+    height: 280px;
+  }
+}
+@media (max-width: 750px) {
+  .img-gallery {
+    height: 250px;
+  }
+}
+@media (max-width: 650px) {
+  .img-gallery {
+    height: 235px;
+  }
 }
 </style>
