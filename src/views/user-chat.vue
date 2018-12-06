@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'is-active' : showChatModal}" class="modal">
+  <div v-if="userChats" :class="{'is-active' : showChatModal}" class="modal">
     <div class="modal-background" @click="$emit('closeModal')"></div>
     <div class="modal-content">
       <ul class="user-list">
@@ -27,18 +27,12 @@ export default {
   },
   data() {
     return {
-      userChats: [],
       currUser: {},
       isShow: false
     };
   },
   created() {
-    this.currUser = JSON.parse(
-      JSON.stringify(this.$store.getters.loggedInUser)
-    );
-    this.$store
-      .dispatch({ type: "getChatsById", userId: this.currUser._id })
-      .then(users => (this.userChats = users));
+    this.currUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
   },
   methods: {
     openChat(userId) {
@@ -58,10 +52,10 @@ export default {
         });
     }
   },
-  mounted() {
-    this.$store
-      .dispatch({ type: "getChatsById", userId: this.currUser._id })
-      .then(users => (this.userChats = users));
+  computed: {
+    userChats(){
+    return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
+  }
   },
   components: {
     chatBox

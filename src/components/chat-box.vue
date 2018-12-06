@@ -26,22 +26,14 @@ export default {
         isRead: false,
         timestamp: Date.now()
       },
-      currUser: {},
-      currChat: {}
     };
   },
-  created() {
-    this.currUser = JSON.parse(
-      JSON.stringify(this.$store.getters.loggedInUser)
-    );
-    this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat));
-  },
-  watch: {
+  computed: {
     currChat() {
-      return this.$store.getters.getChat;
+      return JSON.parse(JSON.stringify(this.$store.getters.getChat));
     },
     currUser() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
   },
   methods: {

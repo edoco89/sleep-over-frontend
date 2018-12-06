@@ -62,12 +62,25 @@
           </div>
         </div>
       </div>
-      <div class="booking-container">
+      <div  v-if="!isBook" class="booking-container">
         <div class="chat-container">
-          <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
+          <a @click="openChat">
+            <img class="chat-btn" src="@/assets/img/chat.png">
+          </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
-        </div>
+          </div>
         <book-bed @bookRequest="bookRequest"></book-bed>
+        </div>
+      <div v-if="isBook" class="booking-container">
+        <p>We are about to process a
+          <span>SleepOver</span>
+          at {{bedHost.fullname}}'s {{bed.type}}
+        </p>
+        <p>
+          In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
+          {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+        </p>
+        <button @click="submitBooking">Are you Sure?</button>
       </div>
     </div>
 
@@ -92,10 +105,12 @@
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
+    <chat-modal :showChatModal="showChatModal" @closeModal="closeModal"></chat-modal>
   </section>
 </template>
 <script>
 import bookBed from "@/components/book-bed.vue";
+import chatModal from "./user-chat.vue";
 import bedAmenities from "@/components/bed-amenities.vue";
 import photoCarusel from "@/components/photo-carousel.vue";
 import userDetails from "@/components/userDetails.vue";
@@ -104,6 +119,7 @@ export default {
   data() {
     return {
       showModal: false,
+      isBook: false,
       isDetalis: false,
       bedHost: null,
       addReviewOpen: false,
@@ -112,14 +128,15 @@ export default {
         txt: null,
         givenByUserId: null,
         bedId: null
-      }
+      },
+      askedBookDates: null,
+      showChatModal: false
     };
   },
   created() {
     const bedId = this.$route.params.bedId;
     if (bedId) {
       this.$store.dispatch({ type: "getBedById", bedId }).then(bed => {
-        console.log("bed", bed);
         this.$store
           .dispatch({ type: "getUserById", id: this.bed.hostId })
           .then(user => (this.bedHost = user));
@@ -129,6 +146,7 @@ export default {
   methods: {
     closeModal() {
       this.showModal = false;
+      this.showChatModal = false;
     },
     openDetails() {
       this.isDetalis = true;
@@ -138,7 +156,39 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
+    submitBooking() {
+      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      this.$store
+        .dispatch({
+          type: "getChatByIds",
+          userId1: loggedInUserId,
+          userId2: this.bedHost._id
+        })
+        .then(chat => {
+          if (!chat) {
+            return this.$store.dispatch({
+              type: "createChatByIds",
+              userId1: loggedInUserId,
+              userId2: this.bedHost._id
+            });
+          }
+          return chat;
+        })
+        .then(chat => {
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: loggedInUserId
+          });
+          this.$socket.emit("chatRequest", {
+            currUserId: loggedInUserId,
+            userId: this.bedHost._id,
+            chatId: chat._id
+          });
+        });
+    },
     bookRequest(askedDates) {
+      this.askedBookDates = { ...askedDates };
+      this.isBook = true;
       console.log(askedDates);
     },
     openChat() {
@@ -165,8 +215,7 @@ export default {
             userId: this.bedHost._id,
             chatId: chat._id
           });
-          this.isShow = true;
-          this.$router.push(`/chat/${loggedInUserId}`);
+          this.showChatModal = true;
         });
     },
     saveReview() {
@@ -195,7 +244,8 @@ export default {
     bookBed,
     bedAmenities,
     photoCarusel,
-    userDetails
+    userDetails,
+    chatModal
   }
 };
 </script>
