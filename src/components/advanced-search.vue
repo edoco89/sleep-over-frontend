@@ -11,8 +11,7 @@
       <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
       <link
         rel="stylesheet"
-        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
-      >
+        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
       <v-date-picker
         mode="range"
         class="date-picker-search"
@@ -60,12 +59,6 @@ export default {
     this.filter = { ...this.$store.getters.getFilter };
     this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
-  // mounted() {
-  //   if (!this.place.geometry.location) {
-  //     this.place.geometry.location =  { lat: 32.0853, lng: 34.7818 }
-  //     console.log(this.place)
-  //   }
-  // },
   methods: {
     toggleFilter() {
       this.isShown = !this.isShown;

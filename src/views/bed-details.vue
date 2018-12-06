@@ -53,7 +53,7 @@
           <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
-        <book-bed></book-bed>
+        <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
     </div>
 
@@ -124,6 +124,10 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
+    bookRequest(askedDates){
+      console.log(askedDates);
+      
+    },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
       this.$store
@@ -143,7 +147,6 @@ export default {
           return chat;
         })
         .then(chat => {
-          window.chat = chat;
           this.$socket.emit("chatRequest", {
             currUserId: loggedInUserId,
             userId: this.bedHost._id,

@@ -26,14 +26,16 @@ export default {
     };
   },
   created() {
-    this.currUser = JSON.parse(
-      JSON.stringify(this.$store.getters.loggedInUser)
+    this.currUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser)
     );
     this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat));
   },
   watch: {
     currChat() {
       return this.$store.getters.getChat;
+    },
+    currUser() {
+      return this.$store.getters.loggedInUser
     }
   },
   methods: {

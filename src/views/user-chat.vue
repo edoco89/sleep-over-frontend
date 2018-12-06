@@ -36,9 +36,8 @@ export default {
     this.currUser = JSON.parse(
       JSON.stringify(this.$store.getters.loggedInUser)
     );
-    this.$store
-      .dispatch({ type: "getChatsById", userId: this.currUser._id })
-      .then(users => (this.userChats = users));
+    this.$store.dispatch({ type: "getChatsById", userId: this.currUser._id })
+    .then(users => (this.userChats = users));
   },
   methods: {
     openChat(userId) {
