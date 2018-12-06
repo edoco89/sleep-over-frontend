@@ -14,6 +14,10 @@
     flex-direction: column;
 }
 
+.block {
+display: block;    
+}
+
 .danger-button {
         font-family: $main-font-bold;
         background-color: $button-danger-color;

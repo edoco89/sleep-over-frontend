@@ -14,13 +14,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueSocketIO from 'vue-socket.io'
-
-
+import StarRating from 'vue-star-rating'
 
 
 Vue.use(ElementUI);
 Vue.use(BootstrapVue);
 Vue.use(Buefy);
+
+Vue.component('star-rating', StarRating);
 
 Vue.use(new VueSocketIO({
     debug: true,
@@ -57,3 +58,5 @@ new Vue({
   store,
   render: h => h(app)
 }).$mount('#app')
+
+
