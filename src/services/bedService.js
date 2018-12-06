@@ -30,15 +30,9 @@ function removeBed(bedId) {
     return axios.delete(`${BASE_URL}/${bedId}`)
         .then(res => res.data)
 }
-//TAKE CARE OF ADD UPDATE
+//TAKE CARE OF ADD / UPDATE
 function saveBed(bed) {
-    //UPDATE
-    // if (bed._id) return axios.put(`${BASE_URL}/${bed._id}`, bed).then(res => res.data)
-    //ADD
-    // else {
-
     return axios.post(`${BASE_URL}`, { bed }).then(res => res.data)
-    // }
 }
 
 function getBed(bedId) {
@@ -47,10 +41,10 @@ function getBed(bedId) {
 }
 
 function addReview(reviews) {
-   const bedId = reviews[reviews.length-1].bedId
+    const bedId = reviews[reviews.length - 1].bedId
     console.log('bedservice', bedId, reviews)
-    return axios.post(`${BASE_URL}/${reviews[reviews.length-1].bedId}`, reviews, bedId)
-    .then (res => res.data)
+    return axios.post(`${BASE_URL}/${reviews[reviews.length - 1].bedId}`, reviews, bedId)
+        .then(res => res.data)
 }
 
 

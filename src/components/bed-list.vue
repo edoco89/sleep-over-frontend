@@ -26,10 +26,19 @@ export default {
 .bed-list {
   width: 100%;
   display: grid;
-  grid-gap: 25px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  //   justify-content: center;
-  //   flex-wrap: wrap;
+  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+  .bed-list {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+}
+@media (min-width: 1000px) {
+  .bed-list {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
 }
 </style>

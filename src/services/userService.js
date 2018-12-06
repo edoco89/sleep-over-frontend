@@ -8,8 +8,8 @@ const BASE_URL = (process.env.NODE_ENV !== 'development')
 
 //TAKE CARE OF ADD-UPDATE
 function saveUser(user, userId) {
-    console.log('user service', user, userId)
-    if (user._id) return axios.put(`${BASE_URL}/${user._id}`, {user}).then(res => res.data)
+    if (user._id) return axios.put(`${BASE_URL}/${user._id}`, { user })
+        .then(res => { return res.data })
     else {
         const newUser = _createUser(user, userId)
         return axios.post(`${BASE_URL}`, newUser).then(res => res.data)
@@ -42,6 +42,7 @@ function getUserById(userId) {
     return axios.get(`${BASE_URL}/${userId}`)
         .then(res => res.data)
 }
+
 
 //NEED INTEGRATE 
 function getUserBeds(userId) {

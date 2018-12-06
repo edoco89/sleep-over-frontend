@@ -92,7 +92,7 @@
             Zoey is rated at our
             <b>Top 5</b> hosts in London!
           </p>
-          <a href="#">Check it Out!</a>
+          <router-link to="/bed/5c07eb1817d0fa43647e7f5d" href="#">Check it Out!</router-link>
         </div>
       </div>
     </div>

@@ -4,8 +4,6 @@ import home from './views/Home.vue'
 import userProfile from './views/user-profile.vue'
 import searchResult from './views/search-result.vue'
 import bedDetails from './views/bed-details.vue'
-import chatBox from './components/chat-box.vue'
-import userChat from './views/user-chat.vue'
 import bedEdit from './components/bed-editor.vue'
 import userEdit from './views/user-edit.vue'
 
@@ -44,11 +42,6 @@ export default new Router({
       path: '/searchResult',
       name: 'search-result',
       component: searchResult
-    },
-    {
-      path: '/chat/:userId',
-      name: 'user-chat',
-      component: userChat
     },
     {
       path: '/bed/edit/:bedId',
