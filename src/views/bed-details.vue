@@ -72,8 +72,7 @@
         <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
       <div v-if="isBook" class="booking-container">
-        <p>
-          We are about to process a
+        <p>Your request is has submitted for a
           <span>SleepOver</span>
           at {{bedHost.fullname}}'s {{bed.type}}
         </p>
@@ -81,7 +80,7 @@
           In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
           {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
         </p>
-        <button @click="submitBooking">Are you Sure?</button>
+        <p>The host will send you a message for approval</p>
       </div>
     </div>
 
@@ -169,19 +168,21 @@ export default {
       this.isDetalis = false;
       this.showModal = true;
     },
-    submitBooking() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+    bookRequest(askedDates) {
+      this.askedBookDates = { ...askedDates };
+      this.isBook = true;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -190,33 +191,44 @@ export default {
         .then(chat => {
           this.$store.dispatch({
             type: "getChatsById",
-            userId: loggedInUserId
+            userId: loggedInUser._id
           });
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });
-        });
-    },
-    bookRequest(askedDates) {
-      this.askedBookDates = { ...askedDates };
-      this.isBook = true;
-      console.log(askedDates);
+          return chat._id;
+        })
+        .then( (chatId) => {
+          let msg = {
+        from: loggedInUser._id,
+        txt: `${loggedInUser.fullname} submited a request for a sleepover at your place
+        between ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
+        Send a message to aprove`,
+        isRead: false,
+        timestamp: Date.now()
+          }
+      this.$socket.emit("sendMsg", {
+        chatId,
+        message: msg,
+        userId: this.bedHost._id
+      });
+        })
     },
     openChat() {
-      const loggedInUserId = this.$store.getters.loggedInUser._id;
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
-          userId1: loggedInUserId,
+          userId1: loggedInUser._id,
           userId2: this.bedHost._id
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
-              userId1: loggedInUserId,
+              userId1: loggedInUser._id,
               userId2: this.bedHost._id
             });
           }
@@ -224,7 +236,7 @@ export default {
         })
         .then(chat => {
           this.$socket.emit("chatRequest", {
-            currUserId: loggedInUserId,
+            currUserId: loggedInUser._id,
             userId: this.bedHost._id,
             chatId: chat._id
           });

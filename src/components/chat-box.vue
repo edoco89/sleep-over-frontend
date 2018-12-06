@@ -42,7 +42,8 @@ export default {
       this.currMsg.from = this.currUser._id;
       this.$socket.emit("sendMsg", {
         chatId: this.currChat._id,
-        message: this.currMsg
+        message: this.currMsg,
+        userId: this.currUser._id
       });
       this.currMsg = {
         from: "",

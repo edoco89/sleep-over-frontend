@@ -32,7 +32,9 @@ export default {
     };
   },
   created() {
-    this.currUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+    this.currUser = JSON.parse(
+      JSON.stringify(this.$store.getters.loggedInUser)
+    );
   },
   methods: {
     openChat(userId) {
@@ -48,14 +50,22 @@ export default {
             userId,
             chatId: chat._id
           });
+          const newMsgCountArray = chat.messages.filter(msg => {
+            return msg.from !== this.currUser._id && msg.isRead === true;
+          });
+          this.$socket.emit("setNewMsg", {
+            chatId: chat._id,
+            userId: this.currUser._id,
+            number: -newMsgCountArray.length
+          });
           this.isShow = true;
         });
     }
   },
   computed: {
-    userChats(){
-    return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
-  }
+    userChats() {
+      return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
+    }
   },
   components: {
     chatBox
