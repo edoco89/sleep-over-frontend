@@ -50,7 +50,6 @@ export default {
     }
   },
   mounted() {
-    console.log("amentss", this.aments);
     for (let key in this.aments) {
       if (this.aments[key]) return (this.show = true);
     }
