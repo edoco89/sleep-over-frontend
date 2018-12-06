@@ -1,10 +1,10 @@
 <template>
   <section class="container">
-    <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
-    <link
-      rel="stylesheet"
-      href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
-    <v-date-picker mode="range" :min-date="new Date()" v-model="selectedDate">
+      <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
+      <link
+        rel="stylesheet"
+        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
+    <v-date-picker picker-date="month" mode="range" :min-date="new Date()" v-model="selectedDate">
       <b-field :type="inputState.type" slot-scope="props">
         <b-input
           type="text"
@@ -12,22 +12,14 @@
           :value="props.inputValue"
           :placeholder="inputState.message"
           @change.native="props.updateValue($event.target.value)"
-          expanded
+          expand
         ></b-input>
         <p class="control" v-if="selectedValue">
         </p>
       </b-field>
     </v-date-picker>
 
-    <button class="danger-button" @click="showBookMessage">Book</button>
-
-    <div @click="closeModal" :class="{'is-active' : showModal}" class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-content">Great! Your booking has been submitted,
-        <br>we will notify you as soon as the host approves this request.
-      </div>
-      <button class="modal-close is-large" aria-label="close"></button>
-    </div>
+    <button class="danger-button" @click="$emit('bookRequest', selectedDate)">Book</button>
   </section>
 </template>
 
@@ -62,13 +54,9 @@ export default {
     }
   },
   methods: {
-    showBookMessage() {
-      console.log("selectedDate", this.selectedDate); //date ready, need to add dispatch
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
-    }
+    allowedDates(val){
+      return parseInt(val.split('-')[2], 10) % 2 === 0;
+     }
   }
 };
 </script>

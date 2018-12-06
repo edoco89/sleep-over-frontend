@@ -53,7 +53,7 @@
           <img @click="openChat" class="chat-btn" src="@/assets/img/chat.png">
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
-        <book-bed></book-bed>
+        <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
     </div>
     <!-- photo gallery modal -->
@@ -120,6 +120,10 @@ export default {
     openGallery() {
       this.isDetalis = false;
       this.showModal = true;
+    },
+    bookRequest(askedDates){
+      console.log(askedDates);
+      
     },
     openChat() {
       const loggedInUserId = this.$store.getters.loggedInUser._id;
