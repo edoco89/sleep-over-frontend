@@ -56,6 +56,19 @@
         <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
     </div>
+
+    <div class="reviews">
+      <button @click="addReviewOpen = !addReviewOpen;">Add Review</button>
+      <div class="review-add" v-if="addReviewOpen">
+        <textarea v-model="newReview.txt"></textarea>
+        <button @click="saveReview">Save</button>
+      </div>
+      <div class="flex-row review-single" v-for="review in bed.reviews" :key="review.index">
+        <div class="flex-row bold user-box-review">{{review.name}}:</div>
+        <div>{{review.txt}}</div>
+      </div>
+    </div>
+
     <!-- photo gallery modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
@@ -65,16 +78,6 @@
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
-
-<div class="reviews flex-col mild-border"> 
-  <button @click="addReviewOpen = !addReviewOpen;"> Add Review </button>
-  <div class="review-add" v-if="addReviewOpen">
-    <textarea v-model="newReview.txt"> </textarea>
-    <button @click="saveReview" > Save </button>
-     </div>
-  <div class="flex-row review-single" v-for="review in bed.reviews" :key="review.index"> <div class="flex-row bold user-box-review"> {{review.name}}: </div> <div> {{review.txt}} </div> </div>
-</div>
-
   </section>
 </template>
 <script>
@@ -135,22 +138,20 @@ export default {
         })
         .then(chat => {
           if (!chat) {
-            return this.$store
-              .dispatch({
-                type: "createChatByIds",
-                userId1: loggedInUserId,
-                userId2: this.bedHost._id
-              })
+            return this.$store.dispatch({
+              type: "createChatByIds",
+              userId1: loggedInUserId,
+              userId2: this.bedHost._id
+            });
           }
-          return chat
+          return chat;
         })
         .then(chat => {
-              window.chat = chat
-              this.$socket.emit("chatRequest", {
-                currUserId: loggedInUserId,
-                userId: this.bedHost._id,
-                chatId: chat._id
-              });
+          this.$socket.emit("chatRequest", {
+            currUserId: loggedInUserId,
+            userId: this.bedHost._id,
+            chatId: chat._id
+          });
           this.isShow = true;
           this.$router.push(`/chat/${loggedInUserId}`);
         });
@@ -158,13 +159,19 @@ export default {
     saveReview() {
       this.addReviewOpen = false;
       const loggedInUser = this.$store.getters.loggedInUser;
-      this.newReview.givenByName = loggedInUser.fullname
-      this.newReview.givenByUserId = loggedInUser._id
-      this.newReview.bedId = this.bed._id
-      this.$store.dispatch( {type:"addReview", review: this.newReview})
-      .then(res => {this.newReview.txt = null
-      console.log('here', this.newReview)})
+      this.newReview.givenByName = loggedInUser.fullname;
+      this.newReview.givenByUserId = loggedInUser._id;
+      this.newReview.bedId = this.bed._id;
+      this.$store
+        .dispatch({ type: "addReview", review: this.newReview })
+        .then(res => {
+          this.newReview.txt = null;
+          console.log("here", this.newReview);
+        });
     }
+  },
+  destroyed() {
+    this.$store.dispatch({ type: "clearCurrBed" });
   },
   computed: {
     bed() {
