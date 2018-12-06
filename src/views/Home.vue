@@ -63,17 +63,20 @@
     <div class="catg-title">Connecting people around the world</div>
 
     <div class="people-container">
+     
       <div class="people1">
         <img src="@/assets/img/ron-wendy.jpg" alt>
         <div>
           <b>Ron & Wendy, Berlin</b>
           <p>
             The loveley couple offers an
-            <b>Entire Comftorbule Room!</b>
+            <b>Entire Comfortable Room!</b>
           </p>
-          <router-link to="/bed/5c08f6f5a336a33a6c60d27c" href="#">Check it Out!</router-link>
+         <router-link to="/bed/5c08f6f5a336a33a6c60d27c" href="#"> Check it Out! </router-link>
         </div>
       </div>
+     
+
       <div class="people2">
         <img src="@/assets/img/john.jpeg" alt>
         <div>

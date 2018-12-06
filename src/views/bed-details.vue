@@ -62,15 +62,15 @@
           </div>
         </div>
       </div>
-      <div  v-if="!isBook" class="booking-container">
+      <div v-if="!isBook" class="booking-container">
         <div class="chat-container">
           <a @click="openChat">
             <img class="chat-btn" src="@/assets/img/chat.png">
           </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
-          </div>
-        <book-bed @bookRequest="bookRequest"></book-bed>
         </div>
+        <book-bed @bookRequest="bookRequest"></book-bed>
+      </div>
       <div v-if="isBook" class="booking-container">
         <p>Your request is has submitted for a
           <span>SleepOver</span>
@@ -85,13 +85,25 @@
     </div>
 
     <div class="reviews">
-      <button @click="addReviewOpen = !addReviewOpen;">Add Review</button>
+      <button @click="addReviewOpen = !addReviewOpen;" class="block">Add Review</button>
       <div class="review-add" v-if="addReviewOpen">
+        <p>Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}!</p>
         <textarea v-model="newReview.txt"></textarea>
+        <div>
+          <star-rating star-size="20" v-model="newReview.rating"></star-rating>
+        </div>
         <button @click="saveReview">Save</button>
       </div>
-      <div class="flex-row review-single" v-for="review in bed.reviews" :key="review.index">
-        <div class="flex-row bold user-box-review">{{review.name}}:</div>
+      <div
+        class="flex-row review-single mild-border"
+        v-for="review in bed.reviews"
+        :key="review.index"
+      >
+        <div class="flex-col">
+          <img width="80" :src="review.reviewerImg">
+          <div class="bold user-box-review">{{review.givenByName}}:</div>
+          <star-rating star-size="15" v-model="review.rating"></star-rating>
+        </div>
         <div>{{review.txt}}</div>
       </div>
     </div>
@@ -127,7 +139,9 @@ export default {
         givenByName: null,
         txt: null,
         givenByUserId: null,
-        bedId: null
+        bedId: null,
+        rating: null,
+        reviewerImg: null
       },
       askedBookDates: null,
       showChatModal: false
@@ -236,6 +250,7 @@ export default {
       const loggedInUser = this.$store.getters.loggedInUser;
       this.newReview.givenByName = loggedInUser.fullname;
       this.newReview.givenByUserId = loggedInUser._id;
+      this.newReview.reviewerImg = loggedInUser.imgUrl;
       this.newReview.bedId = this.bed._id;
       this.$store
         .dispatch({ type: "addReview", review: this.newReview })
@@ -251,6 +266,9 @@ export default {
   computed: {
     bed() {
       return JSON.parse(JSON.stringify(this.$store.getters.getCurrBed));
+    },
+    user() {
+      return this.$store.getters.loggedInUser;
     }
   },
   components: {
@@ -423,7 +441,7 @@ textarea {
 }
 
 .reviews {
-  display: flex;
+  display: block;
   justify-content: space-between;
   width: 100%;
   font-family: $main-font-light;
