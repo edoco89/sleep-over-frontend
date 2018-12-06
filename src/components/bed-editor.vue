@@ -3,8 +3,11 @@
     <h3>{{mode}} Bed</h3>
     <section class="bed-editor">
       <form @submit.prevent="addBed">
-        <div>Bed Location:
+        <div>
+          Bed Location:
+          <span v-if="mode === 'Edit'">{{bed.location.address}}</span>
           <GmapAutocomplete
+            v-if="mode === 'Add'"
             @place_changed="setPlace"
             required
             :placeholder="(mode==='Add')?'Where is your bed?': 'Bed set to previous location'"
@@ -49,7 +52,12 @@
         </div>
 
         <div>Amenities:
-          <select-menu @setFilter="setAmenities"></select-menu>
+          <select-menu
+            v-if="(mode === 'Edit')? bed.location.coords.coordinates.length > 0: true"
+            :set="bed.ameneties"
+            opt="amenities"
+            @setFilter="setAmenities"
+          ></select-menu>
         </div>
         <button>{{mode}}</button>
       </form>
@@ -102,11 +110,6 @@ export default {
       }
     };
   },
-  computed: {
-    address() {
-      return this.bed.location.address;
-    }
-  },
   methods: {
     saveImg(ev) {
       ev.preventDefault();
@@ -131,6 +134,11 @@ export default {
         });
     },
     setAmenities(amen) {
+      //set all to false
+      for (let catg in this.bed.ameneties) {
+        this.bed.ameneties[catg] = false;
+      }
+      //set marked aments
       amen.forEach(amenity => (this.bed.ameneties[amenity] = true));
     }
   },
@@ -139,7 +147,7 @@ export default {
       this.$store
         .dispatch("getBedById", { bedId: this.$route.params.bedId })
         .then(bed => {
-          this.bed = this.$store.getters.getCurrBed;
+          this.bed = JSON.parse(JSON.stringify(this.$store.getters.getCurrBed));
         });
       this.mode = "Edit";
     } else {

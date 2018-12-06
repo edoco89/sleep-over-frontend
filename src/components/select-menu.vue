@@ -1,8 +1,5 @@
 <template>
   <section>
-    <!-- <el-select v-model="value5" @change="$emit('setFilter',value5)" multiple placeholder="Select">
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-    </el-select>-->
     <el-select
       v-model="value5"
       @change="$emit('setFilter',value5)"
@@ -21,10 +18,13 @@
 export default {
   props: {
     opt: String,
-    default: "amenities"
+    default: "amenities",
+    set: Object,
+    default: null
   },
   data() {
     return {
+      options: [],
       amenities: [
         {
           value: "Wifi",
@@ -56,13 +56,16 @@ export default {
         }
       ],
       value5: []
-      // value11: []
     };
   },
-  computed: {
-    options() {
-      return this[this.opt];
+  mounted() {
+    this.options = this[this.opt];
+    if (this.set) {
+      for (let ament in this.set) {
+        if (this.set[ament]) this.value5.push(ament);
+      }
     }
-  }
+  },
+  computed: {}
 };
 </script>

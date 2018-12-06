@@ -2,8 +2,13 @@
   <div :class="{'is-active' : showChatModal}" class="modal">
     <div class="modal-background" @click="$emit('closeModal')"></div>
     <div class="modal-content">
-      <ul v-for="user in userChats" :key="user._id" class="user-list">
-        <li @click="openChat(user._id)" class="user-preview">
+      <ul class="user-list">
+        <li
+          v-for="user in userChats"
+          :key="user._id"
+          @click="openChat(user._id)"
+          class="user-preview"
+        >
           <img :src="user.imgUrl">
           {{user.fullname}}
         </li>
@@ -82,6 +87,7 @@ export default {
 }
 .user-preview {
   margin: 10px;
+  height: fit-content;
   padding-bottom: 5px;
   display: flex;
   justify-content: center;
@@ -93,10 +99,11 @@ export default {
     width: 80px;
     height: 80px;
     object-fit: cover;
+    object-position: top;
     border-radius: 50%;
   }
-  &:hover{
-    opacity: .8;
+  &:hover {
+    opacity: 0.8;
     cursor: pointer;
   }
 }

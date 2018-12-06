@@ -11,10 +11,10 @@ export default {
         setUser(state, { loggeduser }) {
             state.user = loggeduser
         },
-        logout(state) {
-            state.user = null
-            sessionStorage.clear()
-        },
+        // logout(state) {
+        //     state.user = null
+        //     sessionStorage.clear()
+        // },
         //NOT IN USE CURRENTLY- WAITING FOR INTEGRATE
         userBeds(state, { userBeds }) {
             console.log('BBBB', userBeds);
@@ -23,11 +23,17 @@ export default {
     actions: {
         checkLogin({ commit }, { user }) {
             return userService.getUserLoggedIn(user.email, user.pass)
-                .then(loggeduser => commit({ type: 'setUser', loggeduser }))
+                .then(loggeduser => {
+                    commit({ type: 'setUser', loggeduser })
+                    location.reload()
+                })
         },
         addUser({ commit }, { user }) {
             userService.addUser(user)
-                .then(loggeduser => commit({ type: 'setUser', loggeduser }))
+                .then(loggeduser => {
+                    commit({ type: 'setUser', loggeduser })
+                    location.reload()
+                })
         },
         //WORKS. NOT IN USE CURRENTLY
         getUserById({ commit }, { id }) {
@@ -65,8 +71,8 @@ export default {
         reconnectUser({ commit }, { loggeduser }) {
             commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
         },
-        logout({ commit }) {
-            commit({ type: "logout" })
-        }
+        // logout({ commit }) {
+        //     commit({ type: "logout" })
+        // }
     }
 }

@@ -15,7 +15,16 @@ export default new Vuex.Store({
     chatModule
   },
   mutations: {
+    logout(state) {
+      userModule.state.user = null
+      chatModule.state.userChats = []
+      chatModule.state.currChat = {}
+      sessionStorage.clear()
+    },
   },
   actions: {
+    logout({ commit }) {
+      commit({ type: "logout" })
+    }
   }
 })
