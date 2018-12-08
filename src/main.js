@@ -39,7 +39,7 @@ Vue.use(new VueSocketIO({
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyB6n7iEYMeOq1PxgcjFtjgKLiuUA5_Oc20',
+    key: '',
     language: 'en',
     libraries: 'places',
   },
