@@ -31,15 +31,13 @@
         </div>
       </div>
     </div>
+
     <div class="details-bottom">
       <div>
-        <div class="flex-col-start">
-          <h5 class="minor-header">{{bed.type}}</h5>
-          <h2 class="summary-standout">
-            {{bed.hostName+ ' ' + bed.type}} in
-            {{bed.location.address}}
-          </h2>
-          <a href="#" class="secondary-header" @click="openDetails">{{'More on ' + bed.hostName}}</a>
+        <div class="top-desc">
+          <b>{{bed.hostName + "'s " + bed.type}}</b>
+          <p>{{bed.location.address}}</p>
+          <a href="#" @click="openDetails">{{'More on ' + bed.hostName}}</a>
         </div>
 
         <div class="host-details">
@@ -72,7 +70,8 @@
         <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
       <div v-if="isBook" class="booking-container">
-        <p>Your request is has submitted for a
+        <p>
+          Your request is has submitted for a
           <span>SleepOver</span>
           at {{bedHost.fullname}}'s {{bed.type}}
         </p>
@@ -171,7 +170,9 @@ export default {
     bookRequest(askedDates) {
       this.askedBookDates = { ...askedDates };
       this.isBook = true;
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -200,24 +201,30 @@ export default {
           });
           return chat._id;
         })
-        .then( (chatId) => {
+        .then(chatId => {
           let msg = {
-        from: loggedInUser._id,
-        txt: `${loggedInUser.fullname} submited a request for a sleepover at your place
-        between ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth()+1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
+            from: loggedInUser._id,
+            txt: `${
+              loggedInUser.fullname
+            } submited a request for a sleepover at your place
+        between ${this.askedBookDates.start.getMonth() +
+          1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth() +
+              1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
         Send a message to aprove`,
-        isRead: false,
-        timestamp: Date.now()
-          }
-      this.$socket.emit("sendMsg", {
-        chatId,
-        message: msg,
-        userId: this.bedHost._id
-      });
-        })
+            isRead: false,
+            timestamp: Date.now()
+          };
+          this.$socket.emit("sendMsg", {
+            chatId,
+            message: msg,
+            userId: this.bedHost._id
+          });
+        });
     },
     openChat() {
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -291,7 +298,6 @@ export default {
   max-height: 340px;
   border: 1px solid $border-color;
   border-top: none;
-  // min-height: 340px;
   width: 50%;
 }
 
@@ -386,6 +392,7 @@ export default {
   }
 }
 
+//////DETAILS
 .bed-details {
   display: flex;
   flex-direction: column;
@@ -397,10 +404,6 @@ export default {
   font-family: $main-font-bold;
 }
 
-h4 {
-  text-align: left;
-  font-size: 17px;
-}
 .amenities {
   border: $border-color 1px solid;
   width: 100%;
@@ -431,7 +434,26 @@ h4 {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  text-align: left;
   border: 1px solid rgb(199, 199, 199);
+}
+
+.top-desc {
+  padding: 10px;
+  padding-bottom: 0;
+  b {
+    font-size: 20px;
+  }
+  p {
+    font-size: 15px;
+    font-family: $main-font-light;
+    margin-bottom: 8px;
+  }
+  a {
+    font-size: 14px;
+    font-style: italic;
+    font-family: $main-font-bold;
+  }
 }
 
 .modal-content-details {
@@ -475,7 +497,7 @@ textarea {
   }
 }
 
-.review-btn{
+.review-btn {
   margin: 10px 0;
   border-radius: 5px;
   border: none;
@@ -501,6 +523,14 @@ textarea {
   align-items: flex-start;
   align-content: flex-start;
   font-family: $main-font-light;
+  h4 {
+    text-align: left;
+    font-size: 16px;
+    b {
+      font-family: $main-font-bold;
+      font-size: 16px;
+    }
+  }
 }
 @media (max-width: 900px) {
   .img-gallery {

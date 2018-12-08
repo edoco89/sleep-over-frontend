@@ -59,6 +59,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/_vars.scss";
+section{
+  b{
+    font-size: 17px;
+    font-family: $main-font-bold;
+  }
+}
 .amenities-cont {
   display: flex;
   flex-direction: column;
@@ -66,7 +73,7 @@ export default {
   height: 150px;
   div {
     text-align: left;
-    margin: 3px;
+    margin-bottom: 5px;
   }
 }
 </style>

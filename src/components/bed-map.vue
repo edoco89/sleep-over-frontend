@@ -23,14 +23,21 @@
     </button>
 
     <section :class="chosenBed">
-      <photo-carusel class="carousel-img" :pics="bedDetails.imgs"></photo-carusel>
-      <div class="bed-preview-details">
-        <b>{{bedDetails.title}}</b>
-        <p>{{bedDetails.desc}}</p>
-        {{bedDetails.rating}}
-        <img src="@/assets/img/star.png">
-        ({{parseInt(Math.random()*50)}})
-      </div>
+      <div @click="closeDetails" class="el-icon-circle-close"></div>
+      <router-link v-if="isChosen" :to="'/bed/' + chosenDetails._id" class="chosen-bed-container">
+        <photo-carusel class="carousel-img" :pics="chosenDetails.imgUrls"></photo-carusel>
+        <div>
+          <b>{{chosenDetails.hostName+ "'s " + chosenDetails.type}}</b>
+          <br>
+          <p>{{chosenDetails.location.address}}</p>
+          <span>
+            <img src="@/assets/img/star.png">
+            {{chosenDetails.rating}}
+            |
+            ({{parseInt(Math.random()*50 + 10)}})
+          </span>
+        </div>
+      </router-link>
     </section>
   </section>
 </template>
@@ -280,7 +287,7 @@ export default {
       },
       place: {},
       isChosen: false,
-      bedDetails: {}
+      chosenDetails: null
     };
   },
   created() {
@@ -302,16 +309,8 @@ export default {
     },
     showDetails(bed, index) {
       this.isChosen = true;
-      this.bedDetails = {
-        imgs: bed.imgUrls,
-        title: `${bed.hostName}'s ${bed.type}`,
-        desc:
-          bed.location.street +
-          ", " +
-          bed.location.city[0].toUpperCase() +
-          bed.location.city.slice(1),
-        rating: bed.rating
-      };
+      this.chosenDetails = bed;
+      console.log("bed!!", this.chosenDetails);
     },
     closeDetails() {
       this.isChosen = false;
@@ -383,15 +382,17 @@ export default {
   }
 }
 .chosen {
+  border-top: 1px solid lightgray;
   position: absolute;
   bottom: 0px;
   height: 150px;
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 5px;
   width: $container;
-  background: lightgray;
+  background: white;
   transition: 0.4s;
+  overflow: hidden;
   * {
     height: fit-content;
     visibility: visible;
@@ -403,11 +404,53 @@ export default {
   }
   .carousel-img {
     width: 200px;
+    height: 125px;
   }
+  .chosen-bed-container {
+    display: flex;
+    height: 125px;
+    div {
+      text-align: left;
+      margin-left: 10px;
+      color: #222222;
+      position: relative;
+      height: 100%;
+      b {
+        font-family: $main-font-bold;
+        font-size: 18px;
+      }
+      p {
+        font-family: $main-font-light;
+        margin: 0;
+        font-size: 14px;
+      }
+      span {
+        font-family: $main-font-bold;
+        position: absolute;
+        bottom: 0;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+.el-icon-circle-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px;
+  font-size: 22px;
+  cursor: pointer;
 }
 .map-container {
   height: 100%;
   width: $container;
   margin: auto;
+}
+@media (max-width: 600px) {
+  .map-container {
+    width: 80%;
+  }
 }
 </style>

@@ -51,11 +51,9 @@
         <img src="@/assets/img/party.jpg" alt="Sport">
       </div>
       <div class="host-catg4">
-        <div
-          :class="'catg-hover ' + catg4"
-          @mouseover="catg4 = 'show-catg'"
-          @mouseout="catg4 = ''"
-        >Foodies</div>
+        <div :class="'catg-hover ' + catg4" @mouseover="catg4 = 'show-catg'" @mouseout="catg4 = ''">
+          <b>Foodies</b>
+        </div>
         <img src="@/assets/img/foodies.jpg" alt="Sport">
       </div>
     </div>
@@ -63,7 +61,6 @@
     <div class="catg-title">Connecting people around the world</div>
 
     <div class="people-container">
-     
       <div class="people1">
         <img src="@/assets/img/ron-wendy.jpg" alt>
         <div>
@@ -72,10 +69,9 @@
             The loveley couple offers an
             <b>Entire Comfortable Room!</b>
           </p>
-         <router-link to="/bed/5c08f6f5a336a33a6c60d27c" href="#"> Check it Out! </router-link>
+          <router-link to="/bed/5c08f6f5a336a33a6c60d27c" href="#">Check it Out!</router-link>
         </div>
       </div>
-     
 
       <div class="people2">
         <img src="@/assets/img/john.jpeg" alt>
@@ -175,8 +171,14 @@ export default {
   background: #222222;
   input {
     margin: 5px;
-    padding: 10px;
+    padding: 12.5px;
+    width: 55%;
     border: none;
+    font-size: 22px;
+    border: 1px solid white;
+  }
+  button {
+    font-size: 25px;
   }
 }
 
@@ -192,9 +194,9 @@ input {
   padding: 10px;
   color: white;
   border-radius: 4px;
-  border: 0px;
-   font-family: $main-font-bold;
-  background: rgb(117, 51, 51);
+  border: 1px solid white;
+  font-family: $main-font-bold;
+  background: rgb(177, 75, 75);
   &:hover {
     cursor: pointer;
     opacity: 0.8;
@@ -238,18 +240,18 @@ input {
   margin-top: 30px;
   margin-bottom: 10px;
   font-family: $main-font-bold;
-  font-size: 25px;
+  font-size: 18px;
 }
 
 .catg-hover {
   position: absolute;
   z-index: 1;
+  color: black;
   width: 100%;
   height: 100%;
   padding-top: 50px;
-  color: black;
-  font-size: 17px;
-  background: rgba(128, 128, 128, 0.603);
+  font-size: 18px;
+  background: rgba(212, 206, 206, 0.603);
   opacity: 0;
   transition: 0.4s;
 }
@@ -298,10 +300,10 @@ input {
   display: flex;
   justify-content: space-between;
   div {
-    width: 30%;
+    width: 32%;
     border: 1px solid $border-color;
     img {
-      height: 80px;
+      height: 60px;
       width: 100%;
       object-fit: cover;
       object-position: top;
@@ -318,18 +320,19 @@ input {
       text-overflow: ellipsis;
       b {
         font-family: $main-font-bold;
-        font-size: 15px;
+        font-size: 12px;
       }
       p {
         font-family: $main-font-light;
-        font-size: 12px;
+        font-size: 10px;
         b {
-          font-size: 14px;
+          font-size: 10px;
           color: #6e6a6a;
         }
       }
       a {
         font-family: $main-font-light;
+        font-size: 10px;
         font-weight: bold;
         font-style: italic;
         position: absolute;
@@ -340,13 +343,17 @@ input {
   }
 }
 @media (min-width: 500px) {
+  .catg-title {
+    font-size: 20px;
+  }
   .catg-hover {
     font-size: 25px;
+    color: black;
   }
   .people-container {
     div {
       img {
-        height: 150px;
+        height: 105px;
       }
       div {
         padding: 6px;
@@ -371,11 +378,36 @@ input {
     grid-template-rows: 75px 75px 75px 75px;
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 700px) {
   .people-container {
     div {
       img {
-        height: 200px;
+        height: 130px;
+      }
+      div {
+        a {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 900px) {
+  .catg-title {
+    font-size: 25px;
+  }
+  .search-bar {
+    input {
+      width: 35%;
+    }
+  }
+  .catg-hover {
+    font-size: 40px;
+  }
+  .people-container {
+    div {
+      img {
+        height: 180px;
       }
       div {
         padding: 10px;
@@ -404,8 +436,24 @@ input {
   }
 }
 @media (min-width: 1050px) {
+  .people-container {
+    div {
+      width: 30%;
+      img {
+        height: 200px;
+      }
+      div{
+        a{
+          font-size: 16px;
+        }
+      }
+    }
+  }
   .main-banner {
     height: 500px;
+  }
+  .catg-hover {
+    font-size: 50px;
   }
   .people-images {
     grid-template-rows: 100px 100px 100px 100px;

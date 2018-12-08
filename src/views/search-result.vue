@@ -71,9 +71,9 @@ export default {
     cursor: pointer;
   }
 }
-// @media (min-width: 1000px) {
-//   .results-display {
-//     display: flex;
-//   }
-// }
+.modal-close {
+  top: 3px;
+  right: 3px;
+}
+
 </style>

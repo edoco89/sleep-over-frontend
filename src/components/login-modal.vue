@@ -103,7 +103,7 @@ export default {
       text-align: left;
       justify-content: space-between;
       margin: 8px;
-      input{
+      input {
         padding: 5px;
         max-height: 36px;
       }
@@ -116,8 +116,10 @@ export default {
       border-radius: 5px;
       margin-bottom: 10px;
       font-family: $main-font-bold;
-      opacity: 0.8;
-      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
     }
     a {
       font-style: italic;
