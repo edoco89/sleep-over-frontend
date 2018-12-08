@@ -96,7 +96,8 @@
       <div class="review-container" v-for="review in bed.reviews" :key="review.index">
         <div class="review-preview">
           <img width="80" :src="review.reviewerImg">
-          <star-rating star-size="15" v-model="review.rating"></star-rating>
+          <div class="bold user-box-review">{{review.givenByName}}</div>
+          <star-rating :star-size="15" v-model="review.rating"></star-rating>
         </div>
         <span>
           <b>{{review.givenByName}}:</b>

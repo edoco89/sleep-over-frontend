@@ -23,9 +23,13 @@ Vue.use(Buefy);
 
 Vue.component('star-rating', StarRating);
 
+const SOCKET_URL = process.env.NODE_ENV !== 'development'
+  ? ''
+  : '//localhost:3000'
+
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:3000',
+    connection: SOCKET_URL,
     vuex: {
         store,
         actionPrefix: 'SOCKET_',
