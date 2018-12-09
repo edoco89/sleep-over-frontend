@@ -33,7 +33,7 @@
     </div>
 
     <div class="details-bottom">
-      <div>
+      <div class="left-section">
         <div class="top-desc">
           <b>{{bed.hostName + "'s " + bed.type}}</b>
           <p>{{bed.location.address}}</p>
@@ -69,22 +69,23 @@
         </div>
         <book-bed @bookRequest="bookRequest"></book-bed>
       </div>
-      <div v-if="isBook" class="booking-container">
-        <p>
-          Your request is has submitted for a
-          <span>SleepOver</span>
-          at {{bedHost.fullname}}'s {{bed.type}}
-        </p>
-        <p>
-          In {{bed.location.address}} from {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} until
+      <!-- BOOKED MSG -->
+      <div v-if="isBook" class="booking-msg-container">
+        <b>Your request has been sent to {{bedHost.fullname}}!</b>
+        <br>
+        <span>
+          {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
           {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
-        </p>
-        <p>The host will send you a message for approval</p>
+          <br>
+          {{bed.location.address}}
+        </span>
+        <p>An answer will be sent shortly</p>
       </div>
     </div>
 
     <div class="reviews">
-      <button @click="addReviewOpen = !addReviewOpen;" class="review-btn">Add Review</button>
+      <b>Reviews:</b>
+      <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">
         <p>Hi {{user.fullname}}, do tell us what you thought of your time with {{bed.hostName}}!</p>
         <textarea v-model="newReview.txt"></textarea>
@@ -106,12 +107,12 @@
       </div>
     </div>
 
-    <!-- photo gallery modal -->
+    <!-- modal -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
       <div class="modal-content-details">
         <user-details class="host-details-modal" :user="bedHost" v-if="isDetalis"></user-details>
-        <photo-carusel v-else :pics="bed.imgUrls"></photo-carusel>
+        <photo-carusel class="carousel-gallery" v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
     </div>
@@ -393,6 +394,34 @@ export default {
   }
 }
 
+.booking-msg-container {
+  background: lightgreen;
+  height: fit-content;
+  padding: 20px;
+  border-radius: 15px;
+  width: 100%;
+  margin-top: 15px;
+  margin-right: 10px;
+  border: 1px solid #222222;
+  color: #222222;
+  b {
+    font-size: 15px;
+    font-family: $main-font-bold;
+  }
+  span {
+    font-size: 11px;
+    font-family: $main-font-light;
+  }
+  p {
+    margin: 0;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+}
+
+.left-section {
+  width: 50%;
+}
 //////DETAILS
 .bed-details {
   display: flex;
@@ -461,12 +490,20 @@ export default {
   flex-direction: row;
   margin: 0 auto;
   z-index: 1;
+  width: 90%;
   .host-details-modal {
     background: white;
-    width: 90%;
+    // width: 90%;
     margin: auto;
     border-radius: 10px;
     padding: 25px;
+  }
+  .carousel-gallery {
+    height: 350px;
+    // .w-100{
+    .caruosel .slide {
+      background: none !important;
+    }
   }
 }
 textarea {
@@ -481,13 +518,24 @@ textarea {
   display: flex;
   text-align: left;
   padding: 5px;
+  max-width: 600px;
 }
 
 .reviews {
-  justify-content: space-between;
   width: 100%;
   font-family: $main-font-light;
   text-align: left;
+  margin-top: 15px;
+  & > b {
+    font-family: $main-font-bold;
+    font-size: 22px;
+  }
+  a {
+    font-family: $main-font-bold;
+    font-size: 14px;
+    font-style: italic;
+    margin-left: 10px;
+  }
 }
 
 .review-preview {
@@ -527,6 +575,7 @@ textarea {
   h4 {
     text-align: left;
     font-size: 16px;
+    line-height: 22px;
     b {
       font-family: $main-font-bold;
       font-size: 16px;

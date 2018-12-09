@@ -95,7 +95,7 @@ export default {
           }
         },
         type: "",
-        rating: parseInt(Math.random() * 5),
+        rating: (Math.random() + 4).toFixed(2),
         reviews: [],
         ditstanceFromCityCenter: 0,
         ameneties: {
