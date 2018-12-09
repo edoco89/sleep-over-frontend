@@ -57,9 +57,7 @@ export default {
     const loggeduser = sessionStorage.loggedinUser;
     if (loggeduser) {
       this.$store.dispatch("reconnectUser", { loggeduser }).then(() => {
-        let loggedInUser = JSON.parse(
-          JSON.stringify(this.$store.getters.loggedInUser)
-        );
+        let loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
         this.$store.dispatch({
           type: "getChatsById",
           userId: loggedInUser._id
@@ -85,7 +83,7 @@ export default {
   },
   computed: {
     getUser() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     },
     newMsgCount() {
       return this.$store.getters.getUserChatsNewMsg;

@@ -43,10 +43,9 @@ export default {
                 })
         },
         getChatsById({ commit }, { userId }) {
-            return chatService.getChatsById(userId)
+        chatService.getChatsById(userId)
                 .then(users => {
                     commit({ type: 'setUserChats', users })
-                    return users
                 })
         },
         createChatByIds({ commit }, { userId1, userId2 }) {

@@ -172,9 +172,7 @@ export default {
     bookRequest(askedDates) {
       this.askedBookDates = { ...askedDates };
       this.isBook = true;
-      const loggedInUser = JSON.parse(
-        JSON.stringify(this.$store.getters.loggedInUser)
-      );
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -224,9 +222,7 @@ export default {
         });
     },
     openChat() {
-      const loggedInUser = JSON.parse(
-        JSON.stringify(this.$store.getters.loggedInUser)
-      );
+      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -249,6 +245,7 @@ export default {
             userId: this.bedHost._id,
             chatId: chat._id
           });
+          this.$store.dispatch({type: "getChatsById",userId: loggedInUser._id})
           this.showChatModal = true;
         });
     },
