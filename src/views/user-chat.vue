@@ -95,6 +95,7 @@ export default {
 .user-preview {
   margin: 10px;
   z-index: 150;
+  width: 100%;
   height: fit-content;
   padding-bottom: 5px;
   display: flex;
@@ -104,8 +105,8 @@ export default {
   border-bottom: 1px solid gray;
   img {
     margin-right: 10px;
-    width: 80px;
-    height: 80px;
+    width: 85px;
+    height: 85px;
     object-fit: cover;
     object-position: top;
     border-radius: 50%;
@@ -113,6 +114,20 @@ export default {
   &:hover {
     opacity: 0.8;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 700px) {
+  .user-preview {
+    flex-direction: column;
+    padding: 15px;
+    margin: auto;
+    text-align: center;
+    img {
+      margin: auto;
+      width: 80%;
+      // height: 80px;
+    }
   }
 }
 </style>

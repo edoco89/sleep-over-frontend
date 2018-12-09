@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <div class="reviews">
+    <div v-if="bed.reviews.length > 0" class="reviews">
       <b>Reviews:</b>
       <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">
@@ -472,7 +472,7 @@ export default {
   padding: 10px;
   padding-bottom: 0;
   b {
-    font-size: 20px;
+    font-size: 26px;
   }
   p {
     font-size: 15px;
@@ -480,7 +480,7 @@ export default {
     margin-bottom: 8px;
   }
   a {
-    font-size: 14px;
+    font-size: 16px;
     font-style: italic;
     font-family: $main-font-bold;
   }
@@ -493,14 +493,13 @@ export default {
   width: 90%;
   .host-details-modal {
     background: white;
-    // width: 90%;
+    width: 60%;
     margin: auto;
     border-radius: 10px;
     padding: 25px;
   }
   .carousel-gallery {
-    height: 350px;
-    // .w-100{
+    height: 500px;
     .caruosel .slide {
       background: none !important;
     }
@@ -574,17 +573,62 @@ textarea {
   font-family: $main-font-light;
   h4 {
     text-align: left;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 22px;
     b {
       font-family: $main-font-bold;
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 }
 @media (max-width: 900px) {
   .img-gallery {
     height: 280px;
+  }
+
+  .host-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    font-family: $main-font-light;
+    h4 {
+      text-align: left;
+      font-size: 16px;
+      line-height: 22px;
+      b {
+        font-family: $main-font-bold;
+        font-size: 16px;
+      }
+    }
+  }
+  .top-desc {
+    padding: 10px;
+    padding-bottom: 0;
+    b {
+      font-size: 20px;
+    }
+    p {
+      font-size: 15px;
+      font-family: $main-font-light;
+      margin-bottom: 8px;
+    }
+    a {
+      font-size: 14px;
+      font-style: italic;
+      font-family: $main-font-bold;
+    }
+  }
+  .modal-content-details {
+    .carousel-gallery {
+      height: 350px;
+    }
+    .host-details-modal {
+      background: white;
+      width: 85%;
+    }
   }
 }
 @media (max-width: 750px) {
@@ -595,6 +639,43 @@ textarea {
 @media (max-width: 650px) {
   .img-gallery {
     height: 235px;
+  }
+  .left-section {
+    width: 70%;
+  }
+  .chat-container {
+    span {
+      font-size: 11px;
+    }
+  }
+  .booking-container {
+    width: 30%;
+    .container {
+      min-width: 160px;
+    }
+  }
+}
+@media (max-width: 550px) {
+  .chat-container {
+    text-align: left;
+    // width: 90%;
+    span {
+      font-size: 18px;
+    }
+  }
+  .booking-container {
+    width: 80%;
+    margin: auto;
+    .container {
+      padding: 0;
+      min-width: 160px;
+    }
+  }
+  .left-section {
+    width: 100%;
+  }
+  .details-bottom {
+    flex-direction: column;
   }
 }
 </style>

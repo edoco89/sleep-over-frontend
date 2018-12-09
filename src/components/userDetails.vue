@@ -34,7 +34,7 @@
       </div>
       <div v-if="user.hobbies">
         <h5>Hobbies:</h5>
-        <span v-for="(hobbie,idx) in user.hobbies" :key="idx">{{idx+ ", "}}</span>
+        <span v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie+ ", "}}</span>
       </div>
     </div>
   </section>

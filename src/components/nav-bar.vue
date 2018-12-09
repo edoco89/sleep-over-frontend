@@ -16,21 +16,14 @@
             :to="'/userProfile/' +getUser._id"
           >My Profile</router-link>
           <span v-if="getUser">|</span>
-          <!-- <router-link @click.native="isOpen = ''" to="/searchResult">Search</router-link> -->
-          <!-- <span>|</span> -->
           <a v-if="getUser" @click="logout">Log-out</a>
           <span v-if="getUser">|</span>
-          <!-- <router-link to="/about">About </router-link>| -->
-          <!-- <a v-if="getUser && window.innerWidth > 600" @click.native="showChatModal= true" class="nav-chat"> -->
-          <!-- {{newMsgCount}} -->
-          <!-- <img src="@/assets/img/chat.png"> -->
-          <!-- </a> -->
         </div>
         <div class="menu-chat">
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
           <a v-if="getUser" @click="showChatModal= true" class="nav-chat">
             <img src="@/assets/img/chat.png">
-            <span>{{newMsgCount}}</span>
+            <span v-if="newMsgCount > 0">{{newMsgCount}}</span>
           </a>
           <div class="el-icon-menu" @click="toggleMenu"></div>
         </div>

@@ -61,9 +61,9 @@
         </div>
         <button>{{mode}}</button>
       </form>
-      <div v-if="bed.imgUrls.length > 0" class="uploaded-imgs">
-        <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
-        <!-- <img v-for="(img,idx) in bed.imgUrls" :key="idx" :src="img"> -->
+      <div class="uploaded-imgs">
+        <photo-carusel v-if="bed.imgUrls.length > 0" class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
+        <img class="no-img" v-else src="@/assets/img/no-img.jpg" alt="No Images">
       </div>
     </section>
   </section>
@@ -175,6 +175,7 @@ export default {
   margin: auto;
   text-align: left;
   display: flex;
+  font-family: $main-font-bold;
 }
 .user-photo-carusel {
   height: 350px;
@@ -187,11 +188,21 @@ form {
     justify-content: space-between;
   }
   input {
-    width: 150px;
+    width: 200px;
     padding: 5px;
   }
 }
+.publish-form{
+  display: flex;
+  width: 250px;
+}
+
 .uploaded-imgs {
   width: 50%;
+  .no-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
