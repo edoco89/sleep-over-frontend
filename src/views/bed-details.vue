@@ -60,14 +60,17 @@
           </div>
         </div>
       </div>
-      <div v-if="!isBook" class="booking-container">
+      <div class="booking-container">
         <div class="chat-container">
           <a @click="openChat">
             <img class="chat-btn" src="@/assets/img/chat.png">
           </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
-        <book-bed @bookRequest="bookRequest"></book-bed>
+        <book-bed
+          @bookRequest="bookRequest"
+          :class="(bookedMsg === 'hide-msg')? 'show-msg': 'hide-msg'"
+        ></book-bed>
         <span :class="loginMsg">Please Log-In to book a bed</span>
         <!-- BOOKED MSG -->
         <div :class="'booking-msg-container ' + bookedMsg">
@@ -178,8 +181,8 @@ export default {
         setTimeout(() => (this.loginMsg = "hide-msg"), 3000);
         return;
       }
+
       this.bookedMsg = "show-msg";
-      setTimeout(() => (this.bookedMsg = "hide-msg"), 3000);
 
       this.askedBookDates = { ...askedDates };
       this.isBook = true;
@@ -413,21 +416,22 @@ export default {
 .booking-msg-container {
   background: lightgreen;
   height: fit-content;
-  padding: 20px;
+  padding: 15px;
   border-radius: 15px;
-  width: 60%;
+  width: 100%;
   margin-top: 15px;
   margin-right: 10px;
   border: 1px solid #222222;
   color: #222222;
   transition: 0.4;
-  // position: absolute;
+  position: absolute;
+  top: 25px;
   b {
     font-size: 15px;
     font-family: $main-font-bold;
   }
   span {
-    font-size: 11px;
+    font-size: 12px;
     font-family: $main-font-light;
   }
   p {
@@ -474,6 +478,7 @@ export default {
 
 .booking-container {
   // display: flex;
+  position: relative;
   margin: 15px;
   text-align: center;
   .hide-msg {
@@ -482,6 +487,7 @@ export default {
   }
   .show-msg {
     opacity: 1;
+    z-index: 5;
     transition: 0.4s;
   }
 }
