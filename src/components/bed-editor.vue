@@ -44,6 +44,7 @@
           >
             <div>
               <input type="file" name="img">
+              <label for="file">Choose a file</label>
             </div>
             <div>
               <button type="submit">Add Image</button>
@@ -59,7 +60,7 @@
             @setFilter="setAmenities"
           ></select-menu>
         </div>
-        <button>{{mode}}</button>
+        <button>{{mode}} Bed</button>
       </form>
       <div class="uploaded-imgs">
         <photo-carusel v-if="bed.imgUrls.length > 0" class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
@@ -177,24 +178,70 @@ export default {
   display: flex;
   font-family: $main-font-bold;
 }
+h3 {
+  font-family: $main-font-bold;
+  font-size: 32px;
+  width: 90%;
+  margin: auto;
+  text-decoration: underline;
+  margin-bottom: 10px;
+  text-align: left;
+}
 .user-photo-carusel {
   height: 350px;
 }
 form {
   width: 50%;
   div {
-    margin: 10px;
+    margin-right: 10px;
+    margin-bottom: 18px;
     display: flex;
     justify-content: space-between;
+  }
+  button {
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    padding: 5px;
+    background: #222222;
+    color: white;
   }
   input {
     width: 200px;
     padding: 5px;
   }
 }
-.publish-form{
+.publish-form {
   display: flex;
-  width: 250px;
+  width: 280px;
+  justify-content: space-between;
+  div {
+    input {
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 100px;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    label {
+      cursor: pointer;
+      background: #222222;
+      padding: 5px;
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  }
+  button {
+    cursor: pointer;
+    height: 32.5px;
+    width: 100px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+  }
 }
 
 .uploaded-imgs {

@@ -68,18 +68,19 @@
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
         <book-bed @bookRequest="bookRequest"></book-bed>
-      </div>
-      <!-- BOOKED MSG -->
-      <div v-if="isBook" class="booking-msg-container">
-        <b>Your request has been sent to {{bedHost.fullname}}!</b>
-        <br>
-        <span>
-          {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
-          {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+        <span :class="loginMsg">Please Log-In to book a bed</span>
+        <!-- BOOKED MSG -->
+        <div :class="'booking-msg-container ' + bookedMsg">
+          <b v-if="bedHost">Your request has been sent to {{bedHost.fullname}}!</b>
           <br>
-          {{bed.location.address}}
-        </span>
-        <p>An answer will be sent shortly</p>
+          <span v-if="askedBookDates">
+            {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
+            {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+            <br>
+            {{bed.location.address}}
+          </span>
+          <p>An answer will be sent shortly</p>
+        </div>
       </div>
     </div>
 
@@ -129,6 +130,8 @@ import userDetails from "@/components/userDetails.vue";
 export default {
   data() {
     return {
+      loginMsg: "hide-msg",
+      bookedMsg: "hide-msg",
       showModal: false,
       isBook: false,
       isDetalis: false,
@@ -170,9 +173,19 @@ export default {
       this.showModal = true;
     },
     bookRequest(askedDates) {
+      if (!this.$store.getters.loggedInUser) {
+        this.loginMsg = "show-msg";
+        setTimeout(() => (this.loginMsg = "hide-msg"), 3000);
+        return;
+      }
+      this.bookedMsg = "show-msg";
+      setTimeout(() => (this.bookedMsg = "hide-msg"), 3000);
+
       this.askedBookDates = { ...askedDates };
       this.isBook = true;
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -214,6 +227,7 @@ export default {
             isRead: false,
             timestamp: Date.now()
           };
+
           this.$socket.emit("sendMsg", {
             chatId,
             message: msg,
@@ -222,7 +236,9 @@ export default {
         });
     },
     openChat() {
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -245,7 +261,10 @@ export default {
             userId: this.bedHost._id,
             chatId: chat._id
           });
-          this.$store.dispatch({type: "getChatsById",userId: loggedInUser._id})
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: loggedInUser._id
+          });
           this.showChatModal = true;
         });
     },
@@ -396,11 +415,13 @@ export default {
   height: fit-content;
   padding: 20px;
   border-radius: 15px;
-  width: 100%;
+  width: 60%;
   margin-top: 15px;
   margin-right: 10px;
   border: 1px solid #222222;
   color: #222222;
+  transition: 0.4;
+  // position: absolute;
   b {
     font-size: 15px;
     font-family: $main-font-bold;
@@ -455,6 +476,14 @@ export default {
   // display: flex;
   margin: 15px;
   text-align: center;
+  .hide-msg {
+    opacity: 0;
+    transition: 0.4s;
+  }
+  .show-msg {
+    opacity: 1;
+    transition: 0.4s;
+  }
 }
 
 .details-bottom {

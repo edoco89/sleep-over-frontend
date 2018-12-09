@@ -76,20 +76,36 @@ export default {
   padding-top: 0;
   border: 1px solid $border-color;
   border-top: none;
+  h4 {
+    font-family: $main-font-bold;
+  }
+  div {
+    font-family: $main-font-bold;
+    font-size: 17px;
+    span {
+      font-family: $main-font-light;
+      font-size: 17px;
+    }
+  }
 }
 
 .more-details {
   text-align: left;
   padding: 0 10px;
-
-  // width: 90%;
-  margin: 25px auto;
+  margin: 0 auto;
+  margin-top: 15px;
+  a {
+    font-family: $main-font-bold;
+    font-style: italic;
+    font-size: 15px;
+  }
   h5 {
+    margin-top: 10px;
     margin-bottom: 0;
+    font-family: $main-font-bold;
   }
   div {
     margin-bottom: 10px;
   }
 }
-
 </style>;

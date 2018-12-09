@@ -7,18 +7,18 @@
       <router-link to="/bedEdit" href="#">Add Bed</router-link>
       <div v-if="bed" v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
         <div class="bed-details">
-          <b>Your {{bed.type}} In {{bed.location.address}}</b>
-          <div>
+          <div class="prev-header">
+            <b>Your {{bed.type}} In {{bed.location.address}}</b>
+          </div>
+          <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
+          <a href="#" v-if="bed.reviews.length > 0" @click="showModal = true">See Reviews</a>
+          <div class="amenities-prev">
+            <bed-amenities :aments="bed.ameneties"></bed-amenities>
+          </div>
+          <div class="bed-prev-rating">
             <img src="@/assets/img/star.png">
             <span>{{bed.rating}}</span>
           </div>
-          <div v-if="bed.ameneties">
-            <bed-amenities :details="bed.ameneties"></bed-amenities>
-          </div>
-          <div>
-            <button v-if="bed.reviews" @click="showModal = true">Bed Reviews</button>
-          </div>
-          <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
         </div>
         <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
       </div>
@@ -66,8 +66,6 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 .profile-container {
-  // border: 1px solid $border-color;
-  // border-top: none;
   width: $container;
   margin: auto;
 }
@@ -86,22 +84,52 @@ export default {
 }
 
 .user-bed {
-  border: 1px solid $border-color;
+  // border: 1px solid $border-color;
+  border: 1px solid #8d8c8c;
+  position: relative;
+  color: #222222;
   margin-top: 10px;
   display: flex;
+  justify-content: space-between;
   text-align: left;
   height: 250px;
   .user-photo-carusel {
-    width: 50%;
+    width: 45%;
     height: 100%;
-    padding: 10px;
-    margin: 5px;
+    // padding: 10px;
+    // margin: 5px;
+  }
+  .amenities-prev {
+    height: 100px;
+    margin-top: 5px;
+    section {
+      height: 100%;
+    }
   }
   .bed-details {
     padding: 10px;
     margin: 5px;
     width: 50%;
     height: 100%;
+    .prev-header {
+      margin-bottom: 10px;
+    }
+    a {
+      margin-right: 10px;
+      font-family: $main-font-bold;
+      font-size: 14px;
+      font-style: italic;
+    }
+  }
+  .bed-prev-rating {
+    position: absolute;
+    bottom: 0;
+    font-family: $main-font-bold;
+    padding: 5px 0;
+    span {
+      font-size: 20px;
+      margin-left: 8px;
+    }
   }
 }
 .about-me-box {
@@ -127,6 +155,15 @@ export default {
 .user-photo-carusel {
   height: 100%;
   width: 100%;
+}
+
+.user-details-container {
+  border: 1px solid #8d8c8c;
+  border-top: none;
+  b {
+    font-family: $main-font-bold;
+  }
+  padding-top: 10px;
 }
 
 @media (min-width: 550px) {
