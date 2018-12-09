@@ -27,15 +27,12 @@ export default {
   },
   data() {
     return {
-      currUser: {},
       isShow: false
     };
   },
-  created() {
-    this.currUser = JSON.parse(
-      JSON.stringify(this.$store.getters.loggedInUser)
-    );
-  },
+  // created() {
+  //   this.$store.dispatch({type: "getChatsById",userId: this.currUser._id});
+  // },
   methods: {
     openChat(userId) {
       this.$store
@@ -64,9 +61,13 @@ export default {
   },
   computed: {
     userChats() {
-      return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
+    this.$store.dispatch({type: "getChatsById",userId: this.currUser._id})
+    return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
+    },
+    currUser() {
+    return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
-  },
+},
   components: {
     chatBox
   }
