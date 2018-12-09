@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userChats" :class="{'is-active' : showChatModal}" class="modal">
+  <div v-if="currUser && userChats" :class="{'is-active' : showChatModal}" class="modal">
     <div class="modal-background" @click="$emit('closeModal')"></div>
     <div class="modal-content">
       <ul class="user-list">
@@ -27,12 +27,14 @@ export default {
   },
   data() {
     return {
-      isShow: false
+      isShow: false,
+      userChatNewMsg: []
     };
   },
-  // created() {
-  //   this.$store.dispatch({type: "getChatsById",userId: this.currUser._id});
-  // },
+  created() {
+  //  this.userNewMsgPerChat()
+    // this.$store.dispatch({type: "getChatsById",userId: this.currUser._id});
+  },
   methods: {
     openChat(userId) {
       this.$store
@@ -47,27 +49,50 @@ export default {
             userId,
             chatId: chat._id
           });
-          const newMsgCountArray = chat.messages.filter(msg => {
-            return msg.from !== this.currUser._id && msg.isRead === true;
-          });
-          this.$socket.emit("setNewMsg", {
-            chatId: chat._id,
-            userId: this.currUser._id,
-            number: -newMsgCountArray.length
-          });
+          // this.$socket.emit("setNewMsg", {
+          //   chatId: chat._id,
+          //   userId: this.currUser._id,
+          //   number: -this.newMsgCount(userId).length
+          // });
           this.isShow = true;
         });
+    },
+  userNewMsgPerChat() {
+    JSON.parse(JSON.stringify(this.$store.getters.getUserChats)).map(async user => {
+      return await this.$store.dispatch({
+        type: "getChatByIds",
+        userId1: this.currUser._id,
+        userId2: user._id
+      })
+    .then( async chat => {
+      return await chat.messages.filter(msg => {
+            return msg.from !== this.currUser._id && msg.isRead === false;
+                });
+    })
+        .then(async newMsgCountArray => {
+          await this.userChatNewMsg.push({userId: user._id, newMsg: newMsgCountArray.length});
+        });
+    })
     }
+    
+  },
+  filters: {
+  newMsgCount(userId) {
+    const chatData = this.userChatNewMsg.find(chat => {
+      return chat.userId === userId
+    })
+    return chatData.newMsg
+  }
   },
   computed: {
-    userChats() {
-    this.$store.dispatch({type: "getChatsById",userId: this.currUser._id})
-    return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
-    },
     currUser() {
-    return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
-    }
-},
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+    },
+    userChats() {
+      // this.$store.dispatch({ type: "getChatsById", userId: this.currUser._id });
+      return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
+    },
+  },
   components: {
     chatBox
   }

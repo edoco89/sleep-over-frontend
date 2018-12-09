@@ -28,6 +28,9 @@ export default {
       }
     };
   },
+  // created(){
+  //   this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat));
+  // },
   computed: {
     currChat() {
       return JSON.parse(JSON.stringify(this.$store.getters.getChat));
