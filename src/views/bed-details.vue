@@ -492,7 +492,7 @@ export default {
           this.$socket.emit("sendMsg", {
             chatId,
             message: msg,
-            userId: this.bedHost._id
+            userId: loggedInUser._id
           });
         });
     },

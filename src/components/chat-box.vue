@@ -10,7 +10,7 @@
       </div>
     </section>
     <div class="msg-input">
-      <input type="text" v-model="currMsg.txt">
+      <input @focus="$emit('clearNotification', currChat.usersId.find(id => currUser._id !== id), currChat._id)" @keypress="isEnterDown" type="text" v-model="currMsg.txt">
       <button @click="sendMsg">SEND</button>
     </div>
   </section>
@@ -28,9 +28,6 @@ export default {
       }
     };
   },
-  // created(){
-  //   this.currChat = JSON.parse(JSON.stringify(this.$store.getters.getChat));
-  // },
   computed: {
     currChat() {
       return JSON.parse(JSON.stringify(this.$store.getters.getChat));
@@ -54,12 +51,9 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-    }
-  },
-  sockets: {
-    getMsg(msg) {
-      this.currChat.messages.push(msg);
-      this.$store.dispatch({ type: "updateChat", message: msg });
+    },
+    isEnterDown(ev){
+      if (ev.code === 'Enter') this.sendMsg()
     }
   }
 };

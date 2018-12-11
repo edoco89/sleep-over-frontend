@@ -2,17 +2,24 @@
 
 import chatService from '../services/chatService.js';
 import userService from '../services/userService.js';
+import { socketEmitter } from '../services/socketEmitService'
 
 export default {
     state: {
         userChats: [],
         currChat: {},
+        newMsgPerChat: {},
         newMsg: 0
     },
     getters: {
-        getChat: (state) => state.currChat,
-        getUserChats: (state) => state.userChats,
-        getUserChatsNewMsg: (state) => state.newMsg
+        getChat: state => state.currChat,
+        getUserChats: state => state.userChats,
+        getUserChatsNewMsg: state => state.newMsg,
+        // currChatUserId: (state, getters) => {
+        //     if (!state.currChat.usersId) return null
+        //     else return state.currChat.usersId.find(id => id !== getters.loggedInUser._id)
+        // },
+        newMsgPerChat: state => state.newMsgPerChat
     },
     mutations: {
         setChat(state, { chat }) {
@@ -25,7 +32,10 @@ export default {
             state.currChat.messages.push(message);
         },
         setNewMsg(state, { number }) {
-            state.newMsg =+ number;
+            state.newMsg = number;
+        },
+        setNewMsgPerChat(state, { newMsgPerChat }) {
+            state.newMsgPerChat = newMsgPerChat;
         }
     },
     actions: {
@@ -42,11 +52,34 @@ export default {
                     commit({ type: 'setChat', chat })
                 })
         },
-        getChatsById({ commit }, { userId }) {
-        chatService.getChatsById(userId)
+        getChatsById({ commit, dispatch }, { userId }) {
+            return chatService.getChatsById(userId)
                 .then(users => {
                     commit({ type: 'setUserChats', users })
+                    dispatch({ type: 'getNewMsgPerChat' })
                 })
+        },
+        getNewMsgPerChat({ commit, dispatch, getters }) {
+            getters.getUserChats.forEach(user => {
+                dispatch({
+                    type: "getChatByIds",
+                    userId1: getters.loggedInUser._id,
+                    userId2: user._id
+                })
+                    .then(chat => {
+                        return chat.messages.filter(msg => {
+                            return msg.from !== getters.loggedInUser._id && msg.isRead === false;
+                        });
+                    })
+                    .then(newMsgCountArray => {
+                        const newMsgPerChat = {
+                            ...getters.newMsgPerChat,
+                            [user._id]: newMsgCountArray.length
+                        }
+                        commit({ type: 'setNewMsgPerChat', newMsgPerChat })
+                    });
+            }
+            );
         },
         createChatByIds({ commit }, { userId1, userId2 }) {
             return chatService.createChatByIds(userId1, userId2)
@@ -55,11 +88,28 @@ export default {
                     return chat
                 })
         },
-        updateChat({ commit }, { message }) {
-            commit({ type: 'updateChat', message})
+        SOCKET_getMsg({ commit, getters }, { message, chatId }) {
+            if (chatId === getters.getChat._id) commit({ type: 'updateChat', message })
+            if (message.from === getters.loggedInUser._id) return
+            const newMsgPerChat = {
+                ...getters.newMsgPerChat,
+                [message.from]: getters.newMsgPerChat[message.from] + 1
+            }
+            commit({ type: 'setNewMsgPerChat', newMsgPerChat })
         },
-        setNewMsg({ commit }, { number }) {
-            commit({ type: 'setNewMsg',  number })
+        SOCKET_setNewMsg({ commit, getters }, { number }) {
+            commit({ type: 'setNewMsg', number })
+        },
+        SOCKET_setNewMsgPerChat({ commit, getters }, { userId }) {
+            const newMsgPerChat = {
+                ...getters.newMsgPerChat,
+                [userId]: 0
+            }
+            commit({ type: 'setNewMsgPerChat', newMsgPerChat })
+        },
+        SOCKET_newChat({ dispatch, getters }) {
+            const userId = getters.loggedInUser._id
+            dispatch({ type: 'getChatsById', userId })
         }
     }
 }
