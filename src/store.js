@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import userModule from './modules/user.js'
 import bedModule from './modules/bed.js'
 import chatModule from './modules/chat.js'
+import userService from './services/userService.js'
 
 
 Vue.use(Vuex)
@@ -24,7 +25,9 @@ export default new Vuex.Store({
   },
   actions: {
     logout({ commit }) {
-      commit({ type: "logout" })
+      userService.logout().then(
+        commit({ type: "logout" })
+      )
     }
   }
 })

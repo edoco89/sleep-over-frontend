@@ -1,10 +1,17 @@
 <template>
-  <section class="container">
-      <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
-      <link
-        rel="stylesheet"
-        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
-    <v-date-picker picker-date="month" mode="range" :min-date="new Date()" v-model="selectedDate">
+  <section>
+    <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
+    <link
+      rel="stylesheet"
+      href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
+    >
+    <v-date-picker
+      :disabled-dates="unAvailable"
+      picker-date="month"
+      mode="range"
+      :min-date="new Date()"
+      v-model="selectedDate"
+    >
       <b-field :type="inputState.type" slot-scope="props">
         <b-input
           type="text"
@@ -14,8 +21,7 @@
           @change.native="props.updateValue($event.target.value)"
           expand
         ></b-input>
-        <p class="control" v-if="selectedValue">
-        </p>
+        <p class="control" v-if="selectedValue"></p>
       </b-field>
     </v-date-picker>
 
@@ -26,6 +32,10 @@
 
 <script>
 export default {
+  props: {
+    unAvailable: Array,
+    default: []
+  },
   data() {
     return {
       selectedDate: {
@@ -54,9 +64,9 @@ export default {
     }
   },
   methods: {
-    allowedDates(val){
-      return parseInt(val.split('-')[2], 10) % 2 === 0;
-     }
+    allowedDates(val) {
+      return parseInt(val.split("-")[2], 10) % 2 === 0;
+    }
   }
 };
 </script>
@@ -70,10 +80,12 @@ export default {
 }
 
 .container {
-  width: 90%;
+  // width: 90%;
   min-width: 200px;
 }
-
+section {
+  width: 100%;
+}
 .modal-content {
   background-color: white;
   border-radius: 4px;

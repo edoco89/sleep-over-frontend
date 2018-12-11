@@ -98,10 +98,12 @@ export default {
                 })
         },
         //WORK ON EDITOR FORM
-        saveBed({ dispatch }, { bed, user }) {
+        saveBed({ dispatch }, { bed, user, isNeeded = false }) {
             user.pass = user.password;
             return bedService.saveBed(bed)
                 .then(savedBed => {
+                    console.log('saved bed!', savedBed);
+                    if (isNeeded) return
                     return dispatch("checkLogin", { user }).then(() => {
                         return savedBed
                     })

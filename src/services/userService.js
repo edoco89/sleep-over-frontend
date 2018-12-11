@@ -62,7 +62,11 @@ function removeUser(userId) {
         .then(res => res.data)
 }
 
+function logout() {
+    return axios.delete(`${BASE_URL}/logout`)
+        .then()
 
+}
 
 export default {
     query,
@@ -71,7 +75,8 @@ export default {
     removeUser,
     getUserById,
     getUserBeds,
-    getUserLoggedIn
+    getUserLoggedIn,
+    logout
 }
 
 function _createUser(user) {

@@ -69,6 +69,7 @@
         </div>
         <book-bed
           @bookRequest="bookRequest"
+          :unAvailable="bed.unAvailable"
           :class="(bookedMsg === 'hide-msg')? 'show-msg': 'hide-msg'"
         ></book-bed>
         <span :class="loginMsg">Please Log-In to book a bed</span>
@@ -83,6 +84,24 @@
             {{bed.location.address}}
           </span>
           <p>An answer will be sent shortly</p>
+        </div>
+        <div class="map-container">
+            <!-- v-if="bed" -->
+          <GmapMap
+            ref="map"
+            :center="mapCenter"
+            :zoom="13"
+            :options="mapStyle"
+            map-type-id="terrain"
+            style="width: 100%; height: 100%"
+          >
+            <GmapMarker
+              :position="mapCenter"
+              :clickable="false"
+              :icon="{ url : require('@/assets/img/map-marker.png')}"
+              :draggable="false"
+            />
+          </GmapMap>
         </div>
       </div>
     </div>
@@ -148,6 +167,238 @@ export default {
         rating: null,
         reviewerImg: null
       },
+      mapStyle: {
+        disableDefaultUI: true,
+        styles: [
+          {
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#ebe3cd"
+              }
+            ]
+          },
+          {
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#f4edb5"
+              },
+              {
+                saturation: 10
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#ca6500"
+              },
+              {
+                visibility: "on"
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#f5f1e6"
+              }
+            ]
+          },
+          {
+            featureType: "administrative",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#c9b2a6"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.land_parcel",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#dcd2be"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.land_parcel",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#ae9e90"
+              }
+            ]
+          },
+          {
+            featureType: "landscape.natural",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#dfd2ae"
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#dfd2ae"
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#93817c"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#a5b076"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#447530"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#f5f1e6"
+              }
+            ]
+          },
+          {
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#fdfcf8"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#f8c967"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#e9bc62"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway.controlled_access",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#e98d58"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway.controlled_access",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#db8555"
+              }
+            ]
+          },
+          {
+            featureType: "road.local",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#806b63"
+              }
+            ]
+          },
+          {
+            featureType: "transit.line",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#dfd2ae"
+              }
+            ]
+          },
+          {
+            featureType: "transit.line",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#8f7d77"
+              }
+            ]
+          },
+          {
+            featureType: "transit.line",
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#ebe3cd"
+              }
+            ]
+          },
+          {
+            featureType: "transit.station",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#dfd2ae"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#8db89c"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#92998d"
+              }
+            ]
+          }
+        ]
+      },
       askedBookDates: null,
       showChatModal: false
     };
@@ -183,8 +434,15 @@ export default {
       }
 
       this.bookedMsg = "show-msg";
-
       this.askedBookDates = { ...askedDates };
+      this.bed.unAvailable.push(this.askedBookDates)
+      this.$store.dispatch({
+        type: "saveBed",
+        bed: this.bed,
+        user: this.user,
+        isNeeded: true
+      });
+
       this.isBook = true;
       const loggedInUser = JSON.parse(
         JSON.stringify(this.$store.getters.loggedInUser)
@@ -295,6 +553,12 @@ export default {
     },
     user() {
       return this.$store.getters.loggedInUser;
+    },
+    mapCenter() {
+      return {
+        lat: this.bed.location.coords.coordinates[1],
+        lng: this.bed.location.coords.coordinates[0]
+      };
     }
   },
   components: {
@@ -413,6 +677,14 @@ export default {
   }
 }
 
+.map-container {
+  width: 100%;
+  height: 250px;
+  // border: 1px solid #222222;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
 .booking-msg-container {
   background: lightgreen;
   height: fit-content;
@@ -484,6 +756,7 @@ export default {
   .hide-msg {
     opacity: 0;
     transition: 0.4s;
+    z-index: -1;
   }
   .show-msg {
     opacity: 1;
@@ -494,6 +767,7 @@ export default {
 
 .details-bottom {
   display: flex;
+  padding: 0 25px;
   justify-content: space-between;
   width: 100%;
   text-align: left;
@@ -681,19 +955,25 @@ textarea {
     }
   }
   .booking-container {
-    width: 30%;
+    width: 45%;
     .container {
       min-width: 160px;
     }
+  }
+
+  .details-bottom {
+    padding: 0;
   }
 }
 @media (max-width: 550px) {
   .chat-container {
     text-align: left;
-    // width: 90%;
     span {
       font-size: 18px;
     }
+  }
+  .map-container {
+    display: none;
   }
   .booking-container {
     width: 80%;

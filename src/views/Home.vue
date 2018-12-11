@@ -76,11 +76,11 @@
       <div class="people2">
         <img src="@/assets/img/john.jpeg" alt>
         <div>
-          <b>John, L.A</b>
+          <b>Dvir, Tel-Aviv</b>
           <p>
-            <b>Explore</b> L.A like a local
+            <b>Explore</b> TLV like a local
           </p>
-          <router-link to="/bed/5c08fb9ba336a33a6c60d280" href="#">Check it Out!</router-link>
+          <router-link to="/bed/5c0facb98806c902dc81f5f9" href="#">Check it Out!</router-link>
         </div>
       </div>
       <div class="people3">
@@ -91,7 +91,7 @@
             Zoey is rated at our
             <b>Top 5</b> hosts in London!
           </p>
-          <router-link to="/bed/5c07eb1817d0fa43647e7f5d" href="#">Check it Out!</router-link>
+          <router-link to="/bed/5c0faf808806c902dc81f5fb" href="#">Check it Out!</router-link>
         </div>
       </div>
     </div>

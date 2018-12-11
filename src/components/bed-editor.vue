@@ -107,7 +107,8 @@ export default {
           Shampoo: false,
           Parking: false,
           "Children Ok": false
-        }
+        },
+        unAvailable: []
       }
     };
   },

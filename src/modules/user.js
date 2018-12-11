@@ -70,9 +70,6 @@ export default {
         //DONT USE SERVICE
         reconnectUser({ commit }, { loggeduser }) {
             commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
-        },
-        // logout({ commit }) {
-        //     commit({ type: "logout" })
-        // }
+        }
     }
 }

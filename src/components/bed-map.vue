@@ -14,6 +14,7 @@
         v-for="(bed, index) in beds"
         :position="{lat: bed.location.coords.coordinates[1], lng: bed.location.coords.coordinates[0]}"
         :clickable="true"
+        :icon="{ url : require('@/assets/img/map-marker.png')}"
         :draggable="false"
         @click="showDetails(bed,index)"
       />
