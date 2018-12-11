@@ -1,6 +1,6 @@
 <template>
   <div v-if="currUser && userChats" :class="{'is-active' : showChatModal}" class="modal">
-    <div class="modal-background" @click="$emit('closeModal')"></div>
+    <div class="modal-background" @click="closeModal"></div>
     <div class="modal-content">
       <ul class="user-list">
         <li
@@ -11,11 +11,12 @@
         >
           <img :src="user.imgUrl">
           {{user.fullname}}
+          {{(userChatNewMsg[user._id]===0)? '': userChatNewMsg[user._id]}}
         </li>
       </ul>
-      <chat-box v-if="isShow"></chat-box>
+      <chat-box @clearNotification="clearNotification" v-if="isShow"></chat-box>
     </div>
-    <button @click="$emit('closeModal')" class="modal-close is-large" aria-label="close"></button>
+    <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
   </div>
 </template>
 
@@ -27,13 +28,8 @@ export default {
   },
   data() {
     return {
-      isShow: false,
-      userChatNewMsg: []
+      isShow: false
     };
-  },
-  created() {
-  //  this.userNewMsgPerChat()
-    // this.$store.dispatch({type: "getChatsById",userId: this.currUser._id});
   },
   methods: {
     openChat(userId) {
@@ -49,49 +45,37 @@ export default {
             userId,
             chatId: chat._id
           });
-          // this.$socket.emit("setNewMsg", {
-          //   chatId: chat._id,
-          //   userId: this.currUser._id,
-          //   number: -this.newMsgCount(userId).length
-          // });
+          this.$socket.emit("setNewMsgPerChatL", {
+            chatId: chat._id,
+            userId,
+            number: this.userChatNewMsg[userId]
+          });
           this.isShow = true;
         });
     },
-  userNewMsgPerChat() {
-    JSON.parse(JSON.stringify(this.$store.getters.getUserChats)).map(async user => {
-      return await this.$store.dispatch({
-        type: "getChatByIds",
-        userId1: this.currUser._id,
-        userId2: user._id
-      })
-    .then( async chat => {
-      return await chat.messages.filter(msg => {
-            return msg.from !== this.currUser._id && msg.isRead === false;
-                });
-    })
-        .then(async newMsgCountArray => {
-          await this.userChatNewMsg.push({userId: user._id, newMsg: newMsgCountArray.length});
+    closeModal() {
+      this.$emit("closeModal");
+      this.isShow = false;
+    },
+    clearNotification(userId, chatId) {
+      console.log('ggg',userId, chatId);
+      this.$socket.emit("setNewMsgPerChatL", {
+          chatId,
+          userId,
+          number: this.userChatNewMsg[userId]
         });
-    })
     }
-    
-  },
-  filters: {
-  newMsgCount(userId) {
-    const chatData = this.userChatNewMsg.find(chat => {
-      return chat.userId === userId
-    })
-    return chatData.newMsg
-  }
   },
   computed: {
     currUser() {
       return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     },
     userChats() {
-      // this.$store.dispatch({ type: "getChatsById", userId: this.currUser._id });
       return JSON.parse(JSON.stringify(this.$store.getters.getUserChats));
     },
+    userChatNewMsg() {
+      return this.$store.getters.newMsgPerChat;
+    }
   },
   components: {
     chatBox

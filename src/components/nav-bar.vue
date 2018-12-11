@@ -30,7 +30,7 @@
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
           <a v-if="getUser" @click="showChatModal= true" class="nav-chat">
             <img src="@/assets/img/chat.png">
-            <span>{{newMsgCount}}</span>
+            <span>{{(newMsgCount===0)? '': newMsgCount}}</span>
           </a>
           <div class="el-icon-menu" @click="toggleMenu"></div>
         </div>
@@ -62,7 +62,6 @@ export default {
           type: "getChatsById",
           userId: loggedInUser._id
         });
-        this.$store.dispatch("setNewMsg", { number: loggedInUser.newMsg });
       });
     }
   },
@@ -87,11 +86,6 @@ export default {
     },
     newMsgCount() {
       return this.$store.getters.getUserChatsNewMsg;
-    }
-  },
-  sockets: {
-    setNewMsg(number) {
-      this.$store.dispatch({ type: "setNewMsg", number });
     }
   },
   components: {

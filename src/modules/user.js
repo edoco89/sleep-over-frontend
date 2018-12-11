@@ -1,4 +1,5 @@
 import userService from '../services/userService.js';
+import {socketEmitter} from '../services/socketEmitService'
 
 export default {
     state: {
@@ -25,13 +26,15 @@ export default {
             return userService.getUserLoggedIn(user.email, user.pass)
                 .then(loggeduser => {
                     commit({ type: 'setUser', loggeduser })
+                    socketEmitter.$socket.emit('loggedIn', loggeduser._id)
                     location.reload()
                 })
-        },
-        addUser({ commit }, { user }) {
-            userService.addUser(user)
+            },
+            addUser({ commit }, { user }) {
+                userService.addUser(user)
                 .then(loggeduser => {
                     commit({ type: 'setUser', loggeduser })
+                    socketEmitter.$socket.emit('loggedIn', loggeduser._id)
                     location.reload()
                 })
         },
@@ -69,7 +72,10 @@ export default {
         },
         //DONT USE SERVICE
         reconnectUser({ commit }, { loggeduser }) {
-            commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
+            loggeduser = JSON.parse(loggeduser)
+            commit({ type: 'setUser', loggeduser })
+            socketEmitter.$socket.emit('loggedIn', loggeduser._id)
+
         },
         // logout({ commit }) {
         //     commit({ type: "logout" })
