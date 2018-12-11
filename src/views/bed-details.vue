@@ -60,30 +60,34 @@
           </div>
         </div>
       </div>
-      <div v-if="!isBook" class="booking-container">
+      <div class="booking-container">
         <div class="chat-container">
           <a @click="openChat">
             <img class="chat-btn" src="@/assets/img/chat.png">
           </a>
           <span class="secondary-header">{{'Chat with ' + bed.hostName}}</span>
         </div>
-        <book-bed @bookRequest="bookRequest"></book-bed>
-      </div>
-      <!-- BOOKED MSG -->
-      <div v-if="isBook" class="booking-msg-container">
-        <b>Your request has been sent to {{bedHost.fullname}}!</b>
-        <br>
-        <span>
-          {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
-          {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+        <book-bed
+          @bookRequest="bookRequest"
+          :class="(bookedMsg === 'hide-msg')? 'show-msg': 'hide-msg'"
+        ></book-bed>
+        <span :class="loginMsg">Please Log-In to book a bed</span>
+        <!-- BOOKED MSG -->
+        <div :class="'booking-msg-container ' + bookedMsg">
+          <b v-if="bedHost">Your request has been sent to {{bedHost.fullname}}!</b>
           <br>
-          {{bed.location.address}}
-        </span>
-        <p>An answer will be sent shortly</p>
+          <span v-if="askedBookDates">
+            {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
+            {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
+            <br>
+            {{bed.location.address}}
+          </span>
+          <p>An answer will be sent shortly</p>
+        </div>
       </div>
     </div>
 
-    <div class="reviews">
+    <div v-if="bed.reviews.length > 0" class="reviews">
       <b>Reviews:</b>
       <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">
@@ -129,6 +133,8 @@ import userDetails from "@/components/userDetails.vue";
 export default {
   data() {
     return {
+      loginMsg: "hide-msg",
+      bookedMsg: "hide-msg",
       showModal: false,
       isBook: false,
       isDetalis: false,
@@ -170,9 +176,19 @@ export default {
       this.showModal = true;
     },
     bookRequest(askedDates) {
+      if (!this.$store.getters.loggedInUser) {
+        this.loginMsg = "show-msg";
+        setTimeout(() => (this.loginMsg = "hide-msg"), 3000);
+        return;
+      }
+
+      this.bookedMsg = "show-msg";
+
       this.askedBookDates = { ...askedDates };
       this.isBook = true;
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -214,6 +230,7 @@ export default {
             isRead: false,
             timestamp: Date.now()
           };
+
           this.$socket.emit("sendMsg", {
             chatId,
             message: msg,
@@ -222,7 +239,9 @@ export default {
         });
     },
     openChat() {
-      const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+      const loggedInUser = JSON.parse(
+        JSON.stringify(this.$store.getters.loggedInUser)
+      );
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -245,7 +264,10 @@ export default {
             userId: this.bedHost._id,
             chatId: chat._id
           });
-          this.$store.dispatch({type: "getChatsById",userId: loggedInUser._id})
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: loggedInUser._id
+          });
           this.showChatModal = true;
         });
     },
@@ -394,19 +416,22 @@ export default {
 .booking-msg-container {
   background: lightgreen;
   height: fit-content;
-  padding: 20px;
+  padding: 15px;
   border-radius: 15px;
   width: 100%;
   margin-top: 15px;
   margin-right: 10px;
   border: 1px solid #222222;
   color: #222222;
+  transition: 0.4;
+  position: absolute;
+  top: 25px;
   b {
     font-size: 15px;
     font-family: $main-font-bold;
   }
   span {
-    font-size: 11px;
+    font-size: 12px;
     font-family: $main-font-light;
   }
   p {
@@ -453,8 +478,18 @@ export default {
 
 .booking-container {
   // display: flex;
+  position: relative;
   margin: 15px;
   text-align: center;
+  .hide-msg {
+    opacity: 0;
+    transition: 0.4s;
+  }
+  .show-msg {
+    opacity: 1;
+    z-index: 5;
+    transition: 0.4s;
+  }
 }
 
 .details-bottom {
@@ -469,7 +504,7 @@ export default {
   padding: 10px;
   padding-bottom: 0;
   b {
-    font-size: 20px;
+    font-size: 26px;
   }
   p {
     font-size: 15px;
@@ -477,7 +512,7 @@ export default {
     margin-bottom: 8px;
   }
   a {
-    font-size: 14px;
+    font-size: 16px;
     font-style: italic;
     font-family: $main-font-bold;
   }
@@ -490,14 +525,13 @@ export default {
   width: 90%;
   .host-details-modal {
     background: white;
-    // width: 90%;
+    width: 60%;
     margin: auto;
     border-radius: 10px;
     padding: 25px;
   }
   .carousel-gallery {
-    height: 350px;
-    // .w-100{
+    height: 500px;
     .caruosel .slide {
       background: none !important;
     }
@@ -571,17 +605,62 @@ textarea {
   font-family: $main-font-light;
   h4 {
     text-align: left;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 22px;
     b {
       font-family: $main-font-bold;
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 }
 @media (max-width: 900px) {
   .img-gallery {
     height: 280px;
+  }
+
+  .host-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    font-family: $main-font-light;
+    h4 {
+      text-align: left;
+      font-size: 16px;
+      line-height: 22px;
+      b {
+        font-family: $main-font-bold;
+        font-size: 16px;
+      }
+    }
+  }
+  .top-desc {
+    padding: 10px;
+    padding-bottom: 0;
+    b {
+      font-size: 20px;
+    }
+    p {
+      font-size: 15px;
+      font-family: $main-font-light;
+      margin-bottom: 8px;
+    }
+    a {
+      font-size: 14px;
+      font-style: italic;
+      font-family: $main-font-bold;
+    }
+  }
+  .modal-content-details {
+    .carousel-gallery {
+      height: 350px;
+    }
+    .host-details-modal {
+      background: white;
+      width: 85%;
+    }
   }
 }
 @media (max-width: 750px) {
@@ -592,6 +671,43 @@ textarea {
 @media (max-width: 650px) {
   .img-gallery {
     height: 235px;
+  }
+  .left-section {
+    width: 70%;
+  }
+  .chat-container {
+    span {
+      font-size: 11px;
+    }
+  }
+  .booking-container {
+    width: 30%;
+    .container {
+      min-width: 160px;
+    }
+  }
+}
+@media (max-width: 550px) {
+  .chat-container {
+    text-align: left;
+    // width: 90%;
+    span {
+      font-size: 18px;
+    }
+  }
+  .booking-container {
+    width: 80%;
+    margin: auto;
+    .container {
+      padding: 0;
+      min-width: 160px;
+    }
+  }
+  .left-section {
+    width: 100%;
+  }
+  .details-bottom {
+    flex-direction: column;
   }
 }
 </style>

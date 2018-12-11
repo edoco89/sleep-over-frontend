@@ -44,6 +44,7 @@
           >
             <div>
               <input type="file" name="img">
+              <label for="file">Choose a file</label>
             </div>
             <div>
               <button type="submit">Add Image</button>
@@ -59,11 +60,11 @@
             @setFilter="setAmenities"
           ></select-menu>
         </div>
-        <button>{{mode}}</button>
+        <button>{{mode}} Bed</button>
       </form>
-      <div v-if="bed.imgUrls.length > 0" class="uploaded-imgs">
-        <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
-        <!-- <img v-for="(img,idx) in bed.imgUrls" :key="idx" :src="img"> -->
+      <div class="uploaded-imgs">
+        <photo-carusel v-if="bed.imgUrls.length > 0" class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
+        <img class="no-img" v-else src="@/assets/img/no-img.jpg" alt="No Images">
       </div>
     </section>
   </section>
@@ -175,6 +176,16 @@ export default {
   margin: auto;
   text-align: left;
   display: flex;
+  font-family: $main-font-bold;
+}
+h3 {
+  font-family: $main-font-bold;
+  font-size: 32px;
+  width: 90%;
+  margin: auto;
+  text-decoration: underline;
+  margin-bottom: 10px;
+  text-align: left;
 }
 .user-photo-carusel {
   height: 350px;
@@ -182,16 +193,63 @@ export default {
 form {
   width: 50%;
   div {
-    margin: 10px;
+    margin-right: 10px;
+    margin-bottom: 18px;
     display: flex;
     justify-content: space-between;
   }
+  button {
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    padding: 5px;
+    background: #222222;
+    color: white;
+  }
   input {
-    width: 150px;
+    width: 200px;
     padding: 5px;
   }
 }
+.publish-form {
+  display: flex;
+  width: 280px;
+  justify-content: space-between;
+  div {
+    input {
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 100px;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    label {
+      cursor: pointer;
+      background: #222222;
+      padding: 5px;
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  }
+  button {
+    cursor: pointer;
+    height: 32.5px;
+    width: 100px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+  }
+}
+
 .uploaded-imgs {
   width: 50%;
+  .no-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>

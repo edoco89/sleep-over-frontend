@@ -70,10 +70,11 @@ section{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: 150px;
+  height: 100%;
   div {
     text-align: left;
     margin-bottom: 5px;
+    margin-right: 10px;
   }
 }
 </style>
