@@ -6,8 +6,8 @@
     </span>
 
     <div class="checkbox-container">
-      <span class="header-edit">Hobbies</span>
-      <el-checkbox-group v-model="user.hobbies">
+      <span class="header-edit">interest</span>
+      <el-checkbox-group v-model="user.interest">
         <el-checkbox label="Sports"></el-checkbox>
         <el-checkbox label="Food"></el-checkbox>
         <el-checkbox label="Bars"></el-checkbox>

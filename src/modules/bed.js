@@ -21,6 +21,20 @@ export default {
                 Shampoo: false,
                 Parking: false
             },
+            filterByInterests: {
+                sports : false,
+                food : false,
+                bars : false,
+                chill : false,
+                books : false,
+                cinema : false,
+                theater: false,
+                shows: false,
+                travel : false,
+                music : false,
+                outgoing: false,
+                outdoors: false
+            },
             selectedDate: {
                 start: new Date(),
                 end: new Date()

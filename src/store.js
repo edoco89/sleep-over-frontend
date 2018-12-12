@@ -22,16 +22,19 @@ export default new Vuex.Store({
       userModule.state.user = null
       chatModule.state.userChats = []
       chatModule.state.currChat = {}
+      chatModule.state.newMsgPerChat = {}
+      chatModule.state.newMsg =  0
+      bedModule.state.beds = []
+      bedModule.state.currBed = null
+      bedModule.state.place = {}
       sessionStorage.clear()
     },
   },
   actions: {
     logout({ commit }) {
-      userService.logout().then(() => {
-        socketEmitter.$socket.emit('loggedOut')
+      socketEmitter.$socket.emit('loggedOut')
+      userService.logout()
         commit({ type: "logout" })
-      }
-      )
     }
   }
 })

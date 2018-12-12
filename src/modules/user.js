@@ -12,30 +12,28 @@ export default {
         setUser(state, { loggeduser }) {
             state.user = loggeduser
         },
-        // logout(state) {
-        //     state.user = null
-        //     sessionStorage.clear()
-        // },
         //NOT IN USE CURRENTLY- WAITING FOR INTEGRATE
         userBeds(state, { userBeds }) {
             console.log('BBBB', userBeds);
         }
     },
     actions: {
-        checkLogin({ commit }, { user }) {
+        checkLogin({ commit, dispatch }, { user }) {
             return userService.getUserLoggedIn(user.email, user.pass)
                 .then(loggeduser => {
+                    if(!loggeduser) return
                     commit({ type: 'setUser', loggeduser })
+                    dispatch({type: "getChatsById",userId: loggeduser._id});
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)
-                    location.reload()
                 })
         },
         addUser({ commit }, { user }) {
-            userService.addUser(user)
+            return userService.addUser(user)
                 .then(loggeduser => {
+                    if(!loggeduser) return
                     commit({ type: 'setUser', loggeduser })
+                    dispatch({type: "getChatsById",userId: loggeduser._id});
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)
-                    location.reload()
                 })
         },
         //WORKS. NOT IN USE CURRENTLY
@@ -72,8 +70,14 @@ export default {
         },
         //DONT USE SERVICE
         reconnectUser({ commit }, { loggeduser }) {
-            commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
-            socketEmitter.$socket.emit('loggedIn', loggeduser._id)
+            const loggedInUser = JSON.parse(loggeduser);
+            commit({ type: 'setUser', loggeduser: loggedInUser })
+            socketEmitter.$socket.emit('loggedIn', loggedInUser._id)
+        },
+        SOCKET_requestId({ getters }) {
+            console.log('inside requestId')
+            if (!getters.loggedInUser) return
+            socketEmitter.$socket.emit('loggedIn', getters.loggedInUser._id)
         }
     },
 }
