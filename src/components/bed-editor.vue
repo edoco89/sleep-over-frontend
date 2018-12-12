@@ -108,7 +108,7 @@ export default {
           Parking: false,
           "Children Ok": false
         },
-        unAvailable: []
+        unAvailable:[]
       }
     };
   },

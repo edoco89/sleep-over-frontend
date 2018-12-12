@@ -1,8 +1,9 @@
 <template>
   <section class="profile-container" v-if="user">
+    <router-link to="/userProfile/manageBeds" >{{(user.hostBeds.length > 0)? 'Manage Your Beds': 'Become a Host'}}</router-link>
     <user-details :user="user" v-if="user"></user-details>
 
-    <div class="bed-list">
+    <!-- <div class="bed-list">
       <span>Your Beds</span>
       <router-link to="/bedEdit" href="#">Add Bed</router-link>
       <div v-if="bed" v-for="bed in user.hostBeds" :key="bed._id" class="user-bed">
@@ -33,14 +34,14 @@
         <div v-else>NO Reviews</div>
       </div>
       <button @click="showModal = false" class="modal-close is-large" aria-label="close"></button>
-    </div>
+    </div>-->
   </section>
 </template>
 
 <script>
-import photoCarusel from "@/components/photo-carousel.vue";
-import bedAmenities from "@/components/bed-amenities.vue";
-import chatBox from "@/components/chat-box.vue";
+// import photoCarusel from "@/components/photo-carousel.vue";
+// import bedAmenities from "@/components/bed-amenities.vue";
+// import chatBox from "@/components/chat-box.vue";
 import userDetails from "@/components/userDetails.vue";
 
 export default {
@@ -55,9 +56,9 @@ export default {
     };
   },
   components: {
-    photoCarusel,
-    bedAmenities,
-    chatBox,
+    // photoCarusel,
+    // bedAmenities,
+    // chatBox,
     userDetails
   }
 };

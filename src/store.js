@@ -27,11 +27,9 @@ export default new Vuex.Store({
   },
   actions: {
     logout({ commit }) {
-      userService.logout().then(() => {
-        socketEmitter.$socket.emit('loggedOut')
-        commit({ type: "logout" })
-      }
-      )
+      userService.logout()
+      commit({ type: "logout" })
+      socketEmitter.$socket.emit('loggedOut')
     }
   }
 })

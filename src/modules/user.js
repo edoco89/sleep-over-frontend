@@ -12,10 +12,6 @@ export default {
         setUser(state, { loggeduser }) {
             state.user = loggeduser
         },
-        // logout(state) {
-        //     state.user = null
-        //     sessionStorage.clear()
-        // },
         //NOT IN USE CURRENTLY- WAITING FOR INTEGRATE
         userBeds(state, { userBeds }) {
             console.log('BBBB', userBeds);
@@ -72,8 +68,9 @@ export default {
         },
         //DONT USE SERVICE
         reconnectUser({ commit }, { loggeduser }) {
-            commit({ type: 'setUser', loggeduser: JSON.parse(loggeduser) })
-            socketEmitter.$socket.emit('loggedIn', loggeduser._id)
+            const loggedInUser = JSON.parse(loggeduser);
+            commit({ type: 'setUser', loggeduser: loggedInUser })
+            socketEmitter.$socket.emit('loggedIn', loggedInUser._id)
         }
     },
 }

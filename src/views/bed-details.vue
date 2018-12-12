@@ -39,7 +39,6 @@
           <p>{{bed.location.address}}</p>
           <a href="#" @click="openDetails">{{'More on ' + bed.hostName}}</a>
         </div>
-
         <div class="host-details">
           <h4>
             <b>Host Rating:</b>
@@ -86,7 +85,7 @@
           <p>An answer will be sent shortly</p>
         </div>
         <div class="map-container">
-            <!-- v-if="bed" -->
+          <!-- v-if="bed" -->
           <GmapMap
             ref="map"
             :center="mapCenter"
@@ -435,7 +434,11 @@ export default {
 
       this.bookedMsg = "show-msg";
       this.askedBookDates = { ...askedDates };
-      this.bed.unAvailable.push(this.askedBookDates)
+      this.askedBookDates.name = this.user.fullname;
+      this.askedBookDates.isConfirmed = false;
+      this.askedBookDates.guestId = this.user._id;
+      this.bed.unAvailable.push(this.askedBookDates);
+
       this.$store.dispatch({
         type: "saveBed",
         bed: this.bed,

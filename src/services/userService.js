@@ -64,8 +64,6 @@ function removeUser(userId) {
 
 function logout() {
     return axios.delete(`${BASE_URL}/logout`)
-        .then()
-
 }
 
 export default {

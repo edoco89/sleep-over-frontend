@@ -6,6 +6,7 @@ import searchResult from './views/search-result.vue'
 import bedDetails from './views/bed-details.vue'
 import bedEdit from './components/bed-editor.vue'
 import userEdit from './views/user-edit.vue'
+import manageBeds from './views/manage-beds.vue'
 
 
 Vue.use(Router)
@@ -27,6 +28,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/userProfile/manageBeds',
+      name: 'manage-beds',
+      component: manageBeds,
     },
     {
       path: '/userProfile/:userId',
