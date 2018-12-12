@@ -58,12 +58,11 @@ export default {
       this.isShow = false;
     },
     clearNotification(userId, chatId) {
-      console.log('ggg',userId, chatId);
       this.$socket.emit("setNewMsgPerChatL", {
-          chatId,
-          userId,
-          number: this.userChatNewMsg[userId]
-        });
+        chatId,
+        userId,
+        number: this.userChatNewMsg[userId]
+      });
     }
   },
   computed: {
@@ -75,6 +74,9 @@ export default {
     },
     userChatNewMsg() {
       return this.$store.getters.newMsgPerChat;
+    },
+    currChat() {
+      return JSON.parse(JSON.stringify(this.$store.getters.getChat));
     }
   },
   components: {

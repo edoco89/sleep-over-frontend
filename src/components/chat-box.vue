@@ -4,8 +4,7 @@
       <div
         v-for="msg in currChat.messages"
         :key="msg.timestamp"
-        :class="(msg.from === currUser._id )? 'my-msg':'his-msg'"
-      >
+        :class="(msg.from === currUser._id )? 'my-msg':'his-msg'">
         <p>{{msg.txt}}</p>
       </div>
     </section>

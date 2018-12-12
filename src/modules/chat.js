@@ -15,10 +15,6 @@ export default {
         getChat: state => state.currChat,
         getUserChats: state => state.userChats,
         getUserChatsNewMsg: state => state.newMsg,
-        // currChatUserId: (state, getters) => {
-        //     if (!state.currChat.usersId) return null
-        //     else return state.currChat.usersId.find(id => id !== getters.loggedInUser._id)
-        // },
         newMsgPerChat: state => state.newMsgPerChat
     },
     mutations: {
@@ -87,6 +83,9 @@ export default {
                     commit({ type: 'setChat', chat })
                     return chat
                 })
+        },
+        cleanCurrentChat({ commit }){
+            commit({ type: 'setChat', chat: {} })
         },
         SOCKET_getMsg({ commit, getters }, { message, chatId }) {
             if (chatId === getters.getChat._id) commit({ type: 'updateChat', message })

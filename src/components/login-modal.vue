@@ -57,13 +57,13 @@ export default {
     };
   },
   methods: {
-    setUser() {
+    async setUser() {
       if (this.formType === "Login") {
-        this.$store.dispatch("checkLogin", { user: this.user });
+        await this.$store.dispatch("checkLogin", { user: this.user })
       } else {
-        this.$store.dispatch("addUser", { user: this.user });
+        await this.$store.dispatch("addUser", { user: this.user })
       }
-      this.$emit("closeModal");
+     this.$emit('closeModal')
     },
     changeForm() {
       this.formType === "Login"
@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     getUser() {
-      return this.$store.getters.loggedInUser;
+      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
     }
   }
 };

@@ -82,7 +82,7 @@ function _createUser(user) {
         fullname: user.fullname,
         email: user.email,
         password: user.pass,
-        hobbies: (user.hobbies) ? user.hobbies : [],
+        interest: (user.interest) ? user.interest : {},
         languages: (user.languages) ? user.languages : [],
         isHost: false,
         aboutMe: (user.aboutMe) ? user.aboutMe : '',

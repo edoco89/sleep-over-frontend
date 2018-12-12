@@ -16,6 +16,14 @@ export default {
   components: {
     navBar,
     footerBar
+  },
+  sockets: {
+    connect(x) {
+      console.log('connected to socket. got:', x)
+    },
+    disconnect(x) {
+      console.log('disconnected from socket. got:', x)
+    },
   }
 };
 </script>

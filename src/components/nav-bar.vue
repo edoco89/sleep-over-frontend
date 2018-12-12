@@ -21,7 +21,7 @@
         </div>
         <div class="menu-chat">
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
-          <a v-if="getUser" @click="showChatModal= true" class="nav-chat">
+          <a v-if="getUser" @click="openChatModal" class="nav-chat">
             <img src="@/assets/img/chat.png">
             <span>{{(newMsgCount===0)? '': newMsgCount}}</span>
           </a>
@@ -49,13 +49,11 @@ export default {
   created() {
     const loggeduser = sessionStorage.loggedinUser;
     if (loggeduser) {
-      this.$store.dispatch("reconnectUser", { loggeduser }).then(() => {
-        let loggedInUser = JSON.parse(
-          JSON.stringify(this.$store.getters.loggedInUser)
-        );
+      this.$store.dispatch("reconnectUser", { loggeduser })
+      .then(() => {
         this.$store.dispatch({
           type: "getChatsById",
-          userId: loggedInUser._id
+          userId: this.getUser._id
         });
       });
     }
@@ -67,12 +65,20 @@ export default {
     closeModal() {
       this.showModal = false;
       this.showChatModal = false;
+      if (!this.getUser) return
+      this.$store.dispatch({
+          type: "getChatsById",
+          userId: this.getUser._id
+        });
+    },
+    openChatModal(){
+      this.$store.dispatch({type: "cleanCurrentChat"})
+      this.showChatModal= true
     },
     logout() {
       this.isOpen = "";
       this.$store.dispatch({ type: "logout" });
       this.$router.push("/");
-      location.reload();
     }
   },
   computed: {

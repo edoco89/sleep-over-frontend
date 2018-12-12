@@ -15,7 +15,7 @@
           Gender:
           <span>{{user.gender}}</span>
         </div>
-        <div v-if="user.languages">
+        <div v-if="user.languages.length > 0">
           Languges:
           <span>{{user.languages.join(' ,')}}</span>
         </div>
@@ -32,10 +32,10 @@
         <h5>About:</h5>
         <span>{{user.aboutMe}}</span>
       </div>
-      <div v-if="user.hobbies">
-        <h5>Hobbies:</h5>
-        <span v-for="(hobbie,idx) in user.hobbies" :key="idx">{{hobbie+ ", "}}</span>
-      </div>
+      <!-- <div v-if="user.interests">
+        <h5>Interests:</h5>
+        <span v-for="(interest,idx) in user.interests" :key="idx">{{interest+ ", "}}</span>
+      </div> -->
     </div>
   </section>
 </template>
