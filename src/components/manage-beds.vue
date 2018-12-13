@@ -30,7 +30,8 @@
             <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
               <div v-if="!customData.isConfirmed">
                 <p>{{customData.name}} Has requested to book this dates</p>
-                <button @click="confirmBooking(customData.bedId ,customData.start)">Confirm</button>
+                <button @click="confirmBooking(customData.bedId ,customData.start, customData.guestId)">Confirm</button>
+                <button @click="DeclineBooking(customData.bedId ,customData.start, customData.guestId)">Decline</button>
                 <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
               </div>
               <div v-else>
@@ -112,8 +113,30 @@ export default {
         this.showModal = true;
       });
     },
-    confirmBooking(id, start) {
-      const bookedBed = this.user.hostBeds.find(bed => bed._id === id);
+    DeclineBooking(bedId, start, hostId) {
+      const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
+      const removeDatesIdx = bookedBed.unAvailable.findIndex(
+        booking => booking.start === start
+      );
+      bookedBed.unAvailable.splice(removeDatesIdx, 1);
+      this.$store.dispatch({
+        type: "saveBed",
+        bed: bookedBed,
+        user: this.user
+      });
+      this.$socket.emit("setNewBookRequestL", {
+        userId: this.user._id
+      });
+      let msg = {
+        from: this.user._id,
+        txt: `NOPE`,
+        isRead: false,
+        timestamp: Date.now()
+      };
+      this.sendBookResponse(msg, hostId)
+    },
+    confirmBooking(bedId, start, hostId) {
+      const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
       bookedBed.unAvailable.find(booking => {
         if (booking.start === start) booking.isConfirmed = true;
       });
@@ -125,6 +148,51 @@ export default {
       this.$socket.emit("setNewBookRequestL", {
         userId: this.user._id
       });
+      let msg = {
+        from: this.user._id,
+        txt: `I'm so happy that you are comming for a sleepover at my place, It's going to be so much fun.
+              p.s - I like to watch people eat and sleep, and even better when its both, so be prepared`,
+        isRead: false,
+        timestamp: Date.now()
+      };
+      this.sendBookResponse(msg, hostId)
+    },
+    sendBookResponse(message, hostId) {
+      this.$store
+        .dispatch({
+          type: "getChatByIds",
+          userId1: this.user._id,
+          userId2: hostId
+        })
+        .then(chat => {
+          if (!chat) {
+            return this.$store.dispatch({
+              type: "createChatByIds",
+              userId1: this.user._id,
+              userId2: hostId
+            });
+          }
+          return chat;
+        })
+        .then(chat => {
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: this.user._id
+          });
+          this.$socket.emit("chatRequest", {
+            currUserId: this.user._id,
+            userId: hostId,
+            chatId: chat._id
+          });
+          return chat._id;
+        })
+        .then(chatId => {
+          this.$socket.emit("sendMsg", {
+            chatId,
+            message,
+            userId: this.user._id
+          });
+        });
     }
   },
   components: {

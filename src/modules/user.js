@@ -27,8 +27,6 @@ export default {
             return userService.getUserLoggedIn(user.email, user.password)
                 .then(loggeduser => {
                     if(!loggeduser) return
-                    console.log(loggeduser);
-                    
                     commit({ type: 'setUser', loggeduser })
                     dispatch({type: "getChatsById",userId: loggeduser._id});
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)

@@ -14,9 +14,9 @@
             @click.native="isOpen = ''"
             exact
             :to="'/userProfile/' +getUser._id"
-          >
-          My Profile<span>{{(newBookRequestCount === 0)? '': newBookRequestCount}}</span>
-           </router-link>
+          >My Profile
+            <span>{{(newBookRequestCount === 0)? '': newBookRequestCount}}</span>
+          </router-link>
           <span v-if="getUser">|</span>
           <a v-if="getUser" @click="logout">Log-out</a>
           <span v-if="getUser">|</span>
@@ -49,15 +49,16 @@ export default {
     };
   },
   created() {
-    const loggeduser = JSON.parse(sessionStorage.loggedInUser);
+    const loggeduser = sessionStorage.loggedInUser;
     if (loggeduser) {
-      this.$store.dispatch("checkLogin", { user: loggeduser })
-      .then(() => {
-        this.$store.dispatch({
-          type: "getChatsById",
-          userId: this.getUser._id
+      this.$store
+        .dispatch("checkLogin", { user: JSON.parse(loggeduser) })
+        .then(() => {
+          this.$store.dispatch({
+            type: "getChatsById",
+            userId: this.getUser._id
+          });
         });
-      });
     }
   },
   methods: {
@@ -67,18 +68,18 @@ export default {
     closeModal() {
       this.showModal = false;
       this.showChatModal = false;
-      if (!this.getUser) return
+      if (!this.getUser) return;
       this.$store.dispatch({
-          type: "getChatsById",
-          userId: this.getUser._id
-        });
+        type: "getChatsById",
+        userId: this.getUser._id
+      });
     },
-    openChatModal(){
-      this.$store.dispatch({type: "cleanCurrentChat"})
-      this.showChatModal= true
+    openChatModal() {
+      this.$store.dispatch({ type: "getChatsById", userId: this.getUser._id });
+      this.$store.dispatch({ type: "cleanCurrentChat" });
+      this.showChatModal = true;
     },
     logout() {
-      console.log('logout activated (inside nav-bar component')
       this.isOpen = "";
       this.$store.dispatch({ type: "logout" });
       this.$router.push("/");
