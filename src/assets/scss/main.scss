@@ -31,6 +31,15 @@ display: block;
         width: 100%;
 }
 
+.tabs a:hover {
+     border-bottom-color: none;
+     color: none;
+}
+
+.tabs{
+    flex-direction: column;
+}
+
 .blue-button {
     font-family: $main-font-bold;
     background-color: cadetblue;

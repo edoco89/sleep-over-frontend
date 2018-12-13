@@ -26,7 +26,7 @@
             rel="stylesheet"
             href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
           >
-          <v-calendar :attributes="attr[idx]" is-expanded style='width: 100%'>
+          <v-calendar :attributes="attr[idx]" is-expanded style="width: 100%">
             <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
               <div v-if="!customData.isConfirmed">
                 <p>{{customData.name}} Has requested to book this dates</p>
@@ -88,6 +88,11 @@ export default {
               contentStyle: {
                 color: "#fafafa"
               },
+              themeStyles: {
+                wrapper: {
+                  height: '50%'
+                }
+              },
               dates: book,
               customData: book,
               popover: {
@@ -136,7 +141,7 @@ export default {
   margin: auto;
 }
 .calender-container {
-    width: 50%;
+  width: 50%;
   height: 85%;
   padding: 10px;
 }

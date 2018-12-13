@@ -32,10 +32,10 @@
         <h5>About:</h5>
         <span>{{user.aboutMe}}</span>
       </div>
-      <!-- <div v-if="user.interests">
+      <div v-if="user.interests">
         <h5>Interests:</h5>
-        <span v-for="(interest,idx) in user.interests" :key="idx">{{interest+ ", "}}</span>
-      </div> -->
+        <span v-for="(interest,idx) in user.interests" :key="idx">{{(interest)? idx + ", ": ""}}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -51,24 +51,23 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 .user-card {
-  // width: 90%;
-  // padding: 10px;
+  padding-top: 10px;
   height: 100%;
   display: flex;
   img {
     width: 50%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     object-position: top;
   }
   div {
-    margin: 8px;
+    // margin: 8px;
   }
   .user-details {
     text-align: left;
-    padding: 10px;
     margin-left: 15px;
-    margin-top: 0px;
+    // padding: 10px;
+    // margin-top: 0px;
   }
 }
 
@@ -78,13 +77,15 @@ export default {
   border-top: none;
   h4 {
     font-family: $main-font-bold;
+    font-size: 18px;
   }
   div {
     font-family: $main-font-bold;
-    font-size: 17px;
+    font-size: 12px;
+    margin-bottom: 8px;
     span {
       font-family: $main-font-light;
-      font-size: 17px;
+      font-size: 12px;
     }
   }
 }
