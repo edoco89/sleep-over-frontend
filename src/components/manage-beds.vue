@@ -122,6 +122,9 @@ export default {
         bed: bookedBed,
         user: this.user
       });
+      this.$socket.emit("setNewBookRequestL", {
+        userId: this.user._id
+      });
     }
   },
   components: {

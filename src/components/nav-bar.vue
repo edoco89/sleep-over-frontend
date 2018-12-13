@@ -14,7 +14,9 @@
             @click.native="isOpen = ''"
             exact
             :to="'/userProfile/' +getUser._id"
-          >My Profile</router-link>
+          >
+          My Profile<span>{{(newBookRequestCount === 0)? '': newBookRequestCount}}</span>
+           </router-link>
           <span v-if="getUser">|</span>
           <a v-if="getUser" @click="logout">Log-out</a>
           <span v-if="getUser">|</span>
@@ -47,9 +49,9 @@ export default {
     };
   },
   created() {
-    const loggeduser = sessionStorage.loggedinUser;
+    const loggeduser = JSON.parse(sessionStorage.loggedInUser);
     if (loggeduser) {
-      this.$store.dispatch("reconnectUser", { loggeduser })
+      this.$store.dispatch("checkLogin", { user: loggeduser })
       .then(() => {
         this.$store.dispatch({
           type: "getChatsById",
@@ -76,6 +78,7 @@ export default {
       this.showChatModal= true
     },
     logout() {
+      console.log('logout activated (inside nav-bar component')
       this.isOpen = "";
       this.$store.dispatch({ type: "logout" });
       this.$router.push("/");
@@ -87,6 +90,9 @@ export default {
     },
     newMsgCount() {
       return this.$store.getters.getUserChatsNewMsg;
+    },
+    newBookRequestCount() {
+      return this.$store.getters.newBookRequestCount;
     }
   },
   components: {

@@ -26,7 +26,7 @@
           <div>
             <!-- SET VALIDATION! -->
             <b>Password:</b>
-            <input v-model="user.pass" type="password" required name="pass">
+            <input v-model="user.password" type="password" required name="pass">
           </div>
           <div v-if="formType === 'Join'">
             <!-- v-validate -->
@@ -51,7 +51,7 @@ export default {
       formType: "Login",
       user: {
         email: "",
-        pass: "",
+        password: "",
         fullname: ""
       }
     };

@@ -96,7 +96,7 @@ export default {
             }
             commit({ type: 'setNewMsgPerChat', newMsgPerChat })
         },
-        SOCKET_setNewMsg({ commit, getters }, { number }) {
+        SOCKET_setNewMsg({ commit }, { number }) {
             commit({ type: 'setNewMsg', number })
         },
         SOCKET_setNewMsgPerChat({ commit, getters }, { userId }) {
