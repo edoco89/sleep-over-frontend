@@ -113,11 +113,10 @@ export default {
         },
         //WORK ON EDITOR FORM
         saveBed({ dispatch }, { bed, user, isNeeded = false }) {
-            user.pass = user.password;
             return bedService.saveBed(bed)
                 .then(savedBed => {
                     console.log('saved bed!', savedBed);
-                    if (isNeeded) return
+                    if (isNeeded) return savedBed
                     return dispatch("checkLogin", { user }).then(() => {
                         return savedBed
                     })
@@ -152,6 +151,6 @@ export default {
             commit({ type: 'setPlace', place })
             commit({ type: 'setFilterByLocation', place })
             return dispatch({ type: 'loadBeds' })
-        },
+        }
     }
 }

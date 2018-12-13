@@ -3,25 +3,32 @@ import { socketEmitter } from '../services/socketEmitService'
 
 export default {
     state: {
-        user: null
+        user: null,
+        newBookRequest: 0
     },
     getters: {
-        loggedInUser: state => state.user
+        loggedInUser: state => state.user,
+        newBookRequestCount: state => state.newBookRequest
     },
     mutations: {
         setUser(state, { loggeduser }) {
             state.user = loggeduser
         },
         //NOT IN USE CURRENTLY- WAITING FOR INTEGRATE
-        userBeds(state, { userBeds }) {
-            console.log('BBBB', userBeds);
+        setUserHostBeds(state, { hostBeds }) {
+            state.user.hostBeds = hostBeds
+        },
+        setNewBookRequest(state, { number }) {
+            state.newBookRequest = number;
         }
     },
     actions: {
         checkLogin({ commit, dispatch }, { user }) {
-            return userService.getUserLoggedIn(user.email, user.pass)
+            return userService.getUserLoggedIn(user.email, user.password)
                 .then(loggeduser => {
                     if(!loggeduser) return
+                    console.log(loggeduser);
+                    
                     commit({ type: 'setUser', loggeduser })
                     dispatch({type: "getChatsById",userId: loggeduser._id});
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)
@@ -78,6 +85,12 @@ export default {
             console.log('inside requestId')
             if (!getters.loggedInUser) return
             socketEmitter.$socket.emit('loggedIn', getters.loggedInUser._id)
-        }
+        },
+        SOCKET_getBookRequest({commit}, {hostBeds}){
+            commit({ type: 'setUserHostBeds', hostBeds })
+        },
+        SOCKET_setNewBookRequest({ commit }, { number }) {
+            commit({ type: 'setNewBookRequest', number })
+        },
     },
 }
