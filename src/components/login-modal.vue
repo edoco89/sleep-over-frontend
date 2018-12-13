@@ -1,6 +1,5 @@
 <template>
   <section>
-    <!-- @click="showModal" -->
     <div :class="{'is-active' : showModal}" class="modal">
       <div class="modal-background" @click="$emit('closeModal')"></div>
       <div class="modal-content">

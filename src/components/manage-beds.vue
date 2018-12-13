@@ -1,14 +1,14 @@
 <template>
   <section v-if="this.user" class="bed-manager">
     <div class="bed-list">
-      <span>Your Beds</span>
+      <h3>Your Beds:</h3>
       <router-link to="/bedEdit" href="#">Add Bed</router-link>
 
       <div v-if="bed" v-for="(bed, idx) in user.hostBeds" :key="bed._id" class="user-bed">
         <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
         <div class="bed-details">
           <div class="prev-header">
-            <b>Your {{bed.type}} In {{bed.location.address}}</b>
+            <p>Your {{bed.type}} In {{bed.location.address}}</p>
           </div>
           <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
           <a href="#" v-if="bed.reviews.length > 0" @click="showModal = true">See Reviews</a>
@@ -90,7 +90,7 @@ export default {
               },
               themeStyles: {
                 wrapper: {
-                  height: '50%'
+                  height: "50%"
                 }
               },
               dates: book,
@@ -139,14 +139,14 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
-.bed-manager {
-  width: 90%;
-  margin: auto;
+h3 {
+  text-decoration: underline;
 }
-.calender-container {
-  width: 50%;
-  height: 85%;
-  padding: 10px;
+
+.bed-manager {
+  width: 100%;
+  border: 1px solid lightgray;
+  border-top: none;
 }
 
 .profile-container {
@@ -159,44 +159,52 @@ export default {
 }
 
 .bed-list {
-  margin-top: 10px;
+  padding-top: 10px;
   text-align: left;
-  span {
-    font-size: 25px;
-    margin-right: 15px;
+  width: 95%;
+  margin: auto;
+  a {
+    width: fit-content;
+    border: none;
+    color: rgb(85, 143, 252);
+    padding: 0;
+    &:hover {
+      border-bottom-color: none;
+      color: rgb(85, 143, 252);
+    }
   }
 }
 
 .user-bed {
-  // border: 1px solid $border-color;
   border: 1px solid #8d8c8c;
   position: relative;
   color: #222222;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   text-align: left;
-  height: 300px;
   .user-photo-carusel {
-    width: 45%;
-    height: 100%;
-    // padding: 10px;
-    // margin: 5px;
+    width: 100%;
+    height: 200px;
   }
   .amenities-prev {
-    height: 100px;
-    margin-top: 5px;
-    section {
-      height: 100%;
-    }
+    display: none;
+  }
+  .calender-container {
+    padding: 10px;
+    padding-top: 0;
+    margin-bottom: 30px;
   }
   .bed-details {
     padding: 10px;
-    margin: 5px;
-    width: 50%;
-    height: 100%;
     .prev-header {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+      p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: 0;
+      }
     }
     a {
       margin-right: 10px;
@@ -250,21 +258,11 @@ export default {
   padding-top: 10px;
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 1000px) {
   .amenities-prev {
     display: none;
   }
-  .user-bed {
-    .bed-details {
-      width: 30%;
-    }
-  }
-  .user-photo-carusel {
-  }
 }
 @media (max-width: 750px) {
-  .user-bed {
-    height: 200px;
-  }
 }
 </style>

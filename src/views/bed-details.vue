@@ -437,69 +437,70 @@ export default {
       this.askedBookDates.isConfirmed = false;
       this.askedBookDates.guestId = this.user._id;
       this.bed.unAvailable.push(this.askedBookDates);
-      this.$store.dispatch({
-        type: "saveBed",
-        bed: this.bed,
-        user: this.user,
-        isNeeded: true
-      })
-      .then(bed => {
-        this.$socket.emit("bookRequest", {
+      this.$store
+        .dispatch({
+          type: "saveBed",
+          bed: this.bed,
+          user: this.user,
+          isNeeded: true
+        })
+        .then(bed => {
+          this.$socket.emit("bookRequest", {
             hostId: bed.hostId
           });
-      })
+        });
     },
-      // this.isBook = true;
-      // const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser)
-      // );
-      // this.$store
-      //   .dispatch({
-      //     type: "getChatByIds",
-      //     userId1: loggedInUser._id,
-      //     userId2: this.bedHost._id
-      //   })
-      //   .then(chat => {
-      //     if (!chat) {
-      //       return this.$store.dispatch({
-      //         type: "createChatByIds",
-      //         userId1: loggedInUser._id,
-      //         userId2: this.bedHost._id
-      //       });
-      //     }
-      //     return chat;
-      //   })
-      //   .then(chat => {
-      //     this.$store.dispatch({
-      //       type: "getChatsById",
-      //       userId: loggedInUser._id
-      //     });
-      //     this.$socket.emit("chatRequest", {
-      //       currUserId: loggedInUser._id,
-      //       userId: this.bedHost._id,
-      //       chatId: chat._id
-      //     });
-      //     return chat._id;
-      //   })
-      //   .then(chatId => {
-      //     let msg = {
-      //       from: loggedInUser._id,
-      //       txt: `${
-      //         loggedInUser.fullname
-      //       } submited a request for a sleepover at your place
-      //   between ${this.askedBookDates.start.getMonth() +
-      //     1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth() +
-      //         1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
-      //   Send a message to aprove`,
-      //       isRead: false,
-      //       timestamp: Date.now()
-      //     };
+    // this.isBook = true;
+    // const loggedInUser = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser)
+    // );
+    // this.$store
+    //   .dispatch({
+    //     type: "getChatByIds",
+    //     userId1: loggedInUser._id,
+    //     userId2: this.bedHost._id
+    //   })
+    //   .then(chat => {
+    //     if (!chat) {
+    //       return this.$store.dispatch({
+    //         type: "createChatByIds",
+    //         userId1: loggedInUser._id,
+    //         userId2: this.bedHost._id
+    //       });
+    //     }
+    //     return chat;
+    //   })
+    //   .then(chat => {
+    //     this.$store.dispatch({
+    //       type: "getChatsById",
+    //       userId: loggedInUser._id
+    //     });
+    //     this.$socket.emit("chatRequest", {
+    //       currUserId: loggedInUser._id,
+    //       userId: this.bedHost._id,
+    //       chatId: chat._id
+    //     });
+    //     return chat._id;
+    //   })
+    //   .then(chatId => {
+    //     let msg = {
+    //       from: loggedInUser._id,
+    //       txt: `${
+    //         loggedInUser.fullname
+    //       } submited a request for a sleepover at your place
+    //   between ${this.askedBookDates.start.getMonth() +
+    //     1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.start.getFullYear()} to ${this.askedBookDates.start.getMonth() +
+    //         1}/${this.askedBookDates.end.getDate()}/${this.askedBookDates.end.getFullYear()}
+    //   Send a message to aprove`,
+    //       isRead: false,
+    //       timestamp: Date.now()
+    //     };
 
-      //     this.$socket.emit("sendMsg", {
-      //       chatId,
-      //       message: msg,
-      //       userId: loggedInUser._id
-      //     });
-      //   });
+    //     this.$socket.emit("sendMsg", {
+    //       chatId,
+    //       message: msg,
+    //       userId: loggedInUser._id
+    //     });
+    //   });
     // },
     openChat() {
       const loggedInUser = JSON.parse(

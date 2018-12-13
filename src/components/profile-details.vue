@@ -316,5 +316,55 @@ export default {
     height: fit-content;
     width: 80%;
   }
+
+  .user-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 80%;
+      // height: 250px;
+      object-fit: cover;
+      object-position: top;
+    }
+    div {
+      // margin: 8px;
+    }
+    .user-details {
+      text-align: left;
+      // padding: 10px;
+      margin-left: 15px;
+      margin-top: 0px;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .calender-container {
+    height: fit-content;
+    width: 50%;
+    padding-right:20px;
+  }
+
+  .user-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 60%;
+      // height: 250px;
+      object-fit: cover;
+      object-position: top;
+    }
+    div {
+      // margin: 8px;
+    }
+    .user-details {
+      text-align: left;
+      // padding: 10px;
+      margin-left: 15px;
+      margin-top: 0px;
+    }
+  }
 }
 </style>

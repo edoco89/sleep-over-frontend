@@ -20,7 +20,7 @@ function saveUser(user, userId) {
 function getUserLoggedIn(email, password) {
     return axios.post(`${BASE_URL}/login`, { email, password })
         .then(res => {
-            sessionStorage.loggedInUser = JSON.stringify({ email: res.data.email , password: res.data.password })
+            sessionStorage.loggedInUser = JSON.stringify({ email: res.data.email, password: res.data.password })
             return res.data;
         })
         .catch(err => console.log(err, 'Create msg for log-in fail'))
@@ -31,7 +31,7 @@ function addUser(user) {
     const newUser = _createUser(user)
     return axios.post(`${BASE_URL}/signup`, { newUser })
         .then(res => {
-            sessionStorage.loggedInUser = JSON.stringify({ email: res.data.email , password: res.data.password })
+            sessionStorage.loggedInUser = JSON.stringify({ email: res.data.email, password: res.data.password })
             return res.data;
         })
         .catch(err => console.log('show user exist ERROR ', err))
@@ -94,6 +94,7 @@ function _createUser(user) {
         hostBedsId: [],
         bedVisitedId: [],
         reviews: [],
-        chatHistory: []
+        chatHistory: [],
+        stays: []
     }
 }
