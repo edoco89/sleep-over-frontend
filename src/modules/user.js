@@ -20,6 +20,9 @@ export default {
         },
         setNewBookRequest(state, { number }) {
             state.newBookRequest = number;
+        },
+        setUserStays(state, { stays }) {
+            state.user.stays = stays;
         }
     },
     actions: {
@@ -89,6 +92,9 @@ export default {
         },
         SOCKET_setNewBookRequest({ commit }, { number }) {
             commit({ type: 'setNewBookRequest', number })
+        },
+        SOCKET_setUserStays({ commit }, { stays }) {
+            commit({ type: 'setUserStays', stays })
         },
     },
 }

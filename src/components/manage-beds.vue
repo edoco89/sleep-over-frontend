@@ -30,7 +30,7 @@
             <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
               <div v-if="!customData.isConfirmed">
                 <p>{{customData.name}} Has requested to book this dates</p>
-                <button @click="confirmBooking(customData.bedId ,customData.start, customData.guestId)">Confirm</button>
+                <button @click="confirmBooking(customData.bedId ,customData.start,customData.end, customData.guestId)">Confirm</button>
                 <button @click="DeclineBooking(customData.bedId ,customData.start, customData.guestId)">Decline</button>
                 <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
               </div>
@@ -113,7 +113,7 @@ export default {
         this.showModal = true;
       });
     },
-    DeclineBooking(bedId, start, hostId) {
+    DeclineBooking(bedId, start, guestId) {
       const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
       const removeDatesIdx = bookedBed.unAvailable.findIndex(
         booking => booking.start === start
@@ -133,9 +133,9 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-      this.sendBookResponse(msg, hostId)
+      this.sendBookResponse(msg, guestId)
     },
-    confirmBooking(bedId, start, hostId) {
+    confirmBooking(bedId, start, end, guestId) {
       const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
       bookedBed.unAvailable.find(booking => {
         if (booking.start === start) booking.isConfirmed = true;
@@ -146,7 +146,14 @@ export default {
         user: this.user
       });
       this.$socket.emit("setNewBookRequestL", {
-        userId: this.user._id
+        userId: this.user._id,
+        guestId,
+        sleepOver: {
+          start,
+          end,
+          bedId,
+          hostId: this.user._id
+        }
       });
       let msg = {
         from: this.user._id,
@@ -155,21 +162,21 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-      this.sendBookResponse(msg, hostId)
+      this.sendBookResponse(msg, guestId)
     },
-    sendBookResponse(message, hostId) {
+    sendBookResponse(message, guestId) {
       this.$store
         .dispatch({
           type: "getChatByIds",
           userId1: this.user._id,
-          userId2: hostId
+          userId2: guestId
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
               userId1: this.user._id,
-              userId2: hostId
+              userId2: guestId
             });
           }
           return chat;
@@ -181,7 +188,7 @@ export default {
           });
           this.$socket.emit("chatRequest", {
             currUserId: this.user._id,
-            userId: hostId,
+            userId: guestId,
             chatId: chat._id
           });
           return chat._id;

@@ -34,13 +34,9 @@
       >
       <v-calendar :attributes="attr" is-expanded style="width: 100%">
         <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
-          <div v-if="!customData.isConfirmed">
-            <p>{{customData.name}} Has requested to book this dates</p>
-            <button @click="confirmBooking(customData.bedId ,customData.start)">Confirm</button>
-            <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
-          </div>
-          <div v-else>
-            <p>{{customData.name}} is coming to stay!</p>
+          <div>
+            <p>You have a sleepOver</p>
+            <a href="#" @click="showUserDetails(customData.hostId)">More on {{customData.name}}</a>
           </div>
         </div>
       </v-calendar>
@@ -49,6 +45,7 @@
 </template>
 
 <script>
+import userDetails from "@/components/userDetails.vue";
 export default {
   props: {
     user: Object,
@@ -56,15 +53,47 @@ export default {
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
+      currUser: null
     };
   },
   computed: {
     attr() {
       if (!this.user) return;
+      return [
+          ...this.user.stays.map((stay, idx) => {
+            return {
+              highlight: {
+                backgroundColor: "#7CC75E"
+              },
+              contentStyle: {
+                color: "#fafafa"
+              },
+              themeStyles: {
+                wrapper: {
+                  height: "50%"
+                }
+              },
+              dates: stay,
+              customData: stay,
+              popover: {
+                slot: "confirm-stay"
+              }
+            }
+          })
+        ];
     }
-  }
-};
+  },
+methods: {
+    showUserDetails(id) {
+      this.$store.dispatch({ type: "getUserById", id }).then(gotUser => {
+        this.currUser = { ...gotUser };
+        this.isDetails = true;
+        this.showModal = true;
+      });
+    }
+}
+}
 </script>
 
 <style scoped lang="scss">
