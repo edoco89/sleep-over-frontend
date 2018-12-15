@@ -86,8 +86,7 @@ function _createUser(user) {
         languages: (user.languages) ? user.languages : [],
         isHost: false,
         aboutMe: (user.aboutMe) ? user.aboutMe : '',
-        guestBadge: '',
-        hostBadge: '',
+        isSuperHost: false,
         age: (user.age) ? user.age : 100,
         gender: (user.gender) ? user.gender : 'female',
         imgUrl: (user.imgUrl) ? user.imgUrl : 'https://pmcdeadline2.files.wordpress.com/2013/07/amyacker__130721002642.jpg',
@@ -95,6 +94,6 @@ function _createUser(user) {
         bedVisitedId: [],
         reviews: [],
         chatHistory: [],
-        stays: []
+        stays: [],
     }
 }

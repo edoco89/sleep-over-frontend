@@ -318,7 +318,7 @@ export default {
   }
 
   .user-card {
-    height: 100%;
+    // height: 100%;
     display: flex;
     flex-direction: column;
     img {

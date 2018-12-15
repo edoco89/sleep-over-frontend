@@ -14,8 +14,9 @@
             @click.native="isOpen = ''"
             exact
             :to="'/userProfile/' +getUser._id"
-          >My Profile
-            <span>{{(newBookRequestCount === 0)? '': newBookRequestCount}}</span>
+          >
+            My Profile
+            <span v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
           </router-link>
           <span v-if="getUser">|</span>
           <a v-if="getUser" @click="logout">Log-out</a>

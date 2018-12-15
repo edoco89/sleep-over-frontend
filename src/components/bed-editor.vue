@@ -22,14 +22,6 @@
           </select>
         </div>
         <div>
-          Your Hosting "Catch phrase":
-          <input
-            v-model="bed.catchPhrase"
-            placeholder="Free candy for guests"
-            type="text"
-          >
-        </div>
-        <div>
           Ditstance from city center:
           <input v-model="bed.ditstanceFromCityCenter" type="text">
         </div>
@@ -84,6 +76,7 @@ export default {
       bed: {
         hostId: "",
         hostName: "",
+        isSuperHost: false,
         catchPhrase: "",
         languages: [],
         imgUrls: [],
@@ -98,7 +91,7 @@ export default {
         type: "",
         rating: (Math.random() + 4).toFixed(2),
         reviews: [],
-        ditstanceFromCityCenter: 0,
+        ditstanceFromCityCenter: parseInt(Math.random() * 10),
         ameneties: {
           Accessible: false,
           Wifi: false,
@@ -108,7 +101,7 @@ export default {
           Parking: false,
           "Children Ok": false
         },
-        unAvailable:[]
+        unAvailable: []
       }
     };
   },
@@ -160,6 +153,8 @@ export default {
     this.bed.hostName = this.bedHost.fullname;
     this.bed.languages = this.bedHost.languages;
     this.bed.hostImg = this.bedHost.imgUrl;
+    this.bed.isSuperHost = this.bedHost.isSuperHost;
+    this.bed.catchPhrase = this.bedHost.catchPhrase;
   },
   components: {
     selectMenu,

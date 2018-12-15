@@ -4,9 +4,25 @@
       <!-- <img :src="bed.imgUrl" :title="bed.hostId" class="card-img"> -->
       <photo-carusel class="photo-carousel-preview" :pics="bed.imgUrls"></photo-carusel>
       <div class="text-preview">
-        <b>{{bed.hostName+ "'s " + bed.type}}</b>
+        <span>
+          <b>{{bed.hostName+ "'s " + bed.type}}</b>
+        </span>
         <br>
         <p>{{bed.location.address}}</p>
+        <div class="host-preview">
+          <img
+            class="host-badge"
+            v-if="bed.isSuperHost"
+            src="@/assets/img/badge.png"
+            :title="bed.hostName + ' is a Super Host!'"
+          >
+          <img class="host-img" :src="bed.hostImg">
+          <div>
+            "
+            {{bed.catchPhrase}}
+            "
+          </div>
+        </div>
       </div>
     </section>
     <div class="bed-rating">
@@ -56,18 +72,12 @@ export default {
     width: 100%;
     object-fit: cover;
   }
-  p {
-    font-size: 13px;
-  }
   b {
     font-size: 15px;
   }
 }
 .photo-carousel-preview {
   height: 110px;
-}
-p {
-  font-size: 14px;
 }
 a {
   color: initial;
@@ -92,16 +102,88 @@ a {
   padding: 10px;
   font-family: $main-font-light;
   margin-bottom: 45px;
+
   b {
     font-family: $main-font-bold;
   }
+  p {
+    font-size: 10px;
+  }
+  .host-preview {
+    font-family: $main-font-light;
+    position: relative;
+    b {
+      font-family: $main-font-light;
+    }
+    img {
+      // width: 50px;
+      // height: 50px;
+      object-fit: cover;
+    }
+  }
 }
 
-@media (max-width: 400px) {
+// @media (max-width: 390px) {
+.bed-preview {
+  height: 320px;
+
+  b {
+    font-size: 18px;
+  }
+}
+.photo-carousel-preview {
+  height: 150px;
+}
+.host-preview {
+  display: flex;
+  div {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+}
+.host-badge {
+  width: 25px;
+  position: absolute;
+  top: 0px;
+  left: -3px;
+}
+.host-img {
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  object-position: top;
+}
+// }
+@media (min-width: 400px) {
   .bed-preview {
-    height: 300px;
-    img {
+    height: 350px;
+  }
+  .photo-carousel-preview {
+    height: 120px;
+  }
+  .text-preview {
+    b {
+      font-size: 15px;
     }
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .host-preview {
+    div {
+      height: 130px;
+      overflow: hidden;
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  .bed-preview {
+    height: 345px;
     b {
       font-size: 18px;
     }
@@ -109,15 +191,16 @@ a {
       font-size: 15px;
     }
   }
-}
-@media (min-width: 800px) {
-  .bed-preview {
-    height: 250px;
-    b {
-      font-size: 18px;
-    }
+  .text-preview {
     p {
-      font-size: 15px;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+  }
+  .host-preview {
+    div {
+      font-size: 14px;
+      height: 100px;
     }
   }
   .photo-carousel-preview {
@@ -125,14 +208,22 @@ a {
   }
 }
 @media (min-width: 1000px) {
-  .bed-preview {
-    height: 265px;
-    b {
-      font-size: 18px;
-    }
+  .photo-carousel-preview {
+    height: 150px;
+  }
+  .text-preview {
     p {
-      font-size: 13px;
+      margin-bottom: 17px;
     }
+  }
+  .host-preview {
+    div {
+      height: 85px;
+    }
+  }
+  .host-img {
+    width: 65px;
+    height: 65px;
   }
 }
 </style>

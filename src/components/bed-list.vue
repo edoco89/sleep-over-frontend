@@ -27,7 +27,7 @@ export default {
   width: 100%;
   display: grid;
   grid-gap: 15px;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   margin: 0 auto;
 }
 
