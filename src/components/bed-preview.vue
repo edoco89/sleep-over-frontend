@@ -1,7 +1,6 @@
 <template>
   <router-link :to="'/bed/' + bed._id" class="bed-preview">
     <section class="preview-container">
-      <!-- <img :src="bed.imgUrl" :title="bed.hostId" class="card-img"> -->
       <photo-carusel class="photo-carousel-preview" :pics="bed.imgUrls"></photo-carusel>
       <div class="text-preview">
         <span>
@@ -17,11 +16,7 @@
             :title="bed.hostName + ' is a Super Host!'"
           >
           <img class="host-img" :src="bed.hostImg">
-          <div>
-            "
-            {{bed.catchPhrase}}
-            "
-          </div>
+          <div>"{{bed.catchPhrase}}"</div>
         </div>
       </div>
     </section>
@@ -29,7 +24,7 @@
       <img src="@/assets/img/star.png">
       {{bed.rating}}
       |
-      ({{parseInt(Math.random()*50)}})
+      ({{parseInt(Math.random()*50 + 10)}})
     </div>
   </router-link>
 </template>
@@ -55,10 +50,7 @@ export default {
 .bed-preview {
   position: relative;
   text-align: left;
-  justify-content: space-between;
   width: 100%;
-  height: 240px;
-  background-color: $bg-color-secondary;
   border-radius: 4px;
   border: 1px solid $border-color;
   color: $text-color-cards;
@@ -72,16 +64,6 @@ export default {
     width: 100%;
     object-fit: cover;
   }
-  b {
-    font-size: 15px;
-  }
-}
-.photo-carousel-preview {
-  height: 110px;
-}
-a {
-  color: initial;
-  text-decoration: initial;
 }
 
 .bed-rating {
@@ -102,7 +84,6 @@ a {
   padding: 10px;
   font-family: $main-font-light;
   margin-bottom: 45px;
-
   b {
     font-family: $main-font-bold;
   }
@@ -110,20 +91,10 @@ a {
     font-size: 10px;
   }
   .host-preview {
-    font-family: $main-font-light;
     position: relative;
-    b {
-      font-family: $main-font-light;
-    }
-    img {
-      // width: 50px;
-      // height: 50px;
-      object-fit: cover;
-    }
   }
 }
 
-// @media (max-width: 390px) {
 .bed-preview {
   height: 320px;
 
@@ -155,7 +126,6 @@ a {
   object-fit: cover;
   object-position: top;
 }
-// }
 @media (min-width: 400px) {
   .bed-preview {
     height: 350px;
@@ -187,9 +157,6 @@ a {
     b {
       font-size: 18px;
     }
-    p {
-      font-size: 15px;
-    }
   }
   .text-preview {
     p {
@@ -199,7 +166,6 @@ a {
   }
   .host-preview {
     div {
-      font-size: 14px;
       height: 100px;
     }
   }

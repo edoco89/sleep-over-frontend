@@ -1,49 +1,53 @@
 <template>
-  <section class="user-details-container">
-    <section v-if="user" class="user-card">
-      <img :src="user.imgUrl" alt="User image">
-      <div class="more-details">
-        <router-link
-          v-if="user._id === this.$route.params.userId"
-          class="user-edit"
-          href="#"
-          exact
-          :to="'/userEdit/' + user._id"
-        >Edit profile</router-link>
-        <div class="user-details">
-          <h4>{{user.fullname}}</h4>
-          <div v-if="user.hostBadge">
-            <p>{{user.hostBadge}}</p>
-          </div>
-          <div v-if="user.age">
-            Age:
-            <span>{{user.age}}</span>
-          </div>
-          <div v-if="user.gender">
-            Gender:
-            <span>{{user.gender}}</span>
-          </div>
+  <section>
+    <section class="user-details-container">
+      <section v-if="user" class="user-card">
+        <div class="more-details">
+          <h4>Hi {{user.fullname}}!</h4>
+          <router-link
+            v-if="user._id === this.$route.params.userId"
+            class="user-edit"
+            href="#"
+            exact
+            :to="'/userEdit/' + user._id"
+          >Edit profile</router-link>
         </div>
+        <img :src="user.imgUrl" alt="User image">
+      </section>
+      <div class="calender-container">
+        <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
+        <link
+          rel="stylesheet"
+          href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
+        >
+        <div class="calender-header">Your Stays Schedule:</div>
+        <v-calendar :attributes="attr" is-expanded style="width: 100%">
+          <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
+            <div v-if="!customData.isConfirmed">
+              <p>{{customData.name}} Has requested to book this dates</p>
+              <button @click="confirmBooking(customData.bedId ,customData.start)">Confirm</button>
+              <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
+            </div>
+            <div v-else>
+              <p>{{customData.name}} is coming to stay!</p>
+            </div>
+          </div>
+        </v-calendar>
       </div>
     </section>
-    <div class="calender-container">
-      <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
-      <link
-        rel="stylesheet"
-        href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
-      >
-      <v-calendar :attributes="attr" is-expanded style="width: 100%">
-        <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
-          <div v-if="!customData.isConfirmed">
-            <p>{{customData.name}} Has requested to book this dates</p>
-            <button @click="confirmBooking(customData.bedId ,customData.start)">Confirm</button>
-            <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
-          </div>
-          <div v-else>
-            <p>{{customData.name}} is coming to stay!</p>
-          </div>
-        </div>
-      </v-calendar>
+    <div class="profile-details">
+      <div>
+        <b>About:</b>
+        {{user.aboutMe}}
+      </div>
+      <div>
+        <b>Your catch phrase:</b>
+        {{user.catchPhrase}}
+      </div>
+      <div>
+        <b>Your Interests:</b>
+        <span v-for="(key,interst) in user.interests" v-if="key" :key="key">{{interst + ", "}}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -70,19 +74,12 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
+.calender-header {
+  text-align: left;
+}
+
 .user-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  img {
-    width: 100%;
-    // height: 250px;
-    object-fit: cover;
-    object-position: top;
-  }
-  div {
-    // margin: 8px;
-  }
+  margin-bottom: 15px;
   .user-details {
     text-align: left;
     // padding: 10px;
@@ -96,11 +93,10 @@ export default {
 }
 
 .user-details-container {
-  padding-top: 0;
+  // padding-top: 0;
   border: 1px solid $border-color;
-  // border-top: none;
-  // margin: auto;
   width: 100%;
+  padding: 0 25px;
   h4 {
     font-family: $main-font-bold;
     font-size: 17px;
@@ -120,32 +116,25 @@ export default {
   border: none;
   padding: 0;
   color: rgb(85, 143, 252);
-  margin-top: 8px;
+  // margin-top: 8px;
   &:hover {
     color: rgb(85, 143, 252);
   }
 }
 .more-details {
-  text-align: left;
+  display: flex;
+  align-items: center;
+  // text-align: left;
   a {
     font-family: $main-font-bold;
     font-style: italic;
     font-size: 10px;
-    margin-left: 15px;
-    margin-bottom: 8px;
+    margin-left: 10px;
+    margin-top: 3px;
     width: fit-content;
   }
-  div {
-    h5 {
-      margin-top: 10px;
-      font-size: 14px;
-      margin-bottom: 0;
-      font-family: $main-font-bold;
-      span {
-        font-size: 5px;
-        margin-bottom: 10px;
-      }
-    }
+  h4 {
+    margin: 0;
   }
 }
 .profile-container {
@@ -198,7 +187,7 @@ export default {
       margin-bottom: 10px;
     }
     a {
-      margin-right: 10px;
+      // margin-right: 10px;
       font-family: $main-font-bold;
       font-size: 14px;
       font-style: italic;
@@ -248,79 +237,110 @@ export default {
   padding-top: 10px;
 }
 
+.profile-details {
+  display: none;
+}
+
 @media (min-width: 500px) {
   .user-details-container {
     display: flex;
-    height: 300px;
+    height: 320px;
     .calender-container {
       margin-left: 10px;
+    }
+    .calender-header {
+      text-align: left;
+      font-size: 17px;
+      margin-bottom: 2.5px;
+    }
+  }
+  .more-details {
+    h4 {
+      font-size: 18px;
+    }
+    a {
+      font-size: 12px;
     }
   }
   .user-card {
     height: 265px;
     img {
-      height: 150px;
+      height: 272px;
+      object-fit: cover;
+      object-position: top;
     }
   }
 }
-@media (min-width: 600px) {
-  .user-details-container {
-    display: flex;
-    height: 500px;
-  }
-  .user-card {
-    height: fit-content;
-    img {
-      height: 273px;
-    }
-  }
-  .more-details {
-    text-align: left;
-    width: 100%;
-    height: 100%;
-    a {
-      font-family: $main-font-bold;
-      font-style: italic;
-      font-size: 14px;
-      margin-left: 15px;
-      margin-bottom: 8px;
-      width: fit-content;
-    }
-    h4 {
-      margin-top: 5px;
-      font-size: 20px;
-      margin-bottom: 8px;
-      font-family: $main-font-bold;
-      .user-details {
-        div {
-          font-size: 25px;
-          margin-bottom: 10px;
-        }
-      }
-    }
-  }
-  .user-details-container {
-    div {
-      font-size: 15px;
-      span {
-        font-size: 15px;
-      }
-    }
-  }
-  .calender-container {
-    height: fit-content;
-  }
-}
+// @media (min-width: 600px) {
+//   .user-details-container {
+//     display: flex;
+//     height: 500px;
+//   }
+//   .user-card {
+//     height: fit-content;
+//     img {
+//       height: 273px;
+//     }
+//   }
+//   .more-details {
+//     text-align: left;
+//     width: 100%;
+//     height: 100%;
+//     a {
+//       font-family: $main-font-bold;
+//       font-style: italic;
+//       font-size: 14px;
+//       margin-left: 15px;
+//       margin-bottom: 8px;
+//       width: fit-content;
+//     }
+//     h4 {
+//       margin-top: 5px;
+//       font-size: 20px;
+//       margin-bottom: 8px;
+//       font-family: $main-font-bold;
+//       .user-details {
+//         div {
+//           font-size: 25px;
+//           margin-bottom: 10px;
+//         }
+//       }
+//     }
+//   }
+//   .user-details-container {
+//     div {
+//       font-size: 15px;
+//       span {
+//         font-size: 15px;
+//       }
+//     }
+//   }
+//   .calender-container {
+//     height: fit-content;
+//   }
+// }
 @media (min-width: 800px) {
   .calender-container {
     height: fit-content;
-    width: 80%;
+    width: 75%;
   }
-
+  .profile-details {
+    display: block;
+    text-align: left;
+    div {
+      b {
+        font-family: $main-font-bold;
+      }
+      font-size: 16px;
+      margin-top: 10px;
+      font-family: $main-font-light;
+    }
+  }
   .user-card {
     // height: 100%;
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    text-align: left;
+    // flex-direction: column;
     img {
       width: 80%;
       // height: 250px;
@@ -343,7 +363,7 @@ export default {
   .calender-container {
     height: fit-content;
     width: 50%;
-    padding-right:20px;
+    padding-right: 20px;
   }
 
   .user-card {
