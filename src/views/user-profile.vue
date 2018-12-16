@@ -1,9 +1,9 @@
 <template>
-  <b-tabs class="profile-container">
-    <b-tab card title="Your Stays" active>
+  <b-tabs v-if="user" class="profile-container">
+    <b-tab card title="Your Guest Card" active>
       <profile-details :user="user"></profile-details>
     </b-tab>
-    <b-tab card title="Your Guests">
+    <b-tab card :title="(user.hostBeds.length === 0)? 'Become a Host':'Your Host Card'">
       <manage-beds></manage-beds>
     </b-tab>
   </b-tabs>
@@ -17,7 +17,7 @@ export default {
   computed: {
     user() {
       return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
-    },
+    }
   },
   components: {
     profileDetails,

@@ -4,8 +4,11 @@
       <img :src="user.imgUrl" alt="User image">
       <div class="user-details">
         <h4>{{user.fullname}}</h4>
-        <div v-if="user.hostBadge">
-          <p>{{user.hostBadge}}</p>
+        <div class="chat-container">
+          <a>
+            <img class="chat-btn" src="@/assets/img/chat.png">
+          </a>
+          <span class="secondary-header">{{'Chat with ' + user.fullname}}</span>
         </div>
         <div v-if="user.age">
           Age:
@@ -68,6 +71,36 @@ export default {
     margin-left: 15px;
     // padding: 10px;
     // margin-top: 0px;
+  }
+}
+
+.chat-container {
+  // text-align: left;
+  // width: fit-content;
+  // margin: auto;
+  // margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  a {
+    border: none;
+    padding: 0;
+  }
+  .secondary-header {
+    font-family: $main-font-bold;
+    margin-left: 5px;
+  }
+  .chat-btn {
+    background: rgb(76, 165, 76);
+    border-radius: 50%;
+    padding: 5px;
+    height: 25px;
+    width: 25px;
+    border: none;
+    border: 1.4px solid #222222;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
   }
 }
 

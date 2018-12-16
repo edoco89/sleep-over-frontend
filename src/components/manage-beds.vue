@@ -1,25 +1,37 @@
 <template>
   <section v-if="this.user" class="bed-manager">
-    <div class="bed-list">
-      <h3>Your Beds:</h3>
-      <router-link to="/bedEdit" href="#">Add Bed</router-link>
-
+    <router-link class="first-bed" to="/bedEdit" v-if="user.hostBeds.length===0">
+      <img src="@/assets/img/add-bed.png" title="Add Your First Bed">
+      <h2>Add Your first Bed</h2>
+    </router-link>
+    <div v-else class="bed-list">
+      <div class="list-header">
+        <h4>Your Beds</h4>
+        <router-link to="/bedEdit" href="#">Add Bed</router-link>
+      </div>
       <div v-if="bed" v-for="(bed, idx) in user.hostBeds" :key="bed._id" class="user-bed">
-        <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
-        <div class="bed-details">
-          <div class="prev-header">
-            <p>Your {{bed.type}} In {{bed.location.address}}</p>
+        <section class="bed-preview">
+          <photo-carusel class="user-photo-carusel" :pics="bed.imgUrls"></photo-carusel>
+          <div class="bed-details">
+            <div class="prev-header">
+              <p>Your {{bed.type}} In {{bed.location.address}}</p>
+            </div>
+            <div class="bed-links">
+              <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
+              <div v-if="bed.reviews.length > 0">
+                &nbsp;|&nbsp;
+                <a href="#" @click="showReviews(bed)">See Reviews</a>
+              </div>
+            </div>
+            <div class="amenities-prev">
+              <bed-amenities :aments="bed.ameneties"></bed-amenities>
+            </div>
+            <div class="bed-prev-rating">
+              <img src="@/assets/img/star.png">
+              <span>{{bed.rating}}</span>
+            </div>
           </div>
-          <router-link :to="'/bedEdit/' + bed._id" href="#">Edit Bed</router-link>
-          <a href="#" v-if="bed.reviews.length > 0" @click="showModal = true">See Reviews</a>
-          <div class="amenities-prev">
-            <bed-amenities :aments="bed.ameneties"></bed-amenities>
-          </div>
-          <div class="bed-prev-rating">
-            <img src="@/assets/img/star.png">
-            <span>{{bed.rating}}</span>
-          </div>
-        </div>
+        </section>
         <div class="calender-container">
           <link rel="stylesheet" href="https://unpkg.com/v-calendar/lib/v-calendar.min.css">
           <link
@@ -30,8 +42,12 @@
             <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
               <div v-if="!customData.isConfirmed">
                 <p>{{customData.name}} Has requested to book this dates</p>
-                <button @click="confirmBooking(customData.bedId ,customData.start, customData.guestId)">Confirm</button>
-                <button @click="DeclineBooking(customData.bedId ,customData.start, customData.guestId)">Decline</button>
+                <button
+                  @click="confirmBooking(customData.bedId ,customData.start,customData.end, customData.guestId)"
+                >Confirm</button>
+                <button
+                  @click="DeclineBooking(customData.bedId ,customData.start, customData.guestId)"
+                >Decline</button>
                 <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
               </div>
               <div v-else>
@@ -43,20 +59,30 @@
       </div>
     </div>
 
-    <div :class="{'is-active' : showModal}" class="modal">
+    <section :class="{'is-active' : showModal}" class="modal">
       <div @click="isDetails = false; showModal = false" class="modal-background"></div>
-      <div class="modal-content">
+      <section class="modal-content">
         <user-details v-if="isDetails" :user="currUser"></user-details>
-        <ul v-else>
-          <li v-for="(review,idx) in user.reviews" :key="idx">{{review}}</li>
-        </ul>
-      </div>
+        <section v-if="currBed && !isDetails">
+          <div v-for="review in currBed.reviews" :key="review.index" class="review-container">
+            <div class="review-preview">
+              <img width="80" :src="review.reviewerImg">
+              <div class="bold user-box-review">{{review.givenByName}}</div>
+              <star-rating :star-size="15" v-model="review.rating"></star-rating>
+            </div>
+            <span>
+              <b>{{review.givenByName}}:</b>
+              {{review.txt}}
+            </span>
+          </div>
+        </section>
+      </section>
       <button
         @click="isDetails = false; showModal = false"
         class="modal-close is-large"
         aria-label="close"
       ></button>
-    </div>
+    </section>
   </section>
 </template>
 
@@ -69,7 +95,7 @@ export default {
     return {
       showModal: false,
       isDetails: false,
-      currUser: null
+      currBed: null
     };
   },
   computed: {
@@ -106,6 +132,11 @@ export default {
     }
   },
   methods: {
+    showReviews(bed) {
+      this.currBed = bed;
+      this.isDetails = false;
+      this.showModal = true;
+    },
     showUserDetails(id) {
       this.$store.dispatch({ type: "getUserById", id }).then(gotUser => {
         this.currUser = { ...gotUser };
@@ -113,7 +144,7 @@ export default {
         this.showModal = true;
       });
     },
-    DeclineBooking(bedId, start, hostId) {
+    DeclineBooking(bedId, start, guestId) {
       const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
       const removeDatesIdx = bookedBed.unAvailable.findIndex(
         booking => booking.start === start
@@ -133,9 +164,9 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-      this.sendBookResponse(msg, hostId)
+      this.sendBookResponse(msg, guestId);
     },
-    confirmBooking(bedId, start, hostId) {
+    confirmBooking(bedId, start, end, guestId) {
       const bookedBed = this.user.hostBeds.find(bed => bed._id === bedId);
       bookedBed.unAvailable.find(booking => {
         if (booking.start === start) booking.isConfirmed = true;
@@ -146,7 +177,14 @@ export default {
         user: this.user
       });
       this.$socket.emit("setNewBookRequestL", {
-        userId: this.user._id
+        userId: this.user._id,
+        guestId,
+        sleepOver: {
+          start,
+          end,
+          bedId,
+          hostId: this.user._id
+        }
       });
       let msg = {
         from: this.user._id,
@@ -155,21 +193,21 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-      this.sendBookResponse(msg, hostId)
+      this.sendBookResponse(msg, guestId);
     },
-    sendBookResponse(message, hostId) {
+    sendBookResponse(message, guestId) {
       this.$store
         .dispatch({
           type: "getChatByIds",
           userId1: this.user._id,
-          userId2: hostId
+          userId2: guestId
         })
         .then(chat => {
           if (!chat) {
             return this.$store.dispatch({
               type: "createChatByIds",
               userId1: this.user._id,
-              userId2: hostId
+              userId2: guestId
             });
           }
           return chat;
@@ -181,7 +219,7 @@ export default {
           });
           this.$socket.emit("chatRequest", {
             currUserId: this.user._id,
-            userId: hostId,
+            userId: guestId,
             chatId: chat._id
           });
           return chat._id;
@@ -207,30 +245,23 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
 
-h3 {
-  text-decoration: underline;
+.list-header {
+  display: flex;
+  a {
+    margin-left: 10px;
+    font-style: italic;
+  }
+  h4 {
+    margin: 0 5px;
+  }
 }
 
-.bed-manager {
-  width: 100%;
-  border: 1px solid lightgray;
-  border-top: none;
+.bed-preview {
+  font-family: $main-font-bold;
 }
-
-.profile-container {
-  width: $container;
-  margin: auto;
-}
-
-.user-card {
-  width: 100%;
-}
-
 .bed-list {
   padding-top: 10px;
   text-align: left;
-  width: 95%;
-  margin: auto;
   a {
     width: fit-content;
     border: none;
@@ -242,17 +273,27 @@ h3 {
     }
   }
 }
+.tabs a:hover {
+  border: none;
+}
 
 .user-bed {
-  border: 1px solid #8d8c8c;
+  border-bottom: 1px solid lightgray;
   position: relative;
   color: #222222;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   text-align: left;
+  .bed-links {
+    display: flex;
+    div {
+      display: flex;
+      color: rgb(85, 143, 252);
+      font-style: italic;
+    }
+  }
   .user-photo-carusel {
-    width: 100%;
     height: 200px;
   }
   .amenities-prev {
@@ -275,7 +316,6 @@ h3 {
       }
     }
     a {
-      margin-right: 10px;
       font-family: $main-font-bold;
       font-size: 14px;
       font-style: italic;
@@ -292,45 +332,126 @@ h3 {
     }
   }
 }
-.about-me-box {
-  grid-column-start: 3;
-  grid-column-end: -1;
-  grid-row-start: 2;
-  grid-row-end: -1;
-  background-color: rgb(231, 225, 225);
-  display: flex;
-  flex-direction: column;
+
+.modal-content{
+  width: 80%;
 }
 
-.community-box {
-  grid-column: 1;
-  background-color: beige;
+@media (min-width: 500px) {
+  .user-bed {
+    padding: 5px 35px;
+    margin-top: 5px;
+    .user-photo-carusel {
+      height: 240px;
+    }
+    .calender-container {
+      padding: 0px;
+    }
+    .bed-details {
+      padding: 8px 0;
+    }
+  }
+  .list-header {
+    h4 {
+      margin: 0px 35px;
+    }
+    a {
+      margin: 0;
+    }
+  }
 }
 
-.review-box {
-  grid-column: 1;
-  background-color: rgb(243, 212, 218);
-}
-
-.user-photo-carusel {
-  height: 100%;
+.bed-manager {
   width: 100%;
-}
-
-.user-details-container {
-  border: 1px solid #8d8c8c;
+  border: 1px solid lightgray;
   border-top: none;
-  b {
-    font-family: $main-font-bold;
-  }
-  padding-top: 10px;
 }
 
-@media (min-width: 1000px) {
-  .amenities-prev {
-    display: none;
+@media (min-width: 650px) {
+  .user-bed {
+    padding: 5px 15px;
+    flex-direction: row;
+    justify-content: space-between;
+    .user-photo-carusel {
+      height: 220px;
+    }
+  }
+  .bed-preview {
+    width: 50%;
+    margin-right: 10px;
+    margin-bottom: 35px;
   }
 }
-@media (max-width: 750px) {
+
+@media (min-width: 950px) {
+  .bed-preview {
+    width: 70%;
+    display: flex;
+    margin-bottom: 0;
+    .user-photo-carusel {
+      width: 50%;
+      height: 100%;
+    }
+    .bed-details {
+      padding: 0;
+      width: 50%;
+      margin-left: 10px;
+      p {
+        font-size: 20px;
+      }
+    }
+    .amenities-prev {
+      margin-top: 10px;
+      display: block;
+      font-family: $main-font-light;
+      height: 200px;
+      overflow: hidden;
+    }
+  }
 }
+@media (min-width: 1050px) {
+  .user-bed {
+    padding: 5px 35px;
+  }
+}
+////////////////////////////////////
+
+// .profile-container {
+//   width: $container;
+//   margin: auto;
+// }
+
+// .about-me-box {
+//   grid-column-start: 3;
+//   grid-column-end: -1;
+//   grid-row-start: 2;
+//   grid-row-end: -1;
+//   background-color: rgb(231, 225, 225);
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .community-box {
+//   grid-column: 1;
+//   background-color: beige;
+// }
+
+// .review-box {
+//   grid-column: 1;
+//   background-color: rgb(243, 212, 218);
+// }
+
+// .user-photo-carusel {
+//   height: 100%;
+//   width: 100%;
+// }
+
+// .user-details-container {
+//   border: 1px solid #8d8c8c;
+//   border-top: none;
+//   b {
+//     font-family: $main-font-bold;
+//   }
+//   padding-top: 10px;
+// }
 </style>
