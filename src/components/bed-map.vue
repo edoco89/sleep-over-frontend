@@ -297,7 +297,7 @@ export default {
   methods: {
     goToMyLocation() {
       navigator.geolocation.getCurrentPosition(position => {
-        this.place = this.$store.getters.getPlace;
+        this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
         this.place.geometry.location = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -305,7 +305,10 @@ export default {
         this.$store.dispatch({
           type: "setFilterByLocation",
           place: this.place
-        });
+        })
+        .then(() => {
+          this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))});
+        })
       });
     },
     showDetails(bed, index) {

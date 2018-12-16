@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="search-bar">
-      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required></GmapAutocomplete>
+      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required="place"></GmapAutocomplete>
       <router-link
         class="homepage-search"
         tag="button"
@@ -105,7 +105,7 @@
 export default {
   data() {
     return {
-      place: {},
+      place: null,
       catg1: "",
       catg2: "",
       catg3: "",
@@ -599,9 +599,16 @@ export default {
   },
   methods: {
     setFilterByLocation() {
-      this.$store.dispatch({
-        type: "setPlace",
-        place: JSON.parse(JSON.stringify(this.place))
+        if (!this.place) {
+      this.place = JSON.parse(JSON.stringify(this.telAviv));
+      navigator.geolocation.getCurrentPosition(position => {
+        this.place.geometry.location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+      })
+    }
+    this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))
       });
     },
     setPlace(place) {
