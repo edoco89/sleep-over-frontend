@@ -183,7 +183,8 @@ export default {
           start,
           end,
           bedId,
-          hostId: this.user._id
+          hostId: this.user._id,
+          hostName: this.user.fullname
         }
       });
       let msg = {

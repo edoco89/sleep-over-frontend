@@ -85,7 +85,6 @@ export default {
             });
         },
         setReview(state, { review }) {
-            console.log('before push in mutation', state.currBed)
             state.currBed.reviews.push(review)
         }
     },
@@ -124,6 +123,9 @@ export default {
         },
         clearCurrBed({ commit }) {
             commit({ type: 'setBed', bed: null })
+        },
+        clearCurrBeds({ commit }) {
+            commit({ type: 'setBeds', beds: [] })
         },
         addReview({ commit, state }, { review }) {
             commit({ type: 'setReview', review })
