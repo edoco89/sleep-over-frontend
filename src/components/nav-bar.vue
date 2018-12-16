@@ -17,7 +17,7 @@
             :to="'/userProfile/' +getUser._id"
           >
             My Profile
-            <span v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
+            <span class="bounceIn" v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
           </router-link>
           <span v-if="getUser">|</span>
           <a v-if="getUser" @click="logout">Log-out</a>
@@ -27,10 +27,10 @@
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
           <a v-if="getUser" @click="openChatModal" class="nav-chat">
             <img src="@/assets/img/chat.png">
-            <span v-if="newMsgCount">{{(newMsgCount===0)? '': newMsgCount}}</span>
+            <span class="bounceIn" v-if="newMsgCount">{{(newMsgCount===0)? '': newMsgCount}}</span>
           </a>
           <div class="el-icon-menu" @click="toggleMenu">
-            <span v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
+            <span class="bounceIn" v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
           </div>
         </div>
       </section>

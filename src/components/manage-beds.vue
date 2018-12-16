@@ -189,8 +189,8 @@ export default {
       });
       let msg = {
         from: this.user._id,
-        txt: `I'm so happy that you are comming for a sleepover at my place, It's going to be so much fun.
-              p.s - I like to watch people eat and sleep, and even better when its both, so be prepared`,
+        img: true,
+        txt: `${this.user.fullname} Has accepted Your SleepOver Request!`,
         isRead: false,
         timestamp: Date.now()
       };
@@ -334,7 +334,7 @@ export default {
   }
 }
 
-.modal-content{
+.modal-content {
   width: 80%;
 }
 

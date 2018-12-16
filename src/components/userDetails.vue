@@ -59,7 +59,7 @@ export default {
   display: flex;
   img {
     width: 50%;
-    height: 150px;
+    height: 250px;
     object-fit: cover;
     object-position: top;
   }
@@ -114,11 +114,11 @@ export default {
   }
   div {
     font-family: $main-font-bold;
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 8px;
     span {
       font-family: $main-font-light;
-      font-size: 12px;
+      font-size: 14px;
     }
   }
 }
@@ -140,6 +140,71 @@ export default {
   }
   div {
     margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-card {
+    padding-top: 10px;
+    height: 100%;
+    display: flex;
+    font-size: 12px;
+    img {
+      width: 40%;
+      height: 160px;
+      object-fit: cover;
+      object-position: top;
+    }
+    .user-details {
+      text-align: left;
+      margin-left: 15px;
+      width: 50%;
+    }
+  }
+  .user-details-container {
+    padding-top: 0;
+    border: 1px solid $border-color;
+    border-top: none;
+    h4 {
+      font-family: $main-font-bold;
+      font-size: 15px;
+    }
+    h5 {
+      font-size: 15px;
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: $main-font-bold;
+      font-size: 12px;
+      margin-bottom: 8px;
+      span {
+        font-family: $main-font-light;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .chat-container {
+    padding: 5px;
+    .secondary-header {
+      font-family: $main-font-bold;
+      margin-left: 5px;
+      font-size: 10px;
+    }
+    .chat-btn {
+      background: rgb(76, 165, 76);
+      border-radius: 50%;
+      height: 25px;
+      width: 25px;
+      border: none;
+      border: 1.4px solid #222222;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    }
   }
 }
 </style>;
