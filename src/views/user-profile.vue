@@ -6,7 +6,7 @@
     <b-tab
       card
       :class="(newBookRequestCount)? 'got-booking':''"
-      :title="(user.hostBeds.length === 0)? 'Become a Host':(newBookRequestCount)?  '🔵 Your Host Card': 'Your Host Card'"
+      :title="(!user.hostBeds.length || user.hostBeds.length === 0 )? 'Become a Host':(newBookRequestCount)?  '🔵 Your Host Card': 'Your Host Card'"
     >
       <manage-beds></manage-beds>
     </b-tab>
