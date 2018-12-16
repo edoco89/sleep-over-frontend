@@ -5,6 +5,7 @@
       rel="stylesheet"
       href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css"
     >
+    <div class="calendar-header">Select Dates & Book!</div>
     <v-date-picker
       :disabled-dates="unAvailable"
       picker-date="month"
@@ -46,7 +47,7 @@ export default {
         start: null,
         end: null
       },
-      showModal: false,
+      showModal: false
     };
   },
   computed: {
@@ -67,13 +68,15 @@ export default {
     allowedDates(val) {
       return parseInt(val.split("-")[2], 10) % 2 === 0;
     },
-    minDate(today){
-    var isTodayAvailable = this.checkToday(today)
-    if (isTodayAvailable) this.startDate = today
-    else this.minDate(today.getDate() + 1);
+    minDate(today) {
+      var isTodayAvailable = this.checkToday(today);
+      if (isTodayAvailable) this.startDate = today;
+      else this.minDate(today.getDate() + 1);
     },
-    checkToday(currDate){
-      return this.unAvailable.every(date => new Date(date.start) > currDate || new Date(date.end) < currDate)
+    checkToday(currDate) {
+      return this.unAvailable.every(
+        date => new Date(date.start) > currDate || new Date(date.end) < currDate
+      );
     }
   }
 };
@@ -87,6 +90,13 @@ export default {
   font-family: $main-font-light;
 }
 
+.calendar-header {
+  font-family: $main-font-bold;
+  text-align: left;
+  font-size: 19px;
+  margin-bottom: 5px;
+  font-style: italic;
+}
 .container {
   // width: 90%;
   min-width: 200px;

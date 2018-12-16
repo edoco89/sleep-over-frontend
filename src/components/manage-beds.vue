@@ -43,9 +43,11 @@
               <div v-if="!customData.isConfirmed">
                 <p>{{customData.name}} Has requested to book this dates</p>
                 <button
+                  class="calendar-btn confirm"
                   @click="confirmBooking(customData.bedId ,customData.start,customData.end, customData.guestId)"
                 >Confirm</button>
                 <button
+                  class="calendar-btn decline"
                   @click="DeclineBooking(customData.bedId ,customData.start, customData.guestId)"
                 >Decline</button>
                 <a href="#" @click="showUserDetails(customData.guestId)">More on {{customData.name}}</a>
@@ -245,6 +247,35 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
+.confirm-stay {
+  p {
+    margin-bottom: 5px;
+    font-family: $main-font-bold;
+  }
+}
+.calendar-btn {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-family: $main-font-bold;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
+
+.confirm {
+  background: rgb(96, 154, 230);
+  color: white;
+  letter-spacing: .5px;
+}
+
+.decline {
+  background: rgb(233, 89, 89);
+  color: white;
+  letter-spacing: .5px;
+}
 
 .list-header {
   display: flex;
