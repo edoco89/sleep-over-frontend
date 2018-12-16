@@ -2,7 +2,6 @@
   <section v-if="bed" class="bed-details">
     <div class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
-
       <div class="gallery-imgs">
         <!-- ONE IMG OR LESS -->
         <div v-if="bed.imgUrls.length < 2" class="one-img-display">
@@ -76,12 +75,7 @@
         <div :class="'booking-msg-container ' + bookedMsg">
           <b v-if="bedHost">Your request has been sent to {{bedHost.fullname}}!</b>
           <br>
-          <span v-if="askedBookDates">
-            {{askedBookDates.start.getMonth()+1}}/{{askedBookDates.start.getDate()}}/{{askedBookDates.start.getFullYear()}} -
-            {{askedBookDates.end.getMonth()+1}}/{{askedBookDates.end.getDate()}}/{{askedBookDates.end.getFullYear()}}
-            <br>
-            {{bed.location.address}}
-          </span>
+          <span v-if="askedBookDates"></span>
           <p>An answer will be sent shortly</p>
         </div>
         <div class="map-container">
@@ -104,8 +98,8 @@
         </div>
       </div>
     </div>
-
-    <div v-if="bed.reviews.length > 0" class="reviews">
+<!-- v-if="bed.reviews.length > 0" -->
+    <div  class="reviews">
       <b>Reviews:</b>
       <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">
@@ -634,9 +628,9 @@ export default {
 .map-container {
   width: 100%;
   height: 250px;
-  // border: 1px solid #222222;
   border: 1px solid lightgray;
   border-radius: 5px;
+  margin-top: 25px;
 }
 
 .booking-msg-container {

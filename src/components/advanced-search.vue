@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       filter: {},
-      place: {},
+      place: null,
       isShown: false
     };
   },

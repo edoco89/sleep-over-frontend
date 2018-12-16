@@ -10,13 +10,14 @@
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
           <span v-if="getUser">|</span>
           <router-link
+            class="my-profile"
             v-if="getUser"
             @click.native="isOpen = ''"
             exact
             :to="'/userProfile/' +getUser._id"
           >
             My Profile
-            <span v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
+            <span class="bounceIn" v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
           </router-link>
           <span v-if="getUser">|</span>
           <a v-if="getUser" @click="logout">Log-out</a>
@@ -26,9 +27,11 @@
           <span v-if="getUser">{{`Hello ${getUser.fullname}`}}</span>
           <a v-if="getUser" @click="openChatModal" class="nav-chat">
             <img src="@/assets/img/chat.png">
-            <span>{{(newMsgCount===0)? '': newMsgCount}}</span>
+            <span class="bounceIn" v-if="newMsgCount">{{(newMsgCount===0)? '': newMsgCount}}</span>
           </a>
-          <div class="el-icon-menu" @click="toggleMenu"></div>
+          <div class="el-icon-menu" @click="toggleMenu">
+            <span class="bounceIn" v-if="newBookRequestCount > 0">{{newBookRequestCount}}</span>
+          </div>
         </div>
       </section>
     </section>
@@ -128,7 +131,7 @@ a:hover {
   font-family: $main-font-bold;
   span:first-child {
     color: #222222;
-    padding: 5px;
+    padding: 3px;
   }
 }
 
@@ -169,6 +172,20 @@ h1 {
 }
 a {
   margin: 5px;
+}
+
+.my-profile {
+  position: relative;
+  span {
+    display: block;
+    position: absolute;
+    background: lightblue;
+    font-family: $main-font-bold;
+    font-size: 10px;
+    border-radius: 5px;
+    top: -11px;
+    right: -4px;
+  }
 }
 
 .menu-chat {
@@ -218,22 +235,35 @@ a {
       font-size: 30px;
       color: #222222;
       padding-top: 8px;
+      position: relative;
+      span {
+        position: absolute;
+        position: absolute;
+        background: lightblue;
+        font-family: $main-font-bold;
+        font-size: 12px;
+        padding: 3.5px;
+        border-radius: 5px;
+        top: -7.5px;
+        right: -12px;
+      }
     }
   }
 
   .nav-chat {
     position: relative;
-    height: 15px;
-    width: 30px;
+    height: 22px;
+    width: 33px;
     margin-bottom: 20px;
     margin-right: 10px;
     span {
+      color: #222222;
       display: block;
       position: absolute;
       background: lightblue;
       font-family: $main-font-bold;
       font-size: 12px;
-      padding: 0 3px;
+      padding: 1px 3px;
       border-radius: 5px;
       top: -8px;
       right: -8px;
@@ -277,6 +307,17 @@ a {
   }
   .open {
     transform: translateX(-200px);
+  }
+  .my-profile {
+    padding: 0;
+    span {
+      display: block;
+      top: -2px;
+      height: 20px;
+      width: 15px;
+      right: -10px;
+      text-align: center;
+    }
   }
 }
 </style>

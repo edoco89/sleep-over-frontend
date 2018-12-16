@@ -4,12 +4,21 @@
       <div
         v-for="msg in currChat.messages"
         :key="msg.timestamp"
-        :class="(msg.from === currUser._id )? 'my-msg':'his-msg'">
-        <p>{{msg.txt}}</p>
+        :class="(msg.from === currUser._id )? 'my-msg':'his-msg'"
+      >
+        <p :class="(msg.img)? 'book-approve':''">
+          {{msg.txt}}
+          <img v-if="msg.img" src="@/assets/img/key.png">
+        </p>
       </div>
     </section>
     <div class="msg-input">
-      <input @focus="$emit('clearNotification', currChat.usersId.find(id => currUser._id !== id), currChat._id)" @keypress="isEnterDown" type="text" v-model="currMsg.txt">
+      <input
+        @focus="$emit('clearNotification', currChat.usersId.find(id => currUser._id !== id), currChat._id)"
+        @keypress="isEnterDown"
+        type="text"
+        v-model="currMsg.txt"
+      >
       <button @click="sendMsg">SEND</button>
     </div>
   </section>
@@ -51,8 +60,8 @@ export default {
         timestamp: Date.now()
       };
     },
-    isEnterDown(ev){
-      if (ev.code === 'Enter') this.sendMsg()
+    isEnterDown(ev) {
+      if (ev.code === "Enter") this.sendMsg();
     }
   }
 };
@@ -73,9 +82,15 @@ export default {
     text-align: left;
     color: black;
     margin-left: 10px;
-    // margin-top: 2px;
+
+    img {
+      width: 50px;
+      margin-left: 15px;
+      padding: 5px;
+    }
   }
   .my-msg {
+    text-align: -webkit-right;
     p {
       background: lightgray;
       width: fit-content;
@@ -84,7 +99,6 @@ export default {
     }
   }
   .his-msg {
-    text-align: -webkit-right;
     p {
       background: lightblue;
       width: fit-content;
@@ -95,6 +109,12 @@ export default {
   }
   p:last-child {
     margin-bottom: 50px;
+  }
+  .book-approve {
+    font-family: $main-font-bold;
+    text-align: center;
+    font-size: 20px;
+    background: yellowgreen !important;
   }
 }
 

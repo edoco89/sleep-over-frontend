@@ -7,6 +7,7 @@
     "build": "vue-cli-service build --dest ../sleep-over-backend/public"
   },
   "dependencies": {
+    "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "buefy": "^0.7.1",
