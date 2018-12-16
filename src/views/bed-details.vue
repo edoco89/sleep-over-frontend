@@ -767,11 +767,13 @@ textarea {
 
 .review-container {
   border: 1px solid $border-color;
+  margin: 0 auto;
   margin-bottom: 10px;
   display: flex;
   text-align: left;
   padding: 5px;
-  max-width: 600px;
+  // max-width: 600px;
+  width: 100%;
 }
 
 .reviews {
