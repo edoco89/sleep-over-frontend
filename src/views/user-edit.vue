@@ -147,7 +147,10 @@ export default {
     biClicked() {
       this.user.gender = "bi";
     }
-  }
+  },
+  mounted() {
+    window.scrollTo(null, 0)
+  },
 };
 </script>
 

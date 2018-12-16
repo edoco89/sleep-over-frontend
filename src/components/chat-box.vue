@@ -5,7 +5,7 @@
         v-for="msg in currChat.messages"
         :key="msg.timestamp"
         :class="(msg.from === currUser._id )? 'my-msg':'his-msg'"
-      >
+        >
         <p :class="(msg.img)? 'book-approve':''">
           {{msg.txt}}
           <img v-if="msg.img" src="@/assets/img/key.png">
@@ -63,6 +63,10 @@ export default {
     isEnterDown(ev) {
       if (ev.code === "Enter") this.sendMsg();
     }
+  },
+  mounted() {
+    this.$emit('mounted')
+    //window.scrollTo(null, 0)
   }
 };
 </script>

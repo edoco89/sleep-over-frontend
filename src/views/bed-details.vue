@@ -492,6 +492,9 @@ export default {
         });
     }
   },
+  mounted() {
+    window.scrollTo(null, 0)
+  },
   destroyed() {
     this.$store.dispatch({ type: "clearCurrBed" });
   },

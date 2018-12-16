@@ -26,7 +26,6 @@ export default new Vuex.Store({
       chatModule.state.newMsg =  0
       bedModule.state.beds = []
       bedModule.state.currBed = null
-      bedModule.state.place = {}
       sessionStorage.clear()
     },
   },

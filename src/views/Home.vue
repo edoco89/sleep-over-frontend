@@ -623,7 +623,10 @@ export default {
       this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))});
       this.$router.push("/searchResult");
     }
-  }
+  },
+  mounted() {
+    window.scrollTo(null, 0)
+  },
 };
 </script>
 
