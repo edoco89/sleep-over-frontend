@@ -3,7 +3,12 @@
     <b-tab card title="Your Guest Card" active>
       <profile-details :user="user"></profile-details>
     </b-tab>
-    <b-tab card :title="(user.hostBeds.length === 0)? 'Become a Host':'Your Host Card'">
+    <b-tab
+      card
+      :class="(newBookRequestCount)? 'got-booking':''"
+      :title="(user.hostBeds.length === 0)? 'Become a Host':(newBookRequestCount)?  '🔵 Your Host Card': 'Your Host Card'"
+      @click="setBookRequest()"
+    >
       <manage-beds></manage-beds>
     </b-tab>
   </b-tabs>
@@ -17,6 +22,9 @@ export default {
   computed: {
     user() {
       return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
+    },
+    newBookRequestCount() {
+      return this.$store.getters.newBookRequestCount;
     }
   },
   components: {
