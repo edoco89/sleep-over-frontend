@@ -98,8 +98,8 @@
         </div>
       </div>
     </div>
-
-    <div v-if="bed.reviews.length > 0" class="reviews">
+<!-- v-if="bed.reviews.length > 0" -->
+    <div  class="reviews">
       <b>Reviews:</b>
       <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">

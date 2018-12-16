@@ -4,6 +4,11 @@
       Full Name
       <input type="text" v-model="user.fullname">
     </span>
+<span>
+      Catch Phrase
+      <input type="text" v-model="user.catchPhrase">
+    </span>
+
 
     <div class="checkbox-container">
       <span class="header-edit">interest</span>
