@@ -46,7 +46,7 @@ export default {
         start: null,
         end: null
       },
-      showModal: false
+      showModal: false,
     };
   },
   computed: {
@@ -66,6 +66,14 @@ export default {
   methods: {
     allowedDates(val) {
       return parseInt(val.split("-")[2], 10) % 2 === 0;
+    },
+    minDate(today){
+    var isTodayAvailable = this.checkToday(today)
+    if (isTodayAvailable) this.startDate = today
+    else this.minDate(today.getDate() + 1);
+    },
+    checkToday(currDate){
+      return this.unAvailable.every(date => new Date(date.start) > currDate || new Date(date.end) < currDate)
     }
   }
 };

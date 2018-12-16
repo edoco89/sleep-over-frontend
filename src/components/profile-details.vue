@@ -24,7 +24,7 @@
         <v-calendar :attributes="attr" is-expanded style="width: 100%">
           <div slot="your-sleepover" slot-scope="{ customData }">
             <div class="sleepover-details">
-              <b>You have a sleepOver</b>
+              <b>You have a sleepOver at {{customData.hostName}}</b>
               <a href="#" @click="showStayDetails(customData.bedId)">Go to Booking</a>
             </div>
           </div>

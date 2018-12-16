@@ -37,6 +37,9 @@ export default {
       this.showModal = false;
     }
   },
+  // destroyed() {
+  //   this.$store.dispatch({ type: "clearCurrBeds" });
+  // },
   components: {
     bedList,
     advancedSearch,
