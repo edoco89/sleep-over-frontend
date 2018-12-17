@@ -18,6 +18,14 @@
 display: block;    
 }
 
+.el-select{
+    margin: 0 !important;
+    .el-select__tags{
+        max-height: 25px !important;
+        overflow: hidden !important;
+    }
+}
+
 .danger-button {
         font-family: $main-font-bold;
         background-color: $button-danger-color;

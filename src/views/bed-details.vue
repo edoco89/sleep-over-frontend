@@ -49,9 +49,9 @@
             <br>
             {{bedHost.aboutMe}}
           </h4>
-          <h4 v-if="bed.languages.length > 0">
-            <b>Languages:</b>
-            {{bed.languages.join(', ')}}
+          <h4 v-if="user">
+            <b>Languges:</b>
+            <span v-if="idx" v-for="(idx, lang) in user.languages" :key="lang">{{" " +lang+ "," }}</span>
           </h4>
           <div>
             <bed-amenities :aments="bed.ameneties"></bed-amenities>
@@ -116,9 +116,7 @@
           <div class="bold user-box-review">{{review.givenByName}}</div>
           <star-rating :star-size="15" v-model="review.rating"></star-rating>
         </div>
-        <span>
-          {{review.txt}}
-        </span>
+        <span>{{review.txt}}</span>
       </div>
     </div>
 
@@ -397,7 +395,7 @@ export default {
   },
   mounted() {
     console.log(this.$refs.topfocus);
-    this.$refs.topfocus.scrollTo(0, 50)
+    this.$refs.topfocus.scrollTo(0, 50);
   },
   created() {
     const bedId = this.$route.params.bedId;
@@ -496,7 +494,7 @@ export default {
     }
   },
   mounted() {
-    window.scrollTo(null, 0)
+    window.scrollTo(null, 0);
   },
   destroyed() {
     this.$store.dispatch({ type: "clearCurrBed" });

@@ -55,6 +55,94 @@ export default {
           label: "Accessible"
         }
       ],
+      interests: [
+        {
+          value: "Sports",
+          label: "Sports"
+        },
+        {
+          value: "Food",
+          label: "Food"
+        },
+        {
+          value: "Bars",
+          label: "Bars"
+        },
+        {
+          value: "Chill",
+          label: "Chill"
+        },
+        {
+          value: "Books",
+          label: "Books"
+        },
+        {
+          value: "Travel and Hiking",
+          label: "Travel and Hiking"
+        },
+        {
+          value: "Kids",
+          label: "Kids"
+        },
+        {
+          value: "Musicals",
+          label: "Musicals"
+        },
+        {
+          value: "Rock",
+          label: "Rock"
+        },
+        {
+          value: "Javascript",
+          label: "Javascript"
+        }
+      ],
+      languages: [
+        {
+          value: "English",
+          label: "English"
+        },
+        {
+          value: "Hebrew",
+          label: "Hebrew"
+        },
+        {
+          value: "Swahili",
+          label: "Swahili"
+        },
+        {
+          value: "French",
+          label: "French"
+        },
+        {
+          value: "Spanish",
+          label: "Spanish"
+        },
+        {
+          value: "Romanian",
+          label: "Romanian"
+        },
+        {
+          value: "Chinese",
+          label: "Chinese"
+        },
+        {
+          value: "Japanese",
+          label: "Japanese"
+        },
+        {
+          value: "Thai",
+          label: "Thai"
+        },
+        {
+          value: "Portugese",
+          label: "Portugese"
+        },
+        {
+          value: "Russian",
+          label: "Russian"
+        }
+      ],
       value5: []
     };
   },
@@ -66,6 +154,5 @@ export default {
       }
     }
   },
-  computed: {}
 };
 </script>

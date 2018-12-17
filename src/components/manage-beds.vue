@@ -1,6 +1,6 @@
 <template>
   <section v-if="this.user" class="bed-manager">
-    <router-link class="first-bed" to="/bedEdit" v-if="user.hostBeds.length===0">
+    <router-link class="first-bed" to="/bedEdit" v-if="!user.hostBeds || user.hostBeds.length===0">
       <img src="@/assets/img/add-bed.png" title="Add Your First Bed">
       <h2>Add Your first Bed</h2>
     </router-link>
@@ -268,13 +268,13 @@ export default {
 .confirm {
   background: rgb(96, 154, 230);
   color: white;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
 .decline {
   background: rgb(233, 89, 89);
   color: white;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
 .list-header {

@@ -18,13 +18,18 @@
           Gender:
           <span>{{user.gender}}</span>
         </div>
-        <div v-if="user.languages.length > 0">
+        <div>
           Languges:
-          <span>{{user.languages.join(' ,')}}</span>
+          <span
+            v-if="idx"
+            v-for="(idx, lang) in user.languages"
+            :key="lang"
+          >{{lang + ", "}}</span>
         </div>
         <div>
           Guest Rating:
-          <span>4.8
+          <span>
+            4.8
             <img class="star-img" src="@/assets/img/star.png">
           </span>
         </div>
