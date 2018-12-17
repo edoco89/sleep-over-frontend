@@ -25,10 +25,6 @@ export default {
   data() {
     return { showModal: false };
   },
-  mounted() {
-    console.log(this.$refs.topSearch);
-    this.$refs.topSearch.scrollIntoView(true);
-  },
   computed: {
     beds() {
       return this.$store.getters.bedsToDisplay;
