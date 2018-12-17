@@ -42,9 +42,9 @@ export default {
       this.showModal = false;
     }
   },
-  // destroyed() {
-  //   this.$store.dispatch({ type: "clearCurrBeds" });
-  // },
+  mounted() {
+    window.scrollTo(null, 0)
+  },
   components: {
     bedList,
     advancedSearch,

@@ -24,7 +24,10 @@ export default {
     },
     newBookRequestCount() {
       return this.$store.getters.newBookRequestCount;
-    }
+    },
+  },
+    mounted() {
+      window.scrollTo(null, 0)
   },
   components: {
     profileDetails,

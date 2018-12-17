@@ -292,7 +292,7 @@ export default {
     };
   },
   created() {
-    this.place = this.$store.getters.getPlace;
+    this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
   methods: {
     goToMyLocation() {
