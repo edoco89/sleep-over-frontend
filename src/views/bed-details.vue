@@ -124,7 +124,7 @@
     <div :class="{'is-active' : showModal}" class="modal">
       <div @click="closeModal" class="modal-background"></div>
       <div class="modal-content-details">
-        <user-details class="host-details-modal" :user="bedHost" v-if="isDetalis"></user-details>
+        <user-details @closeDetAndChat="closeDetAndChat" class="host-details-modal" :user="bedHost" v-if="isDetalis"></user-details>
         <photo-carusel class="carousel-gallery" v-else :pics="bed.imgUrls"></photo-carusel>
       </div>
       <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
@@ -444,6 +444,11 @@ export default {
             hostId: bed.hostId
           });
         });
+    },
+    closeDetAndChat(){
+      this.openChat()
+      this.isDetalis = false;
+      this.showModal = false;
     },
     openChat() {
       const loggedInUser = JSON.parse(
