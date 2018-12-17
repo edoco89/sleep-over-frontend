@@ -22,6 +22,12 @@
           Languges:
           <span>{{user.languages.join(' ,')}}</span>
         </div>
+        <div>
+          Guest Rating:
+          <span>4.8
+            <img class="star-img" src="@/assets/img/star.png">
+          </span>
+        </div>
       </div>
     </section>
     <div class="more-details">
@@ -205,6 +211,13 @@ export default {
         opacity: 0.8;
       }
     }
+  }
+}
+
+.user-card {
+  .star-img {
+    width: 16px;
+    height: 16px;
   }
 }
 </style>;
