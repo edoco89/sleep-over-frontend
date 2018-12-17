@@ -41,7 +41,7 @@
           <v-calendar :attributes="attr[idx]" is-expanded style="width: 100%">
             <div slot="confirm-stay" slot-scope="{ customData }" class="confirm-stay">
               <div v-if="!customData.isConfirmed">
-                <p>{{customData.name}} Has requested to book this dates</p>
+                <p>{{customData.name}} has requested to book these dates</p>
                 <button
                   @click="confirmBooking(customData.bedId ,customData.start,customData.end, customData.guestId)"
                 >Confirm</button>

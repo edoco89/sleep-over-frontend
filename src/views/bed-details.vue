@@ -117,7 +117,6 @@
           <star-rating :star-size="15" v-model="review.rating"></star-rating>
         </div>
         <span>
-          <b>{{review.givenByName}}:</b>
           {{review.txt}}
         </span>
       </div>
