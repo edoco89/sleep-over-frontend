@@ -1,7 +1,8 @@
 <template>
   <section class="search-result-container">
     <div class="toggle-view el-icon-location-outline" @click="showMap" title="Map view"></div>
-    <advanced-search></advanced-search>
+    <span ></span>
+    <advanced-search ref="topSearch"></advanced-search>
     <div class="results-display">
       <bed-list :beds="beds"></bed-list>
     </div>
@@ -23,6 +24,10 @@ import resultMap from "@/components/bed-map.vue";
 export default {
   data() {
     return { showModal: false };
+  },
+  mounted() {
+    console.log(this.$refs.topSearch);
+    this.$refs.topSearch.scrollIntoView(true);
   },
   computed: {
     beds() {
@@ -78,5 +83,4 @@ export default {
   top: 3px;
   right: 3px;
 }
-
 </style>

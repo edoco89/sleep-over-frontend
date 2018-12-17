@@ -1,6 +1,6 @@
 <template>
   <section v-if="bed" class="bed-details">
-    <div class="img-gallery">
+    <div ref="topfocus" class="img-gallery">
       <img class="main-img" :src="bed.hostImg">
       <div class="gallery-imgs">
         <!-- ONE IMG OR LESS -->
@@ -98,8 +98,8 @@
         </div>
       </div>
     </div>
-<!-- v-if="bed.reviews.length > 0" -->
-    <div  class="reviews">
+    <!-- v-if="bed.reviews.length > 0" -->
+    <div class="reviews">
       <b>Reviews:</b>
       <a href="#" @click="addReviewOpen = !addReviewOpen;">Add Review</a>
       <div class="review-add" v-if="addReviewOpen">
@@ -395,6 +395,10 @@ export default {
       askedBookDates: null,
       showChatModal: false
     };
+  },
+  mounted() {
+    console.log(this.$refs.topfocus);
+    this.$refs.topfocus.scrollTo(0, 50)
   },
   created() {
     const bedId = this.$route.params.bedId;
