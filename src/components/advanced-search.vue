@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       filter: {},
-      place: {},
       isShown: false,
        telAviv: {
         address_components: [
@@ -177,17 +176,6 @@ export default {
   },
   created() {
     this.filter = { ...this.$store.getters.getFilter };
-    this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
-    if (!this.place.name){
-    this.place = JSON.parse(JSON.stringify(this.telAviv));
-      navigator.geolocation.getCurrentPosition(position => {
-        this.place.geometry.location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-      })
-    }
-    this.$store.dispatch({type: "setPlace", place: JSON.parse(JSON.stringify(this.place))});
   },
   methods: {
     toggleFilter() {
@@ -207,15 +195,14 @@ export default {
       this.$store.dispatch({ type: "setFilterByLocation", place });
     }
   },
-  mounted(){
-
+  computed: {
+    place() {
+      return JSON.parse(JSON.stringify(this.$store.getters.getPlace));
+    }
   },
   watch: {
     filter() {
       return this.$store.getters.getFilter;
-    },
-    place() {
-      return this.$store.getters.getPlace;
     },
     selectedDate() {
       return this.$store.getters.getSelectedDate;

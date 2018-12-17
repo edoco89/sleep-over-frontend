@@ -52,6 +52,7 @@ export default {
             number: this.userChatNewMsg[userId]
           });
           this.isShow = true;
+          this.scrollToEnd()
         });
     },
     closeModal() {
@@ -67,8 +68,6 @@ export default {
     },
     scrollToEnd(){
       const elMsgs = this.$refs.msgs;
-      window.msgs = elMsgs
-      console.log({elMsgs, 'elMsgs.scrollHeight': elMsgs.scrollHeight, 'elMsgs.clientHeight': elMsgs.clientHeight})
       elMsgs.scrollTop = elMsgs.scrollHeight - elMsgs.clientHeight;
     }
   },

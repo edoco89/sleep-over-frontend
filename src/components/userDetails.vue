@@ -5,7 +5,7 @@
       <div class="user-details">
         <h4>{{user.fullname}}</h4>
         <div class="chat-container">
-          <a>
+          <a @click="$emit('closeDetAndChat')">
             <img class="chat-btn" src="@/assets/img/chat.png">
           </a>
           <span class="secondary-header">{{'Chat with ' + user.fullname}}</span>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     user: Object,

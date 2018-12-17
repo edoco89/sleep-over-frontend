@@ -24,6 +24,9 @@ export default {
   data() {
     return { showModal: false };
   },
+  created(){
+    window.scrollTo(null, 0)
+  },
   computed: {
     beds() {
       return this.$store.getters.bedsToDisplay;

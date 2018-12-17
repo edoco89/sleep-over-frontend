@@ -11,6 +11,7 @@
     >
       <GmapMarker
         :key="index"
+        v-if="beds.length > 0"
         v-for="(bed, index) in beds"
         :position="{lat: bed.location.coords.coordinates[1], lng: bed.location.coords.coordinates[0]}"
         :clickable="true"
@@ -45,6 +46,7 @@
 
 <script>
 import photoCarusel from "@/components/photo-carousel.vue";
+import mapService from '@/services/map.service.js';
 
 export default {
   props: {
@@ -296,19 +298,27 @@ export default {
   },
   methods: {
     goToMyLocation() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
-        this.place.geometry.location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        this.$store.dispatch({
-          type: "setFilterByLocation",
-          place: this.place
-        })
-        .then(() => {
-          this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))});
-        })
+      const myPlace = {
+        geometry: {
+          location: {}
+        },
+        formatted_address: ''
+      }
+      navigator.geolocation.getCurrentPosition(async position => {
+        // this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
+        // if (!this.place.geometry) return;
+        myPlace.geometry.location.lat = position.coords.latitude;
+        myPlace.geometry.location.lng = position.coords.longitude;
+        const GEOCODING = await mapService.getAddress(myPlace.geometry.location.lat,myPlace.geometry.location.lng)
+        myPlace.formatted_address = GEOCODING.results[0].formatted_address;
+      this.$store.dispatch({
+        type: "setFilterByLocation",
+        place: JSON.parse(JSON.stringify(myPlace))
+      })
+      .then(() => {
+        this.place = JSON.parse(JSON.stringify(myPlace));
+        this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(myPlace)) });
+      })
       });
     },
     showDetails(bed, index) {
@@ -326,12 +336,17 @@ export default {
       else return "not-chosen";
     },
     currMapCenter() {
-      const place = this.$store.getters.getPlace;
-      const currMapCenter = {
-        lat: place.geometry.location.lat,
-        lng: place.geometry.location.lng
-      };
-      return currMapCenter;
+      const currMapCenter = {};
+        if (!this.place.geometry) {
+        navigator.geolocation.getCurrentPosition(position => {
+          currMapCenter.lat = position.coords.latitude;
+          currMapCenter.lng = position.coords.longitude;
+        });
+        } else {
+          currMapCenter.lat = this.place.geometry.location.lat;
+          currMapCenter.lng = this.place.geometry.location.lng;
+        }
+        return currMapCenter;
     }
   },
   components: {
