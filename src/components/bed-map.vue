@@ -28,7 +28,7 @@
       <div @click="closeDetails" class="el-icon-circle-close"></div>
       <router-link v-if="isChosen" :to="'/bed/' + chosenDetails._id" class="chosen-bed-container">
         <photo-carusel class="carousel-img" :pics="chosenDetails.imgUrls"></photo-carusel>
-        <div>
+        <div class="bed-desc">
           <b>{{chosenDetails.hostName+ "'s " + chosenDetails.type}}</b>
           <br>
           <p>{{chosenDetails.location.address}}</p>
@@ -39,6 +39,16 @@
             ({{parseInt(Math.random()*50 + 10)}})
           </span>
         </div>
+        <div class="host-preview">
+          <img
+            class="host-badge"
+            v-if="chosenDetails.isSuperHost"
+            src="@/assets/img/badge.png"
+            :title="chosenDetails.hostName + ' is a Super Host!'"
+          >
+          <img class="host-img" :src="chosenDetails.hostImg">
+          <div>"{{chosenDetails.catchPhrase}}"</div>
+        </div>
       </router-link>
     </section>
   </section>
@@ -46,7 +56,7 @@
 
 <script>
 import photoCarusel from "@/components/photo-carousel.vue";
-import mapService from '@/services/map.service.js';
+import mapService from "@/services/map.service.js";
 
 export default {
   props: {
@@ -302,21 +312,28 @@ export default {
         geometry: {
           location: {}
         },
-        formatted_address: ''
-      }
+        formatted_address: ""
+      };
       navigator.geolocation.getCurrentPosition(async position => {
         myPlace.geometry.location.lat = position.coords.latitude;
         myPlace.geometry.location.lng = position.coords.longitude;
-        const GEOCODING = await mapService.getAddress(myPlace.geometry.location.lat,myPlace.geometry.location.lng)
+        const GEOCODING = await mapService.getAddress(
+          myPlace.geometry.location.lat,
+          myPlace.geometry.location.lng
+        );
         myPlace.formatted_address = GEOCODING.results[0].formatted_address;
-        this.$store.dispatch({
-        type: "setFilterByLocation",
-        place: JSON.parse(JSON.stringify(myPlace))
-      })
-      .then(() => {
-        this.place = JSON.parse(JSON.stringify(myPlace));
-        this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(myPlace)) });
-      })
+        this.$store
+          .dispatch({
+            type: "setFilterByLocation",
+            place: JSON.parse(JSON.stringify(myPlace))
+          })
+          .then(() => {
+            this.place = JSON.parse(JSON.stringify(myPlace));
+            this.$store.dispatch({
+              type: "setPlace",
+              place: JSON.parse(JSON.stringify(myPlace))
+            });
+          });
       });
     },
     showDetails(bed, index) {
@@ -335,16 +352,16 @@ export default {
     },
     currMapCenter() {
       const currMapCenter = {};
-        if (!this.place.geometry) {
+      if (!this.place.geometry) {
         navigator.geolocation.getCurrentPosition(position => {
           currMapCenter.lat = position.coords.latitude;
           currMapCenter.lng = position.coords.longitude;
         });
-        } else {
-          currMapCenter.lat = this.place.geometry.location.lat;
-          currMapCenter.lng = this.place.geometry.location.lng;
-        }
-        return currMapCenter;
+      } else {
+        currMapCenter.lat = this.place.geometry.location.lat;
+        currMapCenter.lng = this.place.geometry.location.lng;
+      }
+      return currMapCenter;
     }
   },
   components: {
@@ -452,6 +469,38 @@ export default {
     }
   }
 }
+
+.host-preview {
+  display: flex;
+  height: 50px;
+  width: 40%;
+  margin-right: 25px;
+  div {
+    font-size: 12px;
+    font-family: $main-font-light;
+    padding-left: 10px;
+    padding-top: 15px;
+    height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  img {
+    margin-top: 15px;
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 50%;
+  }
+  .host-badge {
+    border-radius: 0;
+    position: absolute;
+    top: 0px;
+    left: -3px;
+    width: 25px;
+    height: 45px;
+  }
+}
 .el-icon-circle-close {
   position: absolute;
   top: 0;
@@ -468,6 +517,44 @@ export default {
 @media (max-width: 600px) {
   .map-container {
     width: 80%;
+    .chosen {
+      width: 80%;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .host-preview {
+    display: none;
+  }
+}
+@media (min-width: 1000px) {
+  .chosen-bed-container {
+    .bed-desc {
+      margin-right: 25px;
+    }
+  }
+  .host-preview {
+    div {
+      font-size: 15px;
+    }
+  }
+}
+@media (min-width: 1100px) {
+  .chosen-bed-container {
+    .bed-desc {
+      margin-right: 65px;
+      width: 30%;
+    }
+  }
+  .host-preview {
+    width: 35%;
+    div {
+      font-size: 17px;
+    }
+    img{
+      width: 85px;
+      height: 85px;
+    }
   }
 }
 </style>
