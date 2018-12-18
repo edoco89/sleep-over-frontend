@@ -58,6 +58,7 @@ export default {
       this.isShow = false;
     },
     clearNotification(userId, chatId) {
+      this.scrollToEnd();
       this.$socket.emit("setNewMsgPerChatL", {
         chatId,
         userId,

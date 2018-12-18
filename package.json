@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest ../sleep-over-backend/public"
+    "build": "vue-cli-service build --dest ../backend/public"
   },
   "dependencies": {
     "animate.css": "^3.7.0",
