@@ -72,8 +72,8 @@ export default {
         },
         setFilterByLocation(state, { place }) {
             if (!place) {
-                state.filter.byLocation.lat = null;
-                state.filter.byLocation.lng = null;
+                state.filter.byLocation.lat = 0;
+                state.filter.byLocation.lng = 0;
             } else {
             state.filter.byLocation.lat = place.geometry.location.lat;
             state.filter.byLocation.lng = place.geometry.location.lng;

@@ -13,7 +13,8 @@
         :key="index"
         v-if="beds.length > 0"
         v-for="(bed, index) in beds"
-        :position="{lat: bed.location.coords.coordinates[1], lng: bed.location.coords.coordinates[0]}"
+        :position="{lat: (bed.location.coords.coordinates[1]) ? bed.location.coords.coordinates[1] : 0,
+         lng: (bed.location.coords.coordinates[0]) ? bed.location.coords.coordinates[0] : 0}"
         :clickable="true"
         :icon="{ url : require('@/assets/img/map-marker.png')}"
         :draggable="false"
@@ -288,13 +289,9 @@ export default {
           }
         ]
       },
-      place: {},
       isChosen: false,
       chosenDetails: null
     };
-  },
-  created() {
-    this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
   },
   methods: {
     goToMyLocation() {
@@ -314,7 +311,6 @@ export default {
         place: JSON.parse(JSON.stringify(myPlace))
       })
       .then(() => {
-        this.place = JSON.parse(JSON.stringify(myPlace));
         this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(myPlace)) });
       })
       });
@@ -322,7 +318,6 @@ export default {
     showDetails(bed, index) {
       this.isChosen = true;
       this.chosenDetails = bed;
-      console.log("bed!!", this.chosenDetails);
     },
     closeDetails() {
       this.isChosen = false;
@@ -345,6 +340,9 @@ export default {
           currMapCenter.lng = this.place.geometry.location.lng;
         }
         return currMapCenter;
+    },
+    place(){
+      return JSON.parse(JSON.stringify(this.$store.getters.getPlace));
     }
   },
   components: {
