@@ -47,7 +47,7 @@
 
 <script>
 import photoCarusel from "@/components/photo-carousel.vue";
-import mapService from '@/services/map.service.js';
+import mapService from "@/services/map.service.js";
 
 export default {
   props: {
@@ -289,6 +289,7 @@ export default {
           }
         ]
       },
+      currMapCenter: { lat: 31.109333, lng: 33.855499 },
       isChosen: false,
       chosenDetails: null
     };
@@ -299,20 +300,27 @@ export default {
         geometry: {
           location: {}
         },
-        formatted_address: ''
-      }
+        formatted_address: ""
+      };
       navigator.geolocation.getCurrentPosition(async position => {
         myPlace.geometry.location.lat = position.coords.latitude;
         myPlace.geometry.location.lng = position.coords.longitude;
-        const GEOCODING = await mapService.getAddress(myPlace.geometry.location.lat,myPlace.geometry.location.lng)
+        const GEOCODING = await mapService.getAddress(
+          myPlace.geometry.location.lat,
+          myPlace.geometry.location.lng
+        );
         myPlace.formatted_address = GEOCODING.results[0].formatted_address;
-        this.$store.dispatch({
-        type: "setFilterByLocation",
-        place: JSON.parse(JSON.stringify(myPlace))
-      })
-      .then(() => {
-        this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(myPlace)) });
-      })
+        this.$store
+          .dispatch({
+            type: "setFilterByLocation",
+            place: JSON.parse(JSON.stringify(myPlace))
+          })
+          .then(() => {
+            this.$store.dispatch({
+              type: "setPlace",
+              place: JSON.parse(JSON.stringify(myPlace))
+            });
+          });
       });
     },
     showDetails(bed, index) {
@@ -328,21 +336,27 @@ export default {
       if (this.isChosen) return "chosen";
       else return "not-chosen";
     },
-    currMapCenter() {
-      const currMapCenter = {};
-        if (!this.place.geometry) {
-        navigator.geolocation.getCurrentPosition(position => {
-          currMapCenter.lat = position.coords.latitude;
-          currMapCenter.lng = position.coords.longitude;
-        });
+    place() {
+      return JSON.parse(JSON.stringify(this.$store.getters.getPlace));
+    }
+  },
+  watch: {
+    place: {
+      immediate: true,
+      handler(place) {
+        const currMapCenter = {};
+        if (!place.geometry) {
+          navigator.geolocation.getCurrentPosition(position => {
+            currMapCenter.lat = position.coords.latitude;
+            currMapCenter.lng = position.coords.longitude;
+            this.currMapCenter = currMapCenter;
+          });
         } else {
           currMapCenter.lat = this.place.geometry.location.lat;
           currMapCenter.lng = this.place.geometry.location.lng;
+          this.currMapCenter = currMapCenter;
         }
-        return currMapCenter;
-    },
-    place(){
-      return JSON.parse(JSON.stringify(this.$store.getters.getPlace));
+      }
     }
   },
   components: {
