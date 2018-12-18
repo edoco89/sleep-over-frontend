@@ -117,6 +117,10 @@ export default {
   padding: auto;
   margin-top: 10px;
   border-bottom: 1px solid gray;
+  &:hover{
+    opacity: .8;
+    cursor: pointer;
+  }
   img {
     height: 60px;
     width: 60px;
