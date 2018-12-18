@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     openChat(userId) {
+      this.isShow = true;
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -51,7 +52,6 @@ export default {
             userId,
             number: this.userChatNewMsg[userId]
           });
-          this.isShow = true;
           this.scrollToEnd()
         });
     },
@@ -60,6 +60,7 @@ export default {
       this.isShow = false;
     },
     clearNotification(userId, chatId) {
+      this.scrollToEnd();
       this.$socket.emit("setNewMsgPerChatL", {
         chatId,
         userId,
