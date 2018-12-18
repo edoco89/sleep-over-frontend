@@ -6,14 +6,10 @@ const BASE_URL = (process.env.NODE_ENV !== 'development')
     : '//localhost:3000/api/user';
 
 
-//TAKE CARE OF ADD-UPDATE
-function saveUser(user, userId) {
-    if (user._id) return axios.put(`${BASE_URL}/${user._id}`, { user })
-        .then(res => { return res.data })
-    else {
-        const newUser = _createUser(user, userId)
-        return axios.post(`${BASE_URL}`, newUser).then(res => res.data)
-    }
+// UPDATE
+function saveUser(user) {
+    return axios.put(`${BASE_URL}/${user._id}`, { user })
+        .then(res => res.data)
 }
 
 //CHECK'S LOGIN

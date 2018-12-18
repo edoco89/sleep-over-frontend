@@ -29,18 +29,18 @@ export default {
         checkLogin({ commit, dispatch }, { user }) {
             return userService.getUserLoggedIn(user.email, user.password)
                 .then(loggeduser => {
-                    if(!loggeduser) return
+                    if (!loggeduser) return
                     commit({ type: 'setUser', loggeduser })
-                    dispatch({type: "getChatsById",userId: loggeduser._id});
+                    dispatch({ type: "getChatsById", userId: loggeduser._id });
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)
                 })
         },
-        addUser({ commit }, { user }) {
+        addUser({ commit, dispatch }, { user }) {
             return userService.addUser(user)
                 .then(loggeduser => {
-                    if(!loggeduser) return
+                    if (!loggeduser) return
                     commit({ type: 'setUser', loggeduser })
-                    dispatch({type: "getChatsById",userId: loggeduser._id});
+                    dispatch({ type: "getChatsById", userId: loggeduser._id });
                     socketEmitter.$socket.emit('loggedIn', loggeduser._id)
                 })
         },
@@ -50,11 +50,10 @@ export default {
                 .then(user => {
                     return user
                 })
-            // .then(user => user)
         },
         //TO BE CONTINUED
         saveUser({ commit }, { user }) {
-            userService.saveUser(user, user._id)
+            userService.saveUser(user)
                 .then(loggeduser => commit({ type: 'setUser', loggeduser }))
         },
         addUserBed({ commit }, { savedBed }) {
@@ -87,7 +86,7 @@ export default {
             if (!getters.loggedInUser) return
             socketEmitter.$socket.emit('loggedIn', getters.loggedInUser._id)
         },
-        SOCKET_getBookRequest({commit}, {hostBeds}){
+        SOCKET_getBookRequest({ commit }, { hostBeds }) {
             commit({ type: 'setUserHostBeds', hostBeds })
         },
         SOCKET_setNewBookRequest({ commit }, { number }) {

@@ -1,6 +1,6 @@
 <template>
   <section v-if="user" class="editor-container">
-    <form class="details-input">
+    <form @submit="saveUser" class="details-input">
       <h3>Edit your profile:</h3>
       <div>
         <b>Full Name</b>
@@ -74,10 +74,11 @@
           <button type="submit">Add Image</button>
         </form>
       </div>
-      <button @click="saveUser" class="save-btn">Save Changes</button>
+      <button class="save-btn">Save Changes</button>
     </form>
     <section class="profile-pic">
-      <img :src="user.imgUrl">
+      <img class="loader-pic" v-if="isLoading" src="@/assets/img/loader.gif">
+      <img v-else :src="user.imgUrl">
     </section>
   </section>
 </template>
@@ -87,34 +88,32 @@ import cloudinaryService from "@/services/cloudinary-service.js";
 import selectMenu from "@/components/select-menu.vue";
 
 export default {
-  computed: {
-    user() {
-      return JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
-    }
-  },
   data() {
     return {
-      bed: {
-        _id: 67
-      }
+      user: null,
+      isLoading: false
     };
+  },
+  created() {
+    this.user = JSON.parse(JSON.stringify(this.$store.getters.loggedInUser));
   },
   methods: {
     setLanguages(lang) {
       lang.forEach(setLang => (this.user.languages[setLang] = true));
-      console.log("lang", this.user.languages);
     },
     setInterests(int) {
       int.forEach(setInt => (this.user.interests[setInt] = true));
     },
     saveImg(ev) {
       ev.preventDefault();
+      this.isLoading = true;
       cloudinaryService.uploadImg(ev.target, ev).then(img => {
-        delete this.user.imgUrl;
+        this.isLoading = false;
         this.user.imgUrl = img.url;
       });
     },
     saveUser() {
+      delete this.user.hostBeds;
       this.$store.dispatch({ type: "saveUser", user: this.user }).then(res => {
         this.$router.push(`/userProfile/${this.user._id}`);
       });
@@ -157,6 +156,13 @@ export default {
     height: 300px;
     object-fit: cover;
     object-position: top;
+  }
+  .loader-pic {
+    object-fit: contain;
+    width: 30%;
+    height: 50%;
+    margin-top: 20%;
+    margin-left: 30%;
   }
 }
 
@@ -257,6 +263,13 @@ export default {
       width: 100%;
       height: 100%;
     }
+    .loader-pic {
+      object-fit: contain;
+      width: 30%;
+      height: 70%;
+      margin-top: 50%;
+      margin-left: 30%;
+    }
   }
 
   .details-input {
@@ -309,6 +322,11 @@ export default {
 
   .select-menu {
     width: 200px;
+  }
+  .profile-pic {
+    .loader-pic {
+      margin-top: 30%;
+    }
   }
 }
 </style>
