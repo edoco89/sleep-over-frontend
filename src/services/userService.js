@@ -59,7 +59,7 @@ function removeUser(userId) {
 }
 
 function logout() {
-    axios.delete(`${BASE_URL}/logout`)
+    axios.get(`${BASE_URL}/logout`)
 }
 
 export default {
