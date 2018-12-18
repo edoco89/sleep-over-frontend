@@ -58,7 +58,7 @@
         <div :class="'catg-hover ' + catg4" @mouseover="catg4 = 'show-catg'" @mouseout="catg4 = ''">
           <b>London</b>
         </div>
-        <img src="@/assets/img/london.jpg" alt="London">
+        <img src="@/assets/img/london.png" alt="London">
       </div>
     </div>
 
