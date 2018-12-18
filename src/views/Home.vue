@@ -15,7 +15,11 @@
       </div>
     </div>
     <div class="search-bar">
-      <GmapAutocomplete placeholder="Search for a bed here..." @place_changed="setPlace" required="place"></GmapAutocomplete>
+      <GmapAutocomplete
+        placeholder="Search for a bed here..."
+        @place_changed="setPlace"
+        required="place"
+      ></GmapAutocomplete>
       <router-link
         class="homepage-search"
         tag="button"
@@ -95,13 +99,13 @@
         </div>
       </div>
     </div>
-    <!-- </img> -->
   </section>
 </template>
 
 
 <script>
-// @ is an alias to /src
+import mapService from "@/services/map.service.js";
+
 export default {
   data() {
     return {
@@ -595,20 +599,16 @@ export default {
         utc_offset: 60,
         html_attributions: []
       }
-    }
+    };
   },
   methods: {
     setFilterByLocation() {
-        if (!this.place) {
-      this.place = JSON.parse(JSON.stringify(this.telAviv));
-      navigator.geolocation.getCurrentPosition(position => {
-        this.place.geometry.location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-      })
-    }
-    this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))
+      if (!this.place) {
+        return this.$router.push('/');
+      }
+      this.$store.dispatch({
+        type: "setPlace",
+        place: JSON.parse(JSON.stringify(this.place))
       });
     },
     setPlace(place) {
@@ -620,13 +620,16 @@ export default {
     },
     selectedPlaces(place) {
       this.place = JSON.parse(JSON.stringify(place));
-      this.$store.dispatch({type: "setPlace",place: JSON.parse(JSON.stringify(this.place))});
+      this.$store.dispatch({
+        type: "setPlace",
+        place: JSON.parse(JSON.stringify(this.place))
+      });
       this.$router.push("/searchResult");
     }
   },
   mounted() {
-    window.scrollTo(null, 0)
-  },
+    window.scrollTo(null, 0);
+  }
 };
 </script>
 

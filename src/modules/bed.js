@@ -68,11 +68,16 @@ export default {
             })
         },
         setPlace(state, { place }) {
-            state.place = place;
+            !place?  state.place = {} : state.place = place;
         },
         setFilterByLocation(state, { place }) {
+            if (!place) {
+                state.filter.byLocation.lat = null;
+                state.filter.byLocation.lng = null;
+            } else {
             state.filter.byLocation.lat = place.geometry.location.lat;
             state.filter.byLocation.lng = place.geometry.location.lng;
+            }
         },
         setFilterByDates(state, { selectedDate }) {
             state.filter.selectedDate.start = selectedDate.start.getTime()

@@ -305,13 +305,11 @@ export default {
         formatted_address: ''
       }
       navigator.geolocation.getCurrentPosition(async position => {
-        // this.place = JSON.parse(JSON.stringify(this.$store.getters.getPlace));
-        // if (!this.place.geometry) return;
         myPlace.geometry.location.lat = position.coords.latitude;
         myPlace.geometry.location.lng = position.coords.longitude;
         const GEOCODING = await mapService.getAddress(myPlace.geometry.location.lat,myPlace.geometry.location.lng)
         myPlace.formatted_address = GEOCODING.results[0].formatted_address;
-      this.$store.dispatch({
+        this.$store.dispatch({
         type: "setFilterByLocation",
         place: JSON.parse(JSON.stringify(myPlace))
       })
