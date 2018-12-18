@@ -10,8 +10,13 @@
           class="user-preview"
         >
           <img :src="user.imgUrl">
-          {{user.fullname}}
-          {{(userChatNewMsg[user._id]===0)? '': userChatNewMsg[user._id]}}
+          <div class="user-name">
+            {{user.fullname}}
+            <span
+              v-if="userChatNewMsg[user._id]>0"
+              class="new-msg"
+            >{{userChatNewMsg[user._id]}}</span>
+          </div>
         </li>
       </ul>
       <chat-box @clearNotification="clearNotification" v-if="isShow"></chat-box>
@@ -111,12 +116,31 @@ export default {
   padding: auto;
   margin-top: 10px;
   border-bottom: 1px solid gray;
+  &:hover{
+    opacity: .8;
+    cursor: pointer;
+  }
   img {
     height: 60px;
     width: 60px;
     border-radius: 50%;
     object-fit: cover;
     object-position: top;
+  }
+}
+
+.user-name {
+  position: relative;
+  .new-msg {
+    position: absolute;
+    top: -8px;
+    font-family: $main-font-bold;
+    right: -10px;
+    background: red;
+    color: white;
+    padding: 0 5px;
+    font-size: 12px;
+    border-radius: 10px;
   }
 }
 

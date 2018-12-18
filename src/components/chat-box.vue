@@ -9,6 +9,8 @@
         <p :class="(msg.img)? 'book-approve':''">
           {{msg.txt}}
           <img v-if="msg.img" src="@/assets/img/key.png">
+          <br>
+          <span class="msg-time" v-if="msg.timestamp">{{msg.timestamp | relativeTime }}</span>
         </p>
       </div>
     </section>
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
@@ -32,9 +35,14 @@ export default {
         from: "",
         txt: "",
         isRead: false,
-        timestamp: Date.now()
+        timestamp: new Date()
       }
     };
+  },
+  filters: {
+    relativeTime(timeStamp) {
+      return moment(timeStamp).from();
+    }
   },
   computed: {
     currChat() {
@@ -87,20 +95,12 @@ export default {
     height: 100%;
     overflow: scroll;
     p {
+      position: relative;
       margin: 0 10px;
       text-align: left;
       color: black;
       margin-top: 10px;
-    }
-    div {
-      &:last-child {
-        margin-bottom: 50px;
-      }
-      img {
-        width: 85px;
-        margin-left: 15px;
-        padding: 5px;
-      }
+      min-width: 100px;
     }
     .my-msg {
       text-align: -webkit-right;
@@ -121,13 +121,35 @@ export default {
       }
     }
 
+    .msg-time {
+      font-family: $main-font-light;
+      font-size: 10px;
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+    }
+
     .book-approve {
       font-family: $main-font-bold;
       text-align: center;
       font-size: 18px;
       background: yellowgreen !important;
     }
+    div {
+      &:last-child {
+        margin-bottom: 50px;
+      }
+      p {
+        padding-bottom: 40px;
+      }
+      img {
+        width: 85px;
+        margin-left: 15px;
+        padding: 5px;
+      }
+    }
   }
+
   .msg-input {
     width: 100%;
     border-top: 2px solid lightgray;
@@ -148,6 +170,13 @@ export default {
   }
 }
 
+.chat {
+  div {
+    p {
+      padding-bottom: 20px !important ;
+    }
+  }
+}
 @media (min-width: 700px) {
   .chat-container {
     .chat {
