@@ -1,7 +1,7 @@
 <template>
   <div v-if="currUser && userChats" :class="{'is-active' : showChatModal}" class="modal">
     <div class="modal-background" @click="closeModal"></div>
-    <div class="modal-content" ref="msgs">
+    <div class="modal-content">
       <ul class="user-list">
         <li
           v-for="user in userChats"
@@ -14,7 +14,7 @@
           {{(userChatNewMsg[user._id]===0)? '': userChatNewMsg[user._id]}}
         </li>
       </ul>
-      <chat-box @clearNotification="clearNotification" v-if="isShow" @mounted="scrollToEnd"></chat-box>
+      <chat-box @clearNotification="clearNotification" v-if="isShow"></chat-box>
     </div>
     <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
   </div>
@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     openChat(userId) {
+      this.isShow = true;
       this.$store
         .dispatch({
           type: "getChatByIds",
@@ -50,8 +51,6 @@ export default {
             userId,
             number: this.userChatNewMsg[userId]
           });
-          this.isShow = true;
-          this.scrollToEnd();
         });
     },
     closeModal() {
@@ -64,10 +63,6 @@ export default {
         userId,
         number: this.userChatNewMsg[userId]
       });
-    },
-    scrollToEnd() {
-      const elMsgs = this.$refs.msgs;
-      elMsgs.scrollTop = elMsgs.scrollHeight - elMsgs.clientHeight;
     }
   },
   computed: {

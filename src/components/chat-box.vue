@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     scrollToEnd() {
-      console.log('this.currChat.messages.length', this.currChat.messages.length)
       const elMsgs = this.$refs.chat;
       elMsgs.scrollTop = elMsgs.scrollHeight - elMsgs.clientHeight;
     },
@@ -70,15 +69,9 @@ export default {
       if (ev.code === "Enter") this.sendMsg();
     }
   },
-  // mounted() {
-  //   this.scrollToEnd();
-  //   // this.$emit("mounted");
-  //   //window.scrollTo(null, 0)
-  // },
   watch: {
-    'currChat.messages.length'() {
-      console.log('length changed');
-      this.$nextTick().then(() => this.scrollToEnd())
+    "currChat.messages.length"() {
+      this.$nextTick().then(() => this.scrollToEnd());
     }
   }
 };
