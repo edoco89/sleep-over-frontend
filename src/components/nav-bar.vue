@@ -79,7 +79,6 @@ export default {
       });
     },
     openChatModal() {
-      this.$store.dispatch({ type: "getChatsById", userId: this.getUser._id });
       this.$store.dispatch({ type: "cleanCurrentChat" });
       this.showChatModal = true;
     },

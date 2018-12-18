@@ -63,7 +63,6 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
-      this.scrollToEnd();
     },
     isEnterDown(ev) {
       if (ev.code === "Enter") this.sendMsg();
