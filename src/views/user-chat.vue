@@ -14,8 +14,7 @@
           {{(userChatNewMsg[user._id]===0)? '': userChatNewMsg[user._id]}}
         </li>
       </ul>
-      <chat-box @clearNotification="clearNotification" v-if="isShow"
-        @mounted="scrollToEnd"></chat-box>
+      <chat-box @clearNotification="clearNotification" v-if="isShow" @mounted="scrollToEnd"></chat-box>
     </div>
     <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
   </div>
@@ -52,7 +51,7 @@ export default {
             number: this.userChatNewMsg[userId]
           });
           this.isShow = true;
-          this.scrollToEnd()
+          this.scrollToEnd();
         });
     },
     closeModal() {
@@ -66,7 +65,7 @@ export default {
         number: this.userChatNewMsg[userId]
       });
     },
-    scrollToEnd(){
+    scrollToEnd() {
       const elMsgs = this.$refs.msgs;
       elMsgs.scrollTop = elMsgs.scrollHeight - elMsgs.clientHeight;
     }
@@ -93,58 +92,51 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_vars.scss";
-
-.user-list {
-  text-align: left;
-  background: lightblue;
-  width: 25%;
-  height: 69.7%;
-  margin: 0;
-  position: fixed;
-  overflow: scroll;
-  overflow-x: hidden;
-}
 .modal-content {
+  height: 100%;
   display: flex;
   flex-direction: row;
-  width: 90%;
-  height: 70%;
+  justify-content: space-between;
+}
+.user-list {
+  margin: 0;
+  text-align: left;
+  background: lightblue;
+  width: 30%;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 100%;
 }
 .user-preview {
-  margin: 10px;
-  z-index: 150;
-  width: 100%;
-  height: fit-content;
-  padding-bottom: 5px;
   display: flex;
-  justify-content: left;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
   font-family: $main-font-bold;
+  align-items: center;
+  padding: auto;
+  margin-top: 10px;
   border-bottom: 1px solid gray;
   img {
-    margin-right: 10px;
-    width: 85px;
-    height: 85px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
     object-fit: cover;
     object-position: top;
-    border-radius: 50%;
-  }
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
   }
 }
 
-@media (max-width: 700px) {
+@media (min-width: 700px) {
+  .modal-content {
+    width: 80%;
+  }
+  .user-list {
+    padding: 5px 15px;
+  }
   .user-preview {
-    flex-direction: column;
-    padding: 15px;
-    margin: auto;
-    text-align: center;
+    flex-direction: row;
+    padding-bottom: 5px;
     img {
-      margin: auto;
-      width: 80%;
-      // height: 80px;
+      margin-right: 10px;
     }
   }
 }

@@ -117,5 +117,8 @@ function _createUser(user) {
         reviews: [],
         chatHistory: [],
         stays: [],
+        newMsg: 0,
+        newBookRequest: 0
+
     }
 }

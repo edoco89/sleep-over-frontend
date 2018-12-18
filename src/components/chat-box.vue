@@ -1,11 +1,11 @@
 <template>
-  <section class="chat-frame-container">
-    <section class="chat-container">
+  <section class="chat-container">
+    <section class="chat" ref="chat">
       <div
         v-for="msg in currChat.messages"
         :key="msg.timestamp"
         :class="(msg.from === currUser._id )? 'my-msg':'his-msg'"
-        >
+      >
         <p :class="(msg.img)? 'book-approve':''">
           {{msg.txt}}
           <img v-if="msg.img" src="@/assets/img/key.png">
@@ -45,6 +45,11 @@ export default {
     }
   },
   methods: {
+    scrollToEnd() {
+      console.log('this.currChat.messages.length', this.currChat.messages.length)
+      const elMsgs = this.$refs.chat;
+      elMsgs.scrollTop = elMsgs.scrollHeight - elMsgs.clientHeight;
+    },
     sendMsg() {
       this.currMsg.timestamp = Date.now();
       this.currMsg.from = this.currUser._id;
@@ -59,14 +64,22 @@ export default {
         isRead: false,
         timestamp: Date.now()
       };
+      this.scrollToEnd();
     },
     isEnterDown(ev) {
       if (ev.code === "Enter") this.sendMsg();
     }
   },
-  mounted() {
-    this.$emit('mounted')
-    //window.scrollTo(null, 0)
+  // mounted() {
+  //   this.scrollToEnd();
+  //   // this.$emit("mounted");
+  //   //window.scrollTo(null, 0)
+  // },
+  watch: {
+    'currChat.messages.length'() {
+      console.log('length changed');
+      this.$nextTick().then(() => this.scrollToEnd())
+    }
   }
 };
 </script>
@@ -75,78 +88,81 @@ export default {
 @import "@/assets/scss/_vars.scss";
 
 .chat-container {
-  // background: gray;
-  // position: relative;
-  position: absolute;
-  left: 2px;
-  width: 100%;
   height: 100%;
-  font-family: $main-font-light;
-  p {
-    text-align: left;
-    color: black;
-    margin-left: 10px;
+  width: 70%;
+  position: relative;
+  .chat {
+    height: 100%;
+    overflow: scroll;
+    p {
+      margin: 0 10px;
+      text-align: left;
+      color: black;
+      margin-top: 10px;
+    }
+    div {
+      &:last-child {
+        margin-bottom: 50px;
+      }
+      img {
+        width: 85px;
+        margin-left: 15px;
+        padding: 5px;
+      }
+    }
+    .my-msg {
+      text-align: -webkit-right;
+      p {
+        background: lightgray;
+        width: fit-content;
+        padding: 12px;
+        border-radius: 8px;
+      }
+    }
+    .his-msg {
+      p {
+        background: lightblue;
+        width: fit-content;
+        margin-right: 10px;
+        padding: 12px;
+        border-radius: 8px;
+      }
+    }
 
-    img {
-      width: 50px;
-      margin-left: 15px;
-      padding: 5px;
+    .book-approve {
+      font-family: $main-font-bold;
+      text-align: center;
+      font-size: 18px;
+      background: yellowgreen !important;
     }
   }
-  .my-msg {
-    text-align: -webkit-right;
-    p {
-      background: lightgray;
-      width: fit-content;
-      padding: 12px;
-      border-radius: 8px;
+  .msg-input {
+    width: 100%;
+    border-top: 2px solid lightgray;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    input {
+      width: 80%;
     }
-  }
-  .his-msg {
-    p {
-      background: lightblue;
-      width: fit-content;
-      margin-right: 10px;
-      padding: 12px;
-      border-radius: 8px;
+    button {
+      width: 20%;
+      font-family: $main-font-bold;
+      background: brown;
+      color: white;
+      border: none;
     }
-  }
-  p:last-child {
-    margin-bottom: 50px;
-  }
-  .book-approve {
-    font-family: $main-font-bold;
-    text-align: center;
-    font-size: 20px;
-    background: yellowgreen !important;
   }
 }
 
-.chat-frame-container {
-  width: 70%;
-  margin-top: 20px;
-  position: relative;
-  right: -28%;
-  // z-index: 1;
-  .msg-input {
-    position: absolute;
-    display: flex;
-    bottom: 35px;
-    width: inherit;
-    overflow: hidden;
-    z-index: 1;
-    button {
-      position: fixed;
-      border-radius: 5px;
-      border: 1px solid grey;
-      margin-left: 3px;
-      padding: 5px;
-    }
-    input {
-      position: fixed;
-      width: 62%;
-      padding: 5px;
-      margin-left: 58px;
+@media (min-width: 700px) {
+  .chat-container {
+    .chat {
+      p {
+        margin: 0 40px;
+        margin-top: 10px;
+      }
     }
   }
 }

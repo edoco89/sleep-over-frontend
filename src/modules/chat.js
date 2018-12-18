@@ -87,6 +87,8 @@ export default {
             commit({ type: 'setChat', chat: {} })
         },
         SOCKET_getMsg({ commit, getters }, { message, chatId }) {
+            console.log('getmasg');
+            
             if (chatId === getters.getChat._id) commit({ type: 'updateChat', message })
             if (message.from === getters.loggedInUser._id) return
             const newMsgPerChat = {
