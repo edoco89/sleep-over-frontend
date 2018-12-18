@@ -4,6 +4,7 @@
       <GmapAutocomplete
         class="auto-complete"
         :value="place.formatted_address"
+        ref="autoComp"
         placeholder="Where are you Traveling"
         @place_changed="setPlace"
         required
@@ -37,7 +38,6 @@
         class="more-filters"
       >
       <button @click="setFilter">GO!</button>
-      <!-- </div> -->
     </div>
     <div class="ameneties-filter" v-if="isShown">
       <select-menu opt="amenities" @setFilter="setFilterByAmenity"></select-menu>
@@ -185,9 +185,11 @@ export default {
       this.$store.dispatch({ type: "setFilterByAmenity", amenityTypes });
     },
     setFilter() {
+      if (!this.$refs.autoComp.$refs.input.value) this.$store.dispatch({ type: "setFilterByLocation", place: null });
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
     },
     setPlace(place) {
+      if (!place.name) return
       place.geometry.location = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()

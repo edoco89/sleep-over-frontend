@@ -8,8 +8,8 @@ const BASE_URL = (process.env.NODE_ENV !== 'development')
 function query(filter = null) {
     const searchParams = new URLSearchParams();
     if (filter) {
-        searchParams.append('byLat', filter.byLocation.lat)
-        searchParams.append('byLng', filter.byLocation.lng)
+        if (filter.byLocation.lat) searchParams.append('byLat', filter.byLocation.lat)
+        if (filter.byLocation.lng) searchParams.append('byLng', filter.byLocation.lng)
         searchParams.append('type', filter.sortBy.type)
         searchParams.append('order', filter.sortBy.order)
         searchParams.append('accessibility', filter.filterByAmeneties.Accessible)
