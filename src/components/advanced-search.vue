@@ -52,127 +52,8 @@ export default {
   data() {
     return {
       filter: {},
-      isShown: false,
-       telAviv: {
-        address_components: [
-          {
-            long_name: "Tel Aviv-Yafo",
-            short_name: "Tel Aviv-Yafo",
-            types: ["locality", "political"]
-          },
-          {
-            long_name: "Tel Aviv District",
-            short_name: "Tel Aviv District",
-            types: ["administrative_area_level_1", "political"]
-          },
-          {
-            long_name: "Israel",
-            short_name: "IL",
-            types: ["country", "political"]
-          }
-        ],
-        adr_address:
-          '<span class="locality">Tel Aviv-Yafo</span>, <span class="country-name">Israel</span>',
-        formatted_address: "Tel Aviv-Yafo, Israel",
-        geometry: {
-          location: {
-            lat: 32.0852999,
-            lng: 34.78176759999997
-          },
-          viewport: {
-            south: 32.029252,
-            west: 34.742515899999944,
-            north: 32.146611,
-            east: 34.8519761
-          }
-        },
-        icon:
-          "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
-        id: "78708c592bddf3a50b3a14a24024728d4fa8a31d",
-        name: "Tel Aviv-Yafo",
-        photos: [
-          {
-            height: 3264,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/108909779665263407420/photos">Oleg Babich</a>'
-            ],
-            width: 4928
-          },
-          {
-            height: 3840,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/117009792044813036647/photos">Gabe Bin</a>'
-            ],
-            width: 2160
-          },
-          {
-            height: 3216,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/111838019904366548449/photos">איב לזרוב</a>'
-            ],
-            width: 4288
-          },
-          {
-            height: 960,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/117306889785691401732/photos">מרינה שקרוב</a>'
-            ],
-            width: 1703
-          },
-          {
-            height: 4128,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/106800621177355677550/photos">דודו חוגג</a>'
-            ],
-            width: 3096
-          },
-          {
-            height: 1152,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/112338686538562542925/photos">Aldis Siu</a>'
-            ],
-            width: 2048
-          },
-          {
-            height: 2988,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/103611520045186372298/photos">zeav barad</a>'
-            ],
-            width: 5312
-          },
-          {
-            height: 2203,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/118396621758920590591/photos">Sirouch Petcherski</a>'
-            ],
-            width: 2933
-          },
-          {
-            height: 2358,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/117311393447946448251/photos">Shimi</a>'
-            ],
-            width: 4192
-          },
-          {
-            height: 2988,
-            html_attributions: [
-              '<a href="https://maps.google.com/maps/contrib/117306889785691401732/photos">מרינה שקרוב</a>'
-            ],
-            width: 4224
-          }
-        ],
-        place_id: "ChIJH3w7GaZMHRURkD-WwKJy-8E",
-        reference: "ChIJH3w7GaZMHRURkD-WwKJy-8E",
-        scope: "GOOGLE",
-        types: ["locality", "political"],
-        url:
-          "https://maps.google.com/?q=Tel+Aviv-Yafo,+Israel&ftid=0x151d4ca6193b7c1f:0xc1fb72a2c0963f90",
-        utc_offset: 120,
-        vicinity: "Tel Aviv-Yafo",
-        html_attributions: []
-      },
-    };
+      isShown: false
+    }
   },
   created() {
     this.filter = { ...this.$store.getters.getFilter };
@@ -185,7 +66,9 @@ export default {
       this.$store.dispatch({ type: "setFilterByAmenity", amenityTypes });
     },
     setFilter() {
-      if (!this.$refs.autoComp.$refs.input.value) this.$store.dispatch({ type: "setFilterByLocation", place: null });
+      if (!this.$refs.autoComp.$refs.input.value) {
+        this.$store.dispatch({ type: "setFilterByLocation", place: null })
+      }
       this.$store.dispatch({ type: "setFilter", filter: { ...this.filter } });
     },
     setPlace(place) {

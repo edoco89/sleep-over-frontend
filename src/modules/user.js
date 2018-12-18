@@ -82,7 +82,6 @@ export default {
             socketEmitter.$socket.emit('loggedIn', loggedInUser._id)
         },
         SOCKET_requestId({ getters }) {
-            console.log('inside requestId')
             if (!getters.loggedInUser) return
             socketEmitter.$socket.emit('loggedIn', getters.loggedInUser._id)
         },
